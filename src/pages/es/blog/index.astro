@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../../components/BaseHead.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../../consts';
+
+// 1. Obtenemos y filtramos los posts en español, ordenados por fecha
+const posts = (await getCollection('blog', ({ data }) => {
+	return data.language === 'es';
+})).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// 2. Definimos los metadatos y el link alterno para el Header
+const lang = 'es';
+const alternateLink = '/en/blog/';
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<BaseHead title={`${SITE_TITLE} | Blog`} description={SITE_DESCRIPTION} />
+		<link rel="alternate" hreflang="es" href={Astro.url.href} />
+		<link rel="alternate" hreflang="en" href={new URL(alternateLink, Astro.url.origin).href} />
+		<style>
+			main { width: 960px; max-width: calc(100% - 3rem); margin: auto; padding: 3rem 0; }
+			.blog-header { text-align: center; margin-bottom: 4rem; }
+			.blog-header h1 { font-size: 3rem; color: #0f1a16; margin-bottom: 1rem; }
+			.blog-header p { color: #444; font-size: 1.2rem; max-width: 600px; margin: 0 auto; }
+			.posts-grid { 
+				display: grid; 
+				grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+				gap: 2.5rem; 
+				padding: 0;
+				list-style: none;
+			}
+			@media (max-width: 720px) {
+				.blog-header h1 { font-size: 2.5rem; }
+				.posts-grid { grid-template-columns: 1fr; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header language={lang} alternateLink={alternateLink} />
+		<main>
+			<section class="blog-header">
+				<h1>SloWork Blog</h1>
+				<p>Ideas, destinos y guías para vivir y trabajar en equilibrio desde cualquier rincón del mundo.</p>
+			</section>
+			<section>
+				<ul class="posts-grid">
+					{posts.map((post) => (
+						<li>
+							<PostCard post={post} />
+						</li>
+					))}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
