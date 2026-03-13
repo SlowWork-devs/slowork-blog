@@ -34,6 +34,8 @@ const alternateLink = translationSlug
 
     <link rel="alternate" hreflang={language} href={Astro.url.href} />
     <link
+    
+    rel="noopener noreferrer"
       rel="alternate"
       hreflang={alternateLang}
       href={new URL(alternateLink, Astro.url.origin).href}
