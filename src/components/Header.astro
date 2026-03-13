@@ -13,7 +13,7 @@ const nav = t[language as 'es' | 'en'] || t.es;
 <header class="absolute top-0 left-0 w-full z-50 bg-transparent py-8">
   <nav class="max-w-7xl mx-auto px-6 flex justify-between items-center">
     
-    <div class="flex-shrink-0">
+    <div class="shrink-0">
       <Logo language={language} />
     </div>
 
@@ -43,7 +43,7 @@ const nav = t[language as 'es' | 'en'] || t.es;
         <a href={alternateLink} class={language === 'en' ? 'opacity-100' : 'opacity-40'}>EN</a>
       </div>
 
-      <a href="https://slowork.com" 
+      <a href="https://www.slowork.app/" 
          class="bg-secondary text-primary px-5 py-2.5 rounded-full font-bold text-[13px] shadow-md transition-transform hover:scale-105 active:scale-95 whitespace-nowrap">
         {nav.join}
       </a>
