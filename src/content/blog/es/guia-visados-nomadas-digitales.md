@@ -3,7 +3,8 @@ id: 16
 title: "Guía de visados para nómadas digitales en 2026"
 date: 2026-03-16
 time: "12:00:00"
-image: "/Best-digital-nomad-visas-2026.webp"
+image: ""
+localImage: "../../../assets/blog_covers/Best-digital-nomad-visas-in-2026.webp"
 excerpt: "Descubre los mejores visados para nómadas digitales en 2026. Compara 12 países, requisitos de ingresos, duración del visado y los mejores destinos para trabajadores remotos."
 keywords: "visado para nómadas digitales, países con visado para nómadas digitales, visado para trabajo remoto"
 language: "es"

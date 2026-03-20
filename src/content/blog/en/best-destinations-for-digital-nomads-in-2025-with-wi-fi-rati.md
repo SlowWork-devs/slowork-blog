@@ -3,7 +3,8 @@ id: 1
 title: "Best destinations for digital nomads in 2025 (with Wi-Fi ratings!)"
 date: 2025-06-02
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Best%20Wifi%20destinations.png?updatedAt=1752684553920"
+image: ""
+localImage: "../../../assets/blog_covers/Best-Wifi-destinations-2025.webp"
 excerpt: "A ranking of the best cities and towns for digital nomads, with insights into Wi-Fi quality, cost of living, and co-living spaces."
 keywords: "best nomad destinations 2025, remote work cities, Wi-Fi rankings, where to work remotely"
 language: "en"

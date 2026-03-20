@@ -3,7 +3,8 @@ id: 2
 title: "Cómo hacer networking como nómada digital y encontrar oportunidades de trabajo remoto"
 date: 2025-06-09
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Network%20digital%20nomad.png?updatedAt=1752685113003"
+image: ""
+localImage: "../../../assets/blog_covers/Network-digital-nomad-2025.webp"
 excerpt: "Descubre estrategias prácticas de networking para nómadas digitales para encontrar trabajo remoto y construir una comunidad próspera."
 keywords: "networking nómada digital, oportunidades trabajo remoto, comunidad nómada, coworking, coliving, Slowork"
 language: "es"

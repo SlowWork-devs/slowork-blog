@@ -3,7 +3,8 @@ id: 2
 title: "How to network as a digital nomad and find remote work opportunities"
 date: 2025-06-09
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Network%20digital%20nomad.png?updatedAt=1752685113003"
+image: ""
+localImage: "../../../assets/blog_covers/Network-digital-nomad-2025.webp"
 excerpt: "Discover practical networking strategies for digital nomads to find remote work and build a thriving community."
 keywords: "digital nomad networking, remote work opportunities, nomad community, coworking, coliving, Slowork"
 language: "en"

@@ -3,7 +3,8 @@ id: 5
 title: "Retiros de equipo: el futuro del equilibrio entre trabajo y vida"
 date: 2025-06-30
 time: "12:00:00"
-image: "https://res.cloudinary.com/dzoo3bb0p/image/upload/v1751303991/Team_retreats.png_yspq8h.png"
+image: ""
+localImage: "../../../assets/blog_covers/Team-retreats-2025.webp"
 excerpt: "Descubre por qué los retiros de equipo son clave para fortalecer equipos remotos, aumentar la productividad y lograr un equilibrio más saludable entre trabajo y vida en la cultura laboral flexible actual."
 keywords: "retiros de equipo, equipos remotos, equilibrio trabajo-vida, retiros corporativos, cohesión de equipo"
 language: "es"

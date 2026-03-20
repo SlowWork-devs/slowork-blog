@@ -3,7 +3,8 @@ id: 7
 title: "How to start a remote business while traveling: a step-by-step guide to online work freedom"
 date: 2025-07-14
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Remote%20business.png.png?updatedAt=1752191233424"
+image: ""
+localImage: "../../../assets/blog_covers/Remote-business-2025.webp"
 excerpt: "Starting a remote business while living on the road might sound like a dream, but it's more possible than ever before. This guide explores how to make that leap while embracing the freedom of a nomadic lifestyle."
 keywords: "remote work, digital nomad, wellness travel, work-life balance, slow travel, South America, wellness retreats for remote workers, hidden places to work remotely, digital nomad destinations South America, best places to work and relax, nature escapes for freelancers, slow living for digital nomads, South America remote villages, healing travel for remote workers"
 language: "en"

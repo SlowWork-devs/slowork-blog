@@ -3,7 +3,8 @@ id: 12
 title: "How digital nomads save money while traveling the world"
 date: 2025-08-18
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/save%20money%20while%20traveling.png?updatedAt=1755702137734"
+image: ""
+localImage: "../../../assets/blog_covers/Save-money-while-traveling-2025.webp"
 excerpt: "Traveling as a digital nomad doesn't have to break the bank. Here's how to manage your budget smartly and live well while exploring the world."
 keywords: "budget travel, save money nomad, remote work on a budget, low-cost destinations"
 language: "en"

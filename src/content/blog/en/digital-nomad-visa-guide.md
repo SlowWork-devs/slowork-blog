@@ -1,9 +1,10 @@
 ---
 id: 16
-title: "Digital nomad visa guide"
+title: "Best digital nomad visas in 2026"
 date: 2026-03-16
 time: "12:00:00"
-image: "/Best-digital-nomad-visas-2026.webp"
+image: ""
+localImage: "../../../assets/blog_covers/Best-digital-nomad-visas-in-2026.webp"
 excerpt: "Discover the best digital nomad visas in 2026. Compare 12 countries, income requirements, visa duration, and the best destinations for remote workers."
 keywords: "digital nomad visa, countries with digital nomad visa, remote work visa"
 language: "en"

@@ -3,7 +3,8 @@ id: 15
 title: "¿Qué es un nómada digital? Guía de estilo de vida"
 date: 2026-03-09
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/What%20is%20a%20Digital%20Nomad.png"
+image: ""
+localImage: "../../../assets/blog_covers/What-is-a-Digital-Nomad-2026.webp"
 excerpt: "Descubre qué es un nómada digital, cómo trabaja y por qué se está convirtiendo en una opción de estilo de vida cada vez más popular."
 keywords: "nómada digital, estilo de vida nómada digital, trabajo remoto y viajes"
 language: "es"

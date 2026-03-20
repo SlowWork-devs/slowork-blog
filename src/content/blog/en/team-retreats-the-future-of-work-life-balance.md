@@ -3,7 +3,8 @@ id: 5
 title: "Team retreats: The future of work-life balance"
 date: 2025-06-30
 time: "12:00:00"
-image: "https://res.cloudinary.com/dzoo3bb0p/image/upload/v1751303991/Team_retreats.png_yspq8h.png"
+image: ""
+localImage: "../../../assets/blog_covers/Team-retreats-2025.webp"
 excerpt: "Discover why team retreats are key to remote team bonding, better productivity, and a healthier work-life balance in today’s flexible work culture."
 keywords: "team retreats, remote teams, work-life balance, corporate retreats, team cohesion"
 language: "en"

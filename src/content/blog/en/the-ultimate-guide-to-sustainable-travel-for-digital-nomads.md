@@ -3,7 +3,8 @@ id: 11
 title: "The ultimate guide to sustainable travel for digital nomads"
 date: 2025-08-11
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/sustainable%20travel%20guide.png?updatedAt=1754488261473"
+image: ""
+localImage: "../../../assets/blog_covers/Sustainable-travel-guide-2025.webp"
 excerpt: "Learn how to reduce your footprint as a digital nomad with eco-friendly stays, low-impact transport, and conscious habits to travel sustainably without compromise."
 keywords: "sustainable travel, eco-friendly nomad, low-impact tourism, responsible travel tips"
 language: "en"

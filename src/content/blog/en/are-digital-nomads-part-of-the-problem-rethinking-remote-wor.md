@@ -3,7 +3,8 @@ id: 9
 title: "Are digital nomads part of the problem? Rethinking remote work to avoid gentrification"
 date: 2025-07-28
 time: "12:00:00"
-image: "https://dkhbyo7gs39kb.cloudfront.net/blog-post/Gentifrication.png"
+image: ""
+localImage: "../../../assets/blog_covers/Gentifrication-2025.webp"
 excerpt: "Digital nomadism is growing fast but without responsible practices, it can unintentionally fuel gentrification and harm local communities. "
 keywords: "remote villages Europe, digital nomads, slow travel, work-life balance, rural remote work"
 language: "en"

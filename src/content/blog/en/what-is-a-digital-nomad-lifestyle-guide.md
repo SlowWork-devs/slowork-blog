@@ -1,9 +1,10 @@
 ---
 id: 15
-title: "What Is a Digital Nomad? Lifestyle Guide"
+title: "What is a digital nomad? Complete guide"
 date: 2026-03-09
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/What%20is%20a%20Digital%20Nomad.png"
+image: ""
+localImage: "../../../assets/blog_covers/What-is-a-Digital-Nomad-2026.webp"
 excerpt: "Discover what a digital nomad is, how they work, and why it's becoming a popular lifestyle choice."
 keywords: "digital nomad, digital nomad lifestyle, remote work travel"
 language: "en"

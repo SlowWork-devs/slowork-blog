@@ -3,7 +3,8 @@ id: 14
 title: "Best remote work destinations in Eastern Europe (2025 guide)"
 date: 2025-09-01
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Eastern%20Europe%20destinations.png?updatedAt=1756700368174"
+image: ""
+localImage: "../../../assets/blog_covers/Eastern-Europe-destinations-2025.webp"
 excerpt: "Eastern Europe is emerging as a remote work hotspot in 2025. Discover the best cities for digital nomads, from Estonia to Albania, with Wi-Fi, affordability and vibrant communities."
 keywords: "eastern europe digital nomad cities, best cities for remote work in eastern europe, eastern europe for digital nomads 2025, cheapest digital nomad cities europe east, eastern europe coworking hubs, wifi ratings eastern europe cities, safety for digital nomads eastern europe, cost of living eastern europe remote work"
 language: "en"

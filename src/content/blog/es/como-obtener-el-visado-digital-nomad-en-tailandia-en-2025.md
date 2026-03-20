@@ -3,7 +3,8 @@ id: 13
 title: "Cómo obtener el visado digital nomad en Tailandia en 2025"
 date: 2025-08-25
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Remote%20work%20visa%20Thailand.png?updatedAt=1755949739368"
+image: ""
+localImage: "../../../assets/blog_covers/Remote-work-visa-Thailand-2025.webp"
 excerpt: "¿Quieres trabajar remoto desde Tailandia en 2025? Esta guía completa te explica cómo solicitar la nueva visa digital nomad (DTV), sus requisitos y ventajas."
 keywords: "visado digital nomad Tailandia 2025, DTV Tailandia, trabajar remoto desde Tailandia, requisitos visa nómada Tailandia, visa Tailandia para freelancers"
 language: "es"

@@ -3,7 +3,8 @@ id: 12
 title: "Cómo los nómadas digitales ahorran dinero mientras viajan por el mundo"
 date: 2025-08-18
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/save%20money%20while%20traveling.png?updatedAt=1755702137734"
+image: ""
+localImage: "../../../assets/blog_covers/Save-money-while-traveling-2025.webp"
 excerpt: "Viajar y trabajar a distancia no tiene por qué vaciar tu cuenta. Descubre cómo los nómadas digitales inteligentes optimizan su presupuesto sin sacrificar calidad de vida."
 keywords: "ahorrar viajando, presupuesto nómada digital, viajes baratos, slow travel, trabajo remoto sostenible"
 language: "es"

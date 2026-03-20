@@ -3,7 +3,8 @@ id: 9
 title: "¿Son los nomadas digitales parte del problema? Repensando el trabajo remoto para evitar la gentrificacion"
 date: 2025-07-28
 time: "12:00:00"
-image: "https://dkhbyo7gs39kb.cloudfront.net/blog-post/Gentifrication.png"
+image: ""
+localImage: "../../../assets/blog_covers/Gentifrication-2025.webp"
 excerpt: "El nomadismo digital está creciendo rápidamente, pero sin prácticas responsables, puede alimentar involuntariamente la gentrificación y dañar a las comunidades locales."
 keywords: "pueblos remotos Europa, nómadas digitales, viaje lento, equilibrio entre trabajo y vida, trabajo remoto rural"
 language: "es"

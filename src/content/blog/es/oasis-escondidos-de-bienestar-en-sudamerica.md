@@ -3,7 +3,8 @@ id: 10
 title: "Oasis escondidos de bienestar en Sudamérica"
 date: 2025-08-04
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Blog%20-%20Cover%20images.zip%20-%20Havens%20south%20america.png?updatedAt=1754247762135"
+image: ""
+localImage: "../../../assets/blog_covers/Havens-south-america-2025.webp"
 excerpt: "Explora 10 destinos de bienestar ocultos en Sudamérica donde los nómadas digitales responsables combinan trabajo remoto ético, slow travel y sostenibilidad para lograr equilibrio y enfoque profundo."
 keywords: "impacto de los nómadas digitales, gentrificación y trabajo remoto, trabajo remoto ético, slow travel y sostenibilidad, nómadas digitales responsables"
 language: "es"

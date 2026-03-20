@@ -3,7 +3,8 @@ id: 6
 title: "Slow travel vs. tourism: Why it’s the future for remote workers"
 date: 2025-07-07
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Slow%20travel%20vs.%20tourism.png.png?updatedAt=1751908831780"
+image: ""
+localImage: "../../../assets/blog_covers/Slow-travel-vs-tourism-2025.webp"
 excerpt: "A deep dive into the slow travel movement and why it leads to better productivity, well-being, and sustainability."
 keywords: "slow travel, digital nomad lifestyle, sustainable travel, remote work destinations"
 language: "en"

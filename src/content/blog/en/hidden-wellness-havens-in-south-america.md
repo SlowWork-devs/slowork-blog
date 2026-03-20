@@ -3,7 +3,8 @@ id: 10
 title: "Hidden wellness havens in South America"
 date: 2025-08-04
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Blog%20-%20Cover%20images.zip%20-%20Havens%20south%20america.png?updatedAt=1754247762135"
+image: ""
+localImage: "../../../assets/blog_covers/Havens-south-america-2025.webp"
 excerpt: "Explore 10 hidden wellness havens in South America where responsible digital nomads combine ethical remote work, slow travel, and sustainability for balance and deep focus."
 keywords: "digital nomad impact, gentrification and remote work, ethical remote work, slow travel and sustainability, responsible digital nomads"
 language: "en"

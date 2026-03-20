@@ -3,7 +3,8 @@ id: 4
 title: "Cómo obtener una visa para nómadas digitales en Indonesia: guía completa"
 date: 2025-06-23
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Remote%20work%20visa%20Indonesia%20(1).png?updatedAt=1752685319445"
+image: ""
+localImage: "../../../assets/blog_covers/Remote-work-visa-Indonesia-2025.webp"
 excerpt: "¿Quieres trabajar en remoto desde Indonesia? Descubre cómo obtener una visa para nómadas digitales y vive el estilo de vida remoto en este hermoso destino."
 keywords: "visa nómada digital Indonesia, trabajo remoto Indonesia, requisitos visa nómada, visa B211A, trabajar remotamente en Bali"
 language: "es"

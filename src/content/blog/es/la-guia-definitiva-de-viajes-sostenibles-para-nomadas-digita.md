@@ -3,7 +3,8 @@ id: 11
 title: "La guía definitiva de viajes sostenibles para nómadas digitales"
 date: 2025-08-11
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/sustainable%20travel%20guide.png?updatedAt=1754488261473"
+image: ""
+localImage: "../../../assets/blog_covers/Sustainable-travel-guide-2025.webp"
 excerpt: "Aprende a reducir tu huella como nómada digital con hábitos conscientes: alojamientos ecológicos, transporte de bajo impacto y consumo responsable para viajar de forma sostenible."
 keywords: "viajes sostenibles para nómadas digitales, slow travel, turismo responsable, impacto ambiental nómadas digitales, alojamientos ecológicos, trabajo remoto sostenible"
 language: "es"

@@ -3,7 +3,8 @@ id: 6
 title: "Slow travel vs. turismo: Por qué es el futuro para los trabajadores remotos"
 date: 2025-07-07
 time: "12:00:00"
-image: "https://ik.imagekit.io/vdkr6rffv/Slow%20travel%20vs.%20tourism.png.png?updatedAt=1751908831780"
+image: ""
+localImage: "../../../assets/blog_covers/Slow-travel-vs-tourism-2025.webp"
 excerpt: "Un análisis profundo del movimiento slow travel y por qué conduce a una mayor productividad, bienestar y sostenibilidad."
 keywords: "slow travel, estilo de vida nómada digital, viajes sostenibles, destinos para trabajo remoto"
 language: "es"
