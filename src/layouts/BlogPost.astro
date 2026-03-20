@@ -1,12 +1,12 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { Image } from "astro:assets"; // Importamos el componente de optimización
+import { Image } from "astro:assets";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import '../styles/global.css';
-// Definimos Props de forma más estricta pero flexible
+
 type Props = Partial<CollectionEntry<"blog">["data"]>;
 
 const {
@@ -15,13 +15,11 @@ const {
   date,
   image,
   localImage,
-  language = "es", // Valor por defecto
+  language = "es",
   translationSlug,
 } = Astro.props;
 
-// Lógica de SEO Internacional (hreflang)
 const alternateLang = language === "es" ? "en" : "es";
-// Si tenemos un translationSlug, construimos la URL alterna, si no, mandamos al listado general
 const alternateLink = translationSlug
   ? `/${alternateLang}/blog/${translationSlug}/`
   : `/${alternateLang}/blog/`;
@@ -33,70 +31,45 @@ const alternateLink = translationSlug
     <BaseHead title={title || ""} description={excerpt || ""} />
 
     <link rel="alternate" hreflang={language} href={Astro.url.href} />
-    <link
-    
-    rel="noopener noreferrer"
-      rel="alternate"
-      hreflang={alternateLang}
-      href={new URL(alternateLink, Astro.url.origin).href}
-    />
-
-    <style>
-      /* Mantén tus estilos aquí o impórtalos */
-      .hero-image img {
-        display: block;
-        margin: 0 auto;
-        border-radius: 12px;
-        box-shadow: var(--box-shadow);
-      }
-      .prose {
-        width: 720px;
-        max-width: calc(100% - 2em);
-        margin: auto;
-        padding: 1em;
-        color: rgb(var(--gray-dark));
-      }
-    </style>
+    <link rel="alternate" hreflang={alternateLang} href={new URL(alternateLink, Astro.url.origin).href} />
   </head>
 
-  <body>
+  <body class="min-w-0 overflow-x-hidden">
     <Header language={language} alternateLink={alternateLink} />
-    <main>
+    <main class="w-full max-w-7xl mx-auto px-6 py-10 sm:py-14 md:py-24">
       <article>
-        <div class="hero-image">
-          {
-            /* Priorizamos localImage (optimizada) sobre la URL externa de ImageKit */
-          }
-          {
-            localImage ? (
-              <Image
-                width={1020}
-                height={510}
-                src={localImage}
-                alt={title || ""}
-                fetchpriority="high"
-              />
-            ) : (
-              image && (
-                <img width={1020} height={510} src={image} alt={title || ""} />
-              )
-            )
-          }
+        <div class="w-full overflow-hidden rounded-2xl mb-8 md:mb-12">
+          {localImage ? (
+            <Image
+              width={1020}
+              height={510}
+              src={localImage}
+              alt={title || ""}
+              fetchpriority="high"
+              class="w-full h-auto object-cover aspect-2/1"
+            />
+          ) : image ? (
+            <img
+              width={1020}
+              height={510}
+              src={image}
+              alt={title || ""}
+              class="w-full h-auto object-cover aspect-2/1"
+            />
+          ) : null}
         </div>
-        <div class="prose">
-          <div class="title">
-            <div class="date">
+        <div class="prose-container max-w-3xl mx-auto">
+          <header class="mb-8 md:mb-12">
+            <div class="text-sm text-primary/60 mb-2">
               {date && <FormattedDate date={date} />}
             </div>
-            <h1>{title}</h1>
-            <hr />
-          </div>
-          <div
-            class="prose prose-lg prose-headings:font-heading prose-img:mx-auto"
-          >
-          <div class="prose prose-lg prose-headings:font-heading prose-p:mb-6 prose-img:rounded-3xl mx-auto">
+            <h1 class="font-heading font-bold text-primary text-[clamp(1.5rem,4vw+1rem,2.5rem)] leading-tight tracking-tight">
+              {title}
+            </h1>
+            <hr class="border-primary/20 my-6" />
+          </header>
+          <div class="prose prose-lg prose-headings:font-heading prose-p:mb-6 prose-img:rounded-3xl prose-img:mx-auto w-full max-w-none">
             <slot />
-          </div>
           </div>
         </div>
       </article>
