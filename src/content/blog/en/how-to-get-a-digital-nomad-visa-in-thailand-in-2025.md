@@ -10,11 +10,6 @@ language: "en"
 translationSlug: "como-obtener-el-visado-digital-nomad-en-tailandia-en-2025"
 ---
 
-![Thailand Nomad Visa](https://ik.imagekit.io/vdkr6rffv/Remote%20work%20visa%20Thailand.png?updatedAt=1755949739368)
-
----
-
-
 Thailand has always been a magnet for remote workers. Affordable living, excellent food, a vibrant cultural scene, and some of the world’s most beautiful beaches make it one of the top choices for digital nomads. But while thousands of freelancers and entrepreneurs have been flocking here for years, staying legally long-term has often been a challenge.
 
 That changed with the introduction of the **Destination Thailand Visa (DTV)** in mid-2024, giving digital nomads a clear pathway to remain in the country for up to **five years**. If you’re planning to live and work remotely from Thailand in 2025, this guide will walk you through everything you need to know: requirements, application process, alternative visas, and how life compares to other nomad hotspots like Bali.

@@ -10,8 +10,6 @@ language: "es"
 translationSlug: "how-to-get-a-digital-nomad-visa-in-indonesia-a-complete-guid"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/Remote%20work%20visa%20Indonesia%20(1).png?updatedAt=1752685319445)
-
 Publicado el 23 de junio de 2025
 
 ## A medida que el trabajo remoto sigue creciendo, muchos países están introduciendo **visas para nómadas digitales** para atraer talento global.

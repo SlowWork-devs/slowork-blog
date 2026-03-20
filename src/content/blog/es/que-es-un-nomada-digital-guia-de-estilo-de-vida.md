@@ -10,11 +10,6 @@ language: "es"
 translationSlug: "what-is-a-digital-nomad-lifestyle-guide"
 ---
 
-![¿Qué es un nómada digital?](https://ik.imagekit.io/vdkr6rffv/What%20is%20a%20Digital%20Nomad.png)
-
----
-
-
 ## ¿Qué es un nómada digital?
 
 Un nómada digital es una persona que trabaja en remoto utilizando herramientas digitales mientras vive en diferentes lugares, en lugar de estar atada a una sola oficina o ciudad.

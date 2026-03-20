@@ -10,8 +10,6 @@ language: "es"
 translationSlug: "how-to-start-a-remote-business-while-traveling-a-step-by-ste"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/Remote%20business.png.png?updatedAt=1752191233424)
-
 Publicado el 2025-07-14
 
 

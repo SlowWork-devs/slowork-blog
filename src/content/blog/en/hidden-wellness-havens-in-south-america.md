@@ -10,11 +10,6 @@ language: "en"
 translationSlug: "oasis-escondidos-de-bienestar-en-sudamerica"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/Blog%20-%20Cover%20images.zip%20-%20Havens%20south%20america.png?updatedAt=1754247762135)
-
----
-
-
 ***Work. Heal. Repeat.***  
 Remote work is evolving, and so are the spaces that shape it. For responsible digital nomads aware of their **impact on local communities** and aiming for **ethical remote work**, South America offers unique havens that blend nature, balance, and productivity. 
 

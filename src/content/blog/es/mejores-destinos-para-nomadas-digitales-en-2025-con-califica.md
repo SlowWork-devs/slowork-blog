@@ -10,8 +10,6 @@ language: "es"
 translationSlug: "best-destinations-for-digital-nomads-in-2025-with-wi-fi-rati"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/Best%20Wifi%20destinations.png?updatedAt=1752684553920)
-
 Publicado el 2025-06-02
 
 ---

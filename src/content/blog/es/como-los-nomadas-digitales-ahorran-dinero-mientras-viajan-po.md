@@ -10,11 +10,6 @@ language: "es"
 translationSlug: "how-digital-nomads-save-money-while-traveling-the-world"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/save%20money%20while%20traveling.png?updatedAt=1755702137734)
-
----
-
-
 El estilo de vida nómada digital es más accesible que nunca, pero mantenerse en ruta a largo plazo requiere gestionar bien tu presupuesto. Ya sea que trabajes como freelance en Bali o dirijas tu startup desde Lisboa, tu sostenibilidad financiera depende de tus hábitos.
 
 Esta guía presenta estrategias reales y hacks de viaje económico para que puedas explorar el mundo sin agotar tus finanzas.

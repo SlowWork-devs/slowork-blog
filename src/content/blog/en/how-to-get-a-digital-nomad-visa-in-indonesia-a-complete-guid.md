@@ -10,8 +10,6 @@ language: "en"
 translationSlug: "como-obtener-una-visa-para-nomadas-digitales-en-indonesia-gu"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/Remote%20work%20visa%20Indonesia%20(1).png?updatedAt=1752685319445)
-
 Published on 2025-06-23
 
 

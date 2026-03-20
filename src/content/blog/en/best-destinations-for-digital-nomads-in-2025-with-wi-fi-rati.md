@@ -10,8 +10,6 @@ language: "en"
 translationSlug: "mejores-destinos-para-nomadas-digitales-en-2025-con-califica"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/Best%20Wifi%20destinations.png?updatedAt=1752684553920)
-
 Published on 2025-06-02
 
 # Best destinations for digital nomads in 2025 (with Wi-Fi ratings!)

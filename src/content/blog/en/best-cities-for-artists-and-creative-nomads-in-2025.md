@@ -10,8 +10,6 @@ language: "en"
 translationSlug: "mejores-ciudades-para-artistas-y-nomadas-creativos-en-2025"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/Creatives%20destinations.png?updatedAt=1752685209251)
-
 Published on 2025-06-16
 
 ## The rise of remote work has unlocked new opportunities for creatives and artists, allowing them to explore the world while maintaining their careers.

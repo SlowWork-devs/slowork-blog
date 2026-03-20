@@ -10,10 +10,6 @@ language: "en"
 translationSlug: "son-los-nomadas-digitales-parte-del-problema-repensando-el-t"
 ---
 
-![image](https://dkhbyo7gs39kb.cloudfront.net/blog-post/Gentifrication.png)
-
----
-
 ***Mexico City, once a chaotic but charming hub for locals and travelers alike, has recently become the epicenter of a rising global debate: Are digital nomads gentrifying the cities they love?***
 
 ***In recent months, posters warning "digital nomads go home" have appeared on lampposts. Local forums are flooded with heated discussions about rising rents, crowded cafes, and the cultural displacement of long-time residents. What was once seen as a harmless lifestyle of freedom and exploration is now being questioned, even resented.***

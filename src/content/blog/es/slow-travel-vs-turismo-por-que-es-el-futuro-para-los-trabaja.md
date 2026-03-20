@@ -10,7 +10,6 @@ language: "es"
 translationSlug: "slow-travel-vs-tourism-why-its-the-future-for-remote-workers"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/Slow%20travel%20vs.%20tourism.png.png?updatedAt=1751908831780)
 *Un análisis profundo del movimiento slow travel y por qué conduce a una mayor productividad, bienestar y sostenibilidad.*
 
 ---

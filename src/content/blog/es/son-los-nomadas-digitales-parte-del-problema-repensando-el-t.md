@@ -10,10 +10,6 @@ language: "es"
 translationSlug: "are-digital-nomads-part-of-the-problem-rethinking-remote-wor"
 ---
 
-![image](https://dkhbyo7gs39kb.cloudfront.net/blog-post/Gentifrication.png)
-
----
-
 ***La Ciudad de México, una vez un centro caótico pero encantador para locales y viajeros por igual, se ha convertido recientemente en el epicentro de un creciente debate global: ¿Están los nómadas digitales gentrificando las ciudades que aman?***
 
 ***En los últimos meses, han aparecido carteles advirtiendo "nómadas digitales, váyanse a casa" en las farolas. Los foros locales están inundados de discusiones acaloradas sobre el aumento de los alquileres, los cafés abarrotados y el desplazamiento cultural de los residentes de toda la vida. Lo que una vez se consideró un estilo de vida inofensivo de libertad y exploración ahora se cuestiona, e incluso se resiente.***

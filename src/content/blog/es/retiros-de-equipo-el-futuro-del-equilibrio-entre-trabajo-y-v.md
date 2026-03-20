@@ -10,8 +10,6 @@ language: "es"
 translationSlug: "team-retreats-the-future-of-work-life-balance"
 ---
 
-![image](https://res.cloudinary.com/dzoo3bb0p/image/upload/v1751303991/Team_retreats.png_yspq8h.png)
-
 Publicado el 30 de junio de 2025
 
 La revolución del trabajo remoto ha transformado cómo colaboramos, vivimos y estructuramos nuestros días, pero también ha creado nuevos desafíos para mantener la conexión, la confianza y el equilibrio en equipos distribuidos. Aunque la flexibilidad y la autonomía son grandes beneficios, la falta de interacción presencial puede hacer que los empleados se sientan aislados y desconectados. Ahí es donde entran los retiros de equipo: encuentros intencionales que reúnen a los trabajadores remotos para reconectar, recargar energías y realinear objetivos.

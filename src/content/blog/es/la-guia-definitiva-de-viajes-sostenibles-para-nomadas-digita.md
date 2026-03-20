@@ -10,10 +10,6 @@ language: "es"
 translationSlug: "the-ultimate-guide-to-sustainable-travel-for-digital-nomads"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/sustainable%20travel%20guide.png?updatedAt=1754488261473)
-
----
-
 Como nómadas digitales, celebramos la libertad de vivir y trabajar en cualquier lugar, pero ¿a qué costo para el medio ambiente?
 
 Viajar a tiempo completo puede aumentar tu huella de carbono si no lo haces con intención. Por suerte, adoptar hábitos de **viaje sostenible** no requiere sacrificios extremos, solo decisiones más conscientes e inteligentes. Desde **alojamientos ecológicos** hasta transporte de bajo impacto y una preparación más minimalista, esta guía te ayudará a explorar el mundo sin comprometerlo.

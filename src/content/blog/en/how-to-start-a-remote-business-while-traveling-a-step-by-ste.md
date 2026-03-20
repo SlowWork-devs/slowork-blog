@@ -10,8 +10,6 @@ language: "en"
 translationSlug: "como-empezar-un-negocio-remoto-mientras-viajas-una-guia-paso"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/Remote%20business.png.png?updatedAt=1752191233424)
-
 Published on 2025-07-14
 
 

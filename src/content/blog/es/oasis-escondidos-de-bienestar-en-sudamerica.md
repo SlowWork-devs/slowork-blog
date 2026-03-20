@@ -10,10 +10,6 @@ language: "es"
 translationSlug: "hidden-wellness-havens-in-south-america"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/Blog%20-%20Cover%20images.zip%20-%20Havens%20south%20america.png?updatedAt=1754247762135)
-
----
-
 ***Trabaja. Sana. Repite.***  
 El trabajo remoto está evolucionando, y también los espacios que lo hacen posible. Para los nómadas digitales responsables, conscientes de su **impacto en las comunidades locales** y comprometidos con el **trabajo remoto ético**, Sudamérica ofrece refugios únicos que combinan naturaleza, equilibrio y productividad. 
 

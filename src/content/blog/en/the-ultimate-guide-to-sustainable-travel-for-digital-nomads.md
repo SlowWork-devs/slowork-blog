@@ -10,10 +10,6 @@ language: "en"
 translationSlug: "la-guia-definitiva-de-viajes-sostenibles-para-nomadas-digita"
 ---
 
-![image](https://ik.imagekit.io/vdkr6rffv/sustainable%20travel%20guide.png?updatedAt=1754488261473)
-
----
-
 As digital nomads, we celebrate the freedom to live and work anywhere, but at what cost to the environment?
 
 Full-time travel can increase your carbon footprint if done without intention. Luckily, adopting **sustainable travel** habits doesn’t mean sacrificing comfort—just making smarter, more mindful choices. From **eco-friendly accommodations** to low-impact transportation and intentional packing, this guide will help you explore the world responsibly.

@@ -10,11 +10,6 @@ language: "es"
 translationSlug: "best-remote-work-destinations-in-eastern-europe-2025-guide"
 ---
 
-![Europa del Este para nómadas digitales](https://ik.imagekit.io/vdkr6rffv/Eastern%20Europe%20destinations.png?updatedAt=1756700368174)
-
----
-
-
 ## **Por qué Europa del Este será el nuevo epicentro para nómadas digitales**
 
 Durante años, Lisboa, Barcelona o Berlín han dominado el mapa nómada. Pero en 2025, los focos se están desplazando hacia el este. Desde los Bálticos hasta los Balcanes, ciudades asequibles, bien conectadas y con comunidades en crecimiento están atrayendo a trabajadores remotos de todo el mundo.

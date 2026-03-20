@@ -10,11 +10,6 @@ language: "es"
 translationSlug: "how-to-get-a-digital-nomad-visa-in-thailand-in-2025"
 ---
 
-![Visado Digital Nomad en Tailandia](https://ik.imagekit.io/vdkr6rffv/Remote%20work%20visa%20Thailand.png?updatedAt=1755949739368)
-
----
-
-
 Tailandia siempre ha sido un imán para trabajadores remotos. Bajo coste de vida, comida espectacular, una escena cultural vibrante y algunas de las mejores playas del mundo la convierten en una de las favoritas entre nómadas digitales. Pero hasta hace poco, quedarse legalmente a largo plazo era complicado.
 
 Eso cambió en 2024 con la introducción del **Destination Thailand Visa (DTV)**, una visa oficial que permite a los nómadas digitales permanecer en el país hasta **cinco años**.
