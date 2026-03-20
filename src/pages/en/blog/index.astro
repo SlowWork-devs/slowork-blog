@@ -38,9 +38,9 @@ const alternateLink = '/es/blog/';
 
 			<section class="w-full min-w-0">
 				<ul class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 xl:gap-10 list-none p-0">
-					{posts.map((post) => (
+					{posts.map((post, index) => (
 						<li class="h-full min-w-0 w-full">
-							<PostCard post={post} />
+							<PostCard post={post} eager={index === 0} />
 						</li>
 					))}
 				</ul>
