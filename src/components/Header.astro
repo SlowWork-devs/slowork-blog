@@ -1,5 +1,7 @@
 ---
 import Logo from './Logo.astro';
+import { Image } from 'astro:assets';
+import menuBg from '../assets/menu-background.webp';
 
 const { language, alternateLink } = Astro.props;
 
@@ -19,36 +21,11 @@ const nav = t[language as 'es' | 'en'] || t.es;
 
     <!-- Móvil: solo hamburguesa a la derecha | Desktop: menú + idioma + Join -->
     <div class="flex items-center shrink-0 gap-2 md:gap-6">
-      <div class="relative">
-        <button 
-          id="menu-button" 
-          class="flex items-center justify-center text-primary hover:opacity-80 transition-opacity font-bold text-sm tracking-widest min-w-12 min-h-12 p-3 -m-2 rounded-lg touch-manipulation"
-          aria-label={nav.menu}
-          aria-expanded="false"
-          aria-controls="menu-dropdown"
-        >
-          <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
-          </svg>
-          <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" class="hidden h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-          <span class="hidden md:inline ml-1">MENÚ</span>
-        </button>
-
-        <div id="menu-overlay" class="hidden fixed inset-0 z-40 bg-primary/30 backdrop-blur-sm md:hidden" aria-hidden="true"></div>
-        <div 
-          id="menu-dropdown" 
-          class="hidden fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-50 flex flex-col pt-24 pb-8 px-6 md:absolute md:inset-auto md:right-0 md:top-full md:mt-4 md:w-48 md:max-w-none md:pt-0 md:pb-0 md:px-0 md:rounded-2xl md:border md:border-primary/10 md:py-4 md:shadow-xl"
-          role="menu"
-          aria-orientation="vertical"
-        >
-          <a href={`/${language}/blog/`} class="block px-6 py-3.5 min-h-12 text-base font-bold text-primary hover:bg-secondary/20 transition-colors rounded-lg touch-manipulation md:py-2.5 md:text-sm md:min-h-11" role="menuitem">{nav.blog}</a>
-          <a href="/about" class="hidden md:block px-6 py-3.5 min-h-12 text-base font-bold text-primary hover:bg-secondary/20 transition-colors rounded-lg touch-manipulation md:py-2.5 md:text-sm md:min-h-11" role="menuitem">{nav.about}</a>
-          <a href="https://www.slowork.app/" class="md:hidden mt-4 block w-full text-center bg-secondary text-primary min-h-12 flex items-center justify-center px-6 py-4 rounded-full font-bold text-base shadow-md touch-manipulation">
-            {nav.join}
-          </a>
-        </div>
+      
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-6">
+        <a href={`/${language}/blog/`} class="text-sm font-bold text-primary hover:opacity-80 transition-opacity">{nav.blog}</a>
+        <a href="/about" class="text-sm font-bold text-primary hover:opacity-80 transition-opacity">{nav.about}</a>
       </div>
 
       <!-- Idioma: oculto en móvil -->
@@ -65,57 +42,119 @@ const nav = t[language as 'es' | 'en'] || t.es;
       >
         {nav.join}
       </a>
+
+      <!-- Botón Hamburguesa Móvil -->
+      <button 
+        id="menu-button" 
+        class="md:hidden flex items-center justify-center text-primary hover:opacity-80 transition-opacity min-w-12 min-h-12 p-3 -m-2 rounded-lg touch-manipulation"
+        aria-label={nav.menu}
+        aria-expanded="false"
+        aria-controls="mobile-drawer"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+        </svg>
+      </button>
     </div>
   </nav>
 </header>
 
+<!-- Mobile Drawer Overlay -->
+<div id="drawer-overlay" class="hidden fixed inset-0 z-50 bg-primary/20 backdrop-blur-sm md:hidden" aria-hidden="true"></div>
+
+<!-- Mobile Drawer -->
+<div 
+  id="mobile-drawer" 
+  class="hidden fixed inset-y-0 right-0 w-full max-w-sm shadow-2xl z-50 flex flex-col md:hidden transform transition-transform duration-300 translate-x-full overflow-hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menú móvil"
+>
+  <!-- Background Image -->
+  <Image 
+    src={menuBg} 
+    alt="" 
+    class="absolute inset-0 w-full h-full object-cover -z-20"
+    fetchpriority="high"
+  />
+  <!-- Glass Overlay -->
+  <div class="absolute inset-0 bg-white/65 backdrop-blur-md -z-8"></div>
+
+  <!-- Drawer Header -->
+  <div class="flex justify-between items-center px-6 py-4 min-h-[80px]">
+    <Logo language={language} />
+    <button 
+      id="close-drawer-button" 
+      class="flex items-center justify-center text-primary hover:opacity-80 transition-opacity min-w-12 min-h-12 p-3 -m-2 rounded-lg touch-manipulation"
+      aria-label={nav.close}
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Drawer Content -->
+  <div class="flex-1 flex flex-col px-6 py-8 overflow-y-auto">
+    <nav class="flex flex-col gap-6 text-right mb-12">
+      <a href={`/${language}/blog/`} class="text-2xl font-bold text-primary hover:text-primary/70 transition-colors">{nav.blog}</a>
+      <a href="/about" class="text-2xl font-bold text-primary hover:text-primary/70 transition-colors">{nav.about}</a>
+    </nav>
+
+    <div class="flex flex-col items-center gap-8 mt-auto">
+      <!-- Idioma en Drawer -->
+      <div class="flex items-center gap-2 text-sm font-bold text-primary">
+        <a href={alternateLink} class={`min-w-12 min-h-12 flex items-center justify-center rounded-lg transition-colors ${language === 'es' ? 'bg-primary/10' : 'hover:bg-primary/5'}`} aria-current={language === 'es' ? 'page' : undefined}>ES</a>
+        <span class="opacity-30">|</span>
+        <a href={alternateLink} class={`min-w-12 min-h-12 flex items-center justify-center rounded-lg transition-colors ${language === 'en' ? 'bg-primary/10' : 'hover:bg-primary/5'}`} aria-current={language === 'en' ? 'page' : undefined}>EN</a>
+      </div>
+
+      <!-- Join Button en Drawer -->
+      <a 
+        href="https://www.slowork.app/" 
+        class="w-full bg-secondary text-primary min-h-14 flex items-center justify-center px-6 py-4 rounded-full font-bold text-base shadow-md hover:opacity-95 active:scale-[0.98] touch-manipulation"
+      >
+        {nav.join}
+      </a>
+    </div>
+  </div>
+</div>
+
 <script define:vars={{ menuLabel: nav.menu, closeLabel: nav.close }}>
   const menuButton = document.getElementById('menu-button');
-  const menuDropdown = document.getElementById('menu-dropdown');
-  const menuOverlay = document.getElementById('menu-overlay');
-  const menuIcon = document.getElementById('menu-icon');
-  const closeIcon = document.getElementById('close-icon');
-
-  const isOpen = () => !menuDropdown?.classList.contains('hidden');
+  const closeButton = document.getElementById('close-drawer-button');
+  const mobileDrawer = document.getElementById('mobile-drawer');
+  const drawerOverlay = document.getElementById('drawer-overlay');
 
   const openMenu = () => {
-    menuDropdown?.classList.remove('hidden');
-    menuOverlay?.classList.remove('hidden');
-    menuIcon?.classList.add('hidden');
-    closeIcon?.classList.remove('hidden');
+    mobileDrawer?.classList.remove('hidden');
+    drawerOverlay?.classList.remove('hidden');
+    // Forzar reflow para la transición
+    void mobileDrawer?.offsetWidth;
+    mobileDrawer?.classList.remove('translate-x-full');
     menuButton?.setAttribute('aria-expanded', 'true');
-    menuButton?.setAttribute('aria-label', closeLabel);
     document.body.style.overflow = 'hidden';
   };
 
   const closeMenu = () => {
-    menuDropdown?.classList.add('hidden');
-    menuOverlay?.classList.add('hidden');
-    menuIcon?.classList.remove('hidden');
-    closeIcon?.classList.add('hidden');
+    mobileDrawer?.classList.add('translate-x-full');
     menuButton?.setAttribute('aria-expanded', 'false');
-    menuButton?.setAttribute('aria-label', menuLabel);
     document.body.style.overflow = '';
+    
+    // Esperar a que termine la transición para ocultar
+    setTimeout(() => {
+      mobileDrawer?.classList.add('hidden');
+      drawerOverlay?.classList.add('hidden');
+    }, 300);
   };
 
-  const toggleMenu = () => {
-    isOpen() ? closeMenu() : openMenu();
-  };
-
-  menuButton?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMenu();
-  });
-
-  menuOverlay?.addEventListener('click', closeMenu);
-
-  document.addEventListener('click', (e) => {
-    if (isOpen() && !menuDropdown?.contains(e.target) && !menuButton?.contains(e.target)) {
-      closeMenu();
-    }
-  });
+  menuButton?.addEventListener('click', openMenu);
+  closeButton?.addEventListener('click', closeMenu);
+  drawerOverlay?.addEventListener('click', closeMenu);
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isOpen()) closeMenu();
+    if (e.key === 'Escape' && !mobileDrawer?.classList.contains('translate-x-full')) {
+      closeMenu();
+    }
   });
 </script>
