@@ -1,0 +1,106 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import type { ImageMetadata } from 'astro';
+
+import '../styles/global.css';
+import poppinsBold from '@fontsource/poppins/files/poppins-latin-700-normal.woff2?url';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FallbackImage from '../assets/blog-placeholder-1.png';
+import { SITE_TITLE } from '../consts';
+
+type Alternate = {
+  hreflang: string;
+  href: string;
+};
+
+interface Props {
+  lang: 'es' | 'en';
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: ImageMetadata;
+  ogType?: string;
+  alternates?: Alternate[];
+  jsonLd?: unknown;
+  headerAlternateLink?: string;
+  showHeader?: boolean;
+  showFooter?: boolean;
+}
+
+const {
+  lang,
+  title = SITE_TITLE,
+  description = '',
+  canonical,
+  image = FallbackImage,
+  ogType = 'website',
+  alternates = [],
+  jsonLd,
+  headerAlternateLink,
+  showHeader = true,
+  showFooter = true,
+} = Astro.props;
+
+const canonicalURL = canonical
+  ? new URL(canonical, Astro.site ?? Astro.url.origin)
+  : new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+
+const ogImageURL = new URL(image.src, Astro.url);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <ClientRouter />
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={new URL('rss.xml', Astro.site ?? Astro.url.origin)} />
+
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="preload" href={poppinsBold} as="font" type="font/woff2" crossorigin="anonymous" />
+
+    <link rel="canonical" href={canonicalURL} />
+
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    {description && <meta name="description" content={description} />}
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={ogImageURL} />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    {description && <meta property="twitter:description" content={description} />}
+    <meta property="twitter:image" content={ogImageURL} />
+
+    {alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))}
+
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+
+    <slot name="head" />
+  </head>
+
+  <body class="min-w-0 overflow-x-hidden">
+    {showHeader && <Header language={lang} alternateLink={headerAlternateLink ?? `/${lang === 'es' ? 'en' : 'es'}/`} />}
+    <slot />
+    {showFooter && <Footer language={lang} />}
+  </body>
+</html>
+
