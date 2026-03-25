@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Waitlist {
+  id               Int      @id @default(autoincrement())
+  firstName        String?  @map("firstName")
+  email            String
+  phone            String?
+  instagram        String?
+  linkedin         String?
+  preferredContact String?
+  communityInterest String?
+  referralCode     String?  @map("referral_code")
+  creationDate     DateTime @default(now()) @map("creation_date")
+  ipAddress        String?  @map("ip_address")
+  userAgent        String?  @map("user_agent")
+
+  @@map("waitlists")
+}
+
