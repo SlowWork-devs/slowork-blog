@@ -10,7 +10,13 @@ export async function GET(context) {
 		site: context.site,
 		items: posts.map((post) => ({
 			...post.data,
-			link: `/blog/${post.id}/`,
+			// `post.id` es el id interno de Astro Content Collections (ej: "en/archivo.md").
+			// La URL pública real del artículo es "/{lang}/blog/{slug}/".
+			link: (() => {
+				const language = post.data.language ?? post.id.split('/')[0] ?? 'es';
+				const slug = post.id.split('/').pop()?.replace(/\.(md|mdx)$/, '') ?? '';
+				return `/${language}/blog/${slug}/`;
+			})(),
 		})),
 	});
 }
