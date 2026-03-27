@@ -15,6 +15,7 @@
 
   /* Color de fondo exacto de tu landing */
   --color-bg-landing: #e2e8e5;
+  --color-soft-blue: #779ed3;
 
   /* --- Tipografía --- */
   --font-sans: "Poppins", sans-serif;
@@ -188,6 +189,43 @@
 }
 
 @layer components {
+  /* Scroll reveal (landing) */
+  .home-reveal {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+    transition:
+      opacity 0.55s ease,
+      transform 0.55s ease;
+  }
+  .home-reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  .home-reveal.journey-from-left {
+    transform: translate3d(-1.25rem, 0, 0);
+  }
+  .home-reveal.journey-from-right {
+    transform: translate3d(1.25rem, 0, 0);
+  }
+  .home-reveal.journey-from-bottom {
+    transform: translate3d(0, 2rem, 0);
+  }
+  .home-reveal.journey-from-left.is-visible,
+  .home-reveal.journey-from-right.is-visible,
+  .home-reveal.journey-from-bottom.is-visible {
+    transform: translate3d(0, 0, 0);
+  }
+  .home-reveal.who-from-left {
+    transform: translate3d(-1.5rem, 1rem, 0);
+  }
+  .home-reveal.who-from-right {
+    transform: translate3d(1.5rem, 1rem, 0);
+  }
+  .home-reveal.who-from-left.is-visible,
+  .home-reveal.who-from-right.is-visible {
+    transform: translate3d(0, 0, 0);
+  }
+
   .header-scrolled {
     background-color: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(12px);
