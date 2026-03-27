@@ -1,7 +1,5 @@
 ---
 // src/pages/index.astro
----
----
 const raw = Astro.request.headers.get('accept-language') ?? '';
 const acceptsEn = raw.toLowerCase().includes('en');
 const lang = acceptsEn ? 'en' : 'es';
