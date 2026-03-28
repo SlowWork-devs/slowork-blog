@@ -4,8 +4,10 @@ import { getCollection } from 'astro:content';
 export const prerender = false;
 
 /**
- * Rutas con barra final: alineado con `trailingSlash: 'always'` en `astro.config.mjs`
- * y con los `<link rel="canonical">` del sitio (evita avisos de redirección en Search Console).
+ * Endpoint canónico: `src/pages/sitemap.xml.ts` → `/sitemap.xml`
+ *
+ * Todas las `<loc>` llevan barra final salvo el origen (`https://dominio/`), coherente con
+ * `trailingSlash: 'always'` y los canonicals del sitio.
  */
 const LANDING_PATHS = [
   '/',
@@ -32,8 +34,8 @@ function escapeXml(s: string): string {
 }
 
 function blogPostPath(lang: string, slug: string): string {
-  const base = `/${lang}/blog/${slug}`;
-  return base.endsWith('/') ? base : `${base}/`;
+  const base = `/${lang}/blog/${slug}`.replace(/\/+$/, '');
+  return `${base}/`;
 }
 
 export const GET: APIRoute = async ({ site, url }) => {
