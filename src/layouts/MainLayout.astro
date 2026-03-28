@@ -7,6 +7,7 @@ import poppinsBold from '@fontsource/poppins/files/poppins-latin-700-normal.woff
 
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import SocialShareBar from '../components/ui/SocialShareBar.astro';
 import FallbackImage from '../assets/blog-placeholder-1.png';
 import { SITE_TITLE } from '../consts';
 
@@ -120,6 +121,7 @@ const gaEnabled = gaId.length > 0;
 
   <body class="min-w-0 overflow-x-hidden">
     {showHeader && <Header language={lang} alternateLink={headerAlternateLink ?? `/${lang === 'es' ? 'en' : 'es'}/`} />}
+    <SocialShareBar language={lang} />
     <slot />
     {showFooter && <Footer language={lang} />}
   </body>
