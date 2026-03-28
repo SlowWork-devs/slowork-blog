@@ -1,7 +1,5 @@
 ---
-// src/pages/index.astro
-const raw = Astro.request.headers.get('accept-language') ?? '';
-const acceptsEn = raw.toLowerCase().includes('en');
-const lang = acceptsEn ? 'en' : 'es';
-return Astro.redirect(`/${lang}/`, 302);
+// `/` se resuelve en `src/middleware.ts` (cookie `slowork-language` + Accept-Language).
+// Respaldo mínimo si el middleware no aplicara.
+return Astro.redirect('/es/', 302);
 ---
