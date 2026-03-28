@@ -11,6 +11,7 @@ import { registerWaitlistEntry } from '../../services/waitlist.service';
 
 export const prerender = false;
 
+/** Registra una entrada en la lista de espera. */
 export const POST: APIRoute = async ({ request }) => {
   const started = Date.now();
   const requestId = crypto.randomUUID();
@@ -23,6 +24,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     const raw: unknown = await request.json().catch(() => ({}));
+    /** Si el JSON no es válido, se devuelve un error 400. */
     logWaitlistVerbose('json_ready', {
       requestId,
       keys:
@@ -58,6 +60,7 @@ export const POST: APIRoute = async ({ request }) => {
       return jsonResponse({ success: false, message: 'Email ya registrado' }, { status: 409 });
     }
 
+    /** Si la persistencia falla, se devuelve un error 503. */
     if (result.outcome === 'persist_failed') {
       logWaitlistError('persist_failed_response', {
         requestId,
@@ -69,6 +72,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     return jsonResponse({ success: true, item: result.item }, { status: 200 });
   } catch (err) {
+    /** Si ocurre un error no manejado, se devuelve un error 500. */
     logWaitlistError('unhandled_exception', {
       requestId,
       totalMs: Date.now() - started,
