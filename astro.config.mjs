@@ -38,5 +38,22 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    // ESTO ES LO QUE SOLUCIONA EL 504 Y EL 404 VIRTUAL:
+    optimizeDeps: {
+      exclude: ['zod'], // Sacamos a Zod del bucle de pre-optimización
+    },
+    server: {
+      watch: {
+        usePolling: true, // Crucial en Linux para que el watcher no se "pille"
+      },
+      fs: {
+        // Permite que Vite acceda a archivos fuera de la raíz si es necesario
+        allow: ['..'], 
+      },
+    },
+    // Ayuda a la resolución de módulos en SSR
+    ssr: {
+      noExternal: ['@tailwindcss/vite'],
+    }
   },
 });
