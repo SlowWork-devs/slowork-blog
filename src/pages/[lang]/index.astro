@@ -91,34 +91,6 @@ const description =
       overlay?.addEventListener('click', closeModal);
       document.getElementById('close-waitlist')?.addEventListener('click', closeModal);
 
-      const form = document.getElementById('waitlist-form');
-      const msg = document.getElementById('waitlist-message');
-      form?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (msg) msg.textContent = lang === 'es' ? 'Enviando...' : 'Sending...';
-        const fd = new FormData(form);
-        const payload = Object.fromEntries(fd.entries());
-        const res = await fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        const data = await res.json().catch(() => null);
-        if (!res.ok) {
-          if (msg)
-            msg.textContent = data?.message || (lang === 'es' ? 'Error al registrar.' : 'Registration error.');
-          return;
-        }
-        fetch('/api/welcome', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ name: payload.firstName, email: payload.email, lang }),
-        }).catch(() => {});
-        if (msg) msg.textContent = lang === 'es' ? '¡Listo! Revisa tu email.' : 'Done! Check your email.';
-        form.reset();
-        closeModal();
-      });
-
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {

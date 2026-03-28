@@ -1,0 +1,255 @@
+---
+import type { SupportedLang } from '../../lib/seo';
+import { waitlistFormCopy } from '../../lib/homeContent';
+
+interface Props {
+  lang: SupportedLang;
+  /** `full`: bloque dos columnas como la landing React. `minimal`: solo campos (p. ej. modal). */
+  layout?: 'full' | 'minimal';
+}
+
+const { lang, layout = 'full' } = Astro.props;
+const c = waitlistFormCopy(lang);
+const termsHref = `/${lang}/terms-and-conditions`;
+
+const rootClass =
+  layout === 'full'
+    ? 'waitlist-form-root max-w-6xl mx-auto my-8 w-full overflow-hidden rounded-lg border border-secondary bg-light-green/80 font-sans shadow-lg'
+    : 'waitlist-form-root w-full font-sans';
+const gridClass = layout === 'full' ? 'grid min-h-[min(70vh,720px)] grid-cols-1 lg:grid-cols-2' : 'grid grid-cols-1';
+const formPanelClass =
+  layout === 'full'
+    ? 'flex flex-col justify-center bg-light-green p-6 sm:p-8 lg:rounded-r-lg'
+    : 'flex flex-col justify-center';
+const inputClass =
+  'mt-2 w-full rounded-lg border-2 border-primary px-3 py-3 text-primary transition focus:outline-none focus:ring-2 focus:ring-secondary';
+const selectClass = `${inputClass} bg-secondary/90 text-lg font-medium text-primary`;
+---
+
+<div
+  class={rootClass}
+  data-lang={lang}
+  data-waitlist-sending={c.sending}
+  data-waitlist-success={c.success}
+  data-waitlist-error={c.error}
+  data-waitlist-button={c.button}
+>
+  <div class={gridClass}>
+    {
+      layout === 'full' && (
+        <div class="flex flex-col justify-center bg-linear-to-bl from-primary to-secondary/70 p-6 sm:p-8 lg:rounded-l-lg">
+          <h2 class="text-center font-heading text-[clamp(1.1rem,2.5vw,2.25rem)] font-bold leading-snug tracking-wide text-white">
+            {c.titlePart1}{' '}
+            <span class="font-extrabold text-secondary">{c.titleHighlight1}</span>
+            <br />
+            {c.titlePart2}{' '}
+            <span class="font-extrabold text-secondary">{c.titleHighlight2}</span> {c.titleEnd}
+          </h2>
+          <h3 class="mt-4 text-center font-heading text-lg font-bold uppercase tracking-widest text-primary [text-shadow:1px_1px_3px_rgba(1,51,51,0.35)] sm:text-2xl">
+            {c.waitingList}
+          </h3>
+        </div>
+      )
+    }
+
+    <div class={formPanelClass}>
+      <form class="flex h-full flex-col gap-6" data-waitlist-form novalidate>
+        <h2 class="text-center font-heading text-2xl font-bold text-primary">
+          {c.formTitle}
+        </h2>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <label class="block font-semibold text-primary">
+            {c.firstName}
+            <span class="text-red-500">*</span>
+            <input name="firstName" type="text" required autocomplete="given-name" placeholder={c.phFirstName} class={inputClass} />
+          </label>
+          <label class="block font-semibold text-primary">
+            {c.email}
+            <span class="text-red-500">*</span>
+            <input
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder={c.phEmail}
+              class={inputClass}
+            />
+          </label>
+        </div>
+
+        <label class="block font-semibold text-primary">
+          {c.phone}
+          <span class="text-red-500">*</span>
+          <input name="phone" type="tel" required autocomplete="tel" class={inputClass} />
+        </label>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <label class="block font-semibold text-primary">
+            {c.instagram}
+            <input name="instagram" type="text" autocomplete="off" placeholder={c.phInstagram} class={inputClass} />
+          </label>
+          <label class="block font-semibold text-primary">
+            {c.linkedin}
+            <input name="linkedin" type="url" autocomplete="url" placeholder={c.phLinkedin} class={inputClass} />
+          </label>
+        </div>
+
+        <label class="block font-semibold text-primary">
+          {c.preferredContact}
+          <span class="text-red-500">*</span>
+          <select name="preferredContact" required class={selectClass}>
+            <option value="">{c.selectDefault}</option>
+            <option value="Sloworker">{c.optSloworker}</option>
+            <option value="Host">{c.optHost}</option>
+            <option value="Bussines">{c.optBusiness}</option>
+          </select>
+        </label>
+
+        <label class="block font-semibold text-primary">
+          {c.communityInterest}
+          <span class="text-red-500">*</span>
+          <textarea
+            name="communityInterest"
+            required
+            rows={3}
+            placeholder={c.phCommunity}
+            class={`${inputClass} resize-y min-h-22`}></textarea>
+        </label>
+
+        <div class="flex items-start gap-3">
+          <input
+            id={`waitlist-terms-${layout}-${lang}`}
+            name="termsAccepted"
+            type="checkbox"
+            required
+            class="mt-1 size-5 shrink-0 cursor-pointer rounded border-primary text-primary accent-primary"
+          />
+          <label for={`waitlist-terms-${layout}-${lang}`} class="cursor-pointer text-sm font-semibold text-primary">
+            {c.termsBefore}
+            <a href={termsHref} class="text-soft-blue underline decoration-2 underline-offset-2 hover:text-primary">
+              {c.termsLink}
+            </a>
+            {c.termsAfter}
+            <span class="text-red-500">*</span>
+          </label>
+        </div>
+
+        <div class="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <button
+            type="submit"
+            data-waitlist-submit-btn
+            data-busy="false"
+            class="inline-flex min-h-12 min-w-40 items-center justify-center rounded-lg bg-primary px-8 py-3 font-semibold text-white shadow-md transition hover:opacity-95 enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-primary/40 data-[busy=true]:cursor-wait data-[busy=true]:opacity-80"
+          >
+            <span data-waitlist-submit-label>{c.button}</span>
+          </button>
+          <p
+            role="status"
+            aria-live="polite"
+            data-waitlist-status
+            data-status="idle"
+            class="min-h-5 text-sm font-semibold text-primary/80 data-[status=error]:text-red-600 data-[status=success]:text-green-700 data-[status=sending]:text-primary/60"
+          ></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const skipPayloadKeys = new Set(['termsAccepted']);
+
+  const payloadFromForm = (form: HTMLFormElement): Record<string, unknown> =>
+    Object.fromEntries([...new FormData(form).entries()].filter(([k]) => !skipPayloadKeys.has(k)));
+
+  const parseErrorMessage = async (res: Response): Promise<string | null> => {
+    const body = (await res.json().catch(() => null)) as { message?: string } | null;
+    return body?.message ?? null;
+  };
+
+  const initWaitlistRoot = (root: HTMLElement) => {
+    if (root.dataset.waitlistBound === '1') return;
+    root.dataset.waitlistBound = '1';
+
+    const form = root.querySelector<HTMLFormElement>('[data-waitlist-form]');
+    const statusEl = root.querySelector<HTMLElement>('[data-waitlist-status]');
+    const submitBtn = root.querySelector<HTMLButtonElement>('[data-waitlist-submit-btn]');
+    const submitLabel = root.querySelector<HTMLElement>('[data-waitlist-submit-label]');
+    if (!form || !statusEl || !submitBtn || !submitLabel) return;
+
+    const sending = root.dataset.waitlistSending ?? '';
+    const successMsg = root.dataset.waitlistSuccess ?? '';
+    const errorMsg = root.dataset.waitlistError ?? '';
+    const defaultBtn = root.dataset.waitlistButton ?? '';
+    const lang = root.dataset.lang === 'es' ? 'es' : 'en';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const applySending = () => {
+        statusEl.dataset.status = 'sending';
+        statusEl.textContent = '';
+        submitBtn.dataset.busy = 'true';
+        submitBtn.disabled = true;
+        submitLabel.textContent = sending;
+      };
+
+      const applyError = (message: string) => {
+        statusEl.dataset.status = 'error';
+        statusEl.textContent = message;
+        submitBtn.dataset.busy = 'false';
+        submitBtn.disabled = false;
+        submitLabel.textContent = defaultBtn;
+      };
+
+      const applySuccess = (message: string) => {
+        statusEl.dataset.status = 'success';
+        statusEl.textContent = message;
+        submitBtn.dataset.busy = 'false';
+        submitBtn.disabled = false;
+        submitLabel.textContent = defaultBtn;
+      };
+
+      applySending();
+
+      const payload = payloadFromForm(form);
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch(() => null);
+
+      if (res === null) {
+        applyError(errorMsg);
+        return;
+      }
+
+      if (!res.ok) {
+        const serverMessage = await parseErrorMessage(res);
+        applyError(serverMessage ?? errorMsg);
+        return;
+      }
+
+      void fetch('/api/welcome', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          name: payload.firstName,
+          email: payload.email,
+          lang,
+        }),
+      }).catch(() => {});
+
+      applySuccess(successMsg);
+      form.reset();
+    });
+  };
+
+  const boot = () => {
+    [...document.querySelectorAll<HTMLElement>('.waitlist-form-root')].map((el) => initWaitlistRoot(el));
+  };
+
+  boot();
+  document.addEventListener('astro:page-load', boot);
+</script>
