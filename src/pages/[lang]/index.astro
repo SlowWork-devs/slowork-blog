@@ -9,7 +9,6 @@ import HomeJourney from '../../components/home/HomeJourney.astro';
 import HomeWhoFor from '../../components/home/HomeWhoFor.astro';
 import HomeFinalCta from '../../components/home/HomeFinalCta.astro';
 import HomeStickyWaitlist from '../../components/home/HomeStickyWaitlist.astro';
-import HomeWaitlistModal from '../../components/home/HomeWaitlistModal.astro';
 import { buildI18nAlternates } from '../../lib/hreflang';
 
 const lang = Astro.params.lang;
@@ -53,9 +52,8 @@ const description =
   </main>
 
   <HomeStickyWaitlist lang={lang} />
-  <HomeWaitlistModal lang={lang} />
 
-  <script is:inline define:vars={{ heroCombinations: heroCombinations(lang), lang }}>
+  <script is:inline define:vars={{ heroCombinations: heroCombinations(lang) }}>
     (() => {
       const combos = heroCombinations;
       const firstEl = document.getElementById('hero-first');
@@ -69,24 +67,6 @@ const description =
       };
       tickHero();
       setInterval(tickHero, 2800);
-
-      const overlay = document.getElementById('modal-overlay');
-      const modal = document.getElementById('waitlist-modal');
-      const openModal = () => {
-        overlay?.classList.remove('hidden');
-        modal?.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      };
-      const closeModal = () => {
-        overlay?.classList.add('hidden');
-        modal?.classList.add('hidden');
-        document.body.style.overflow = '';
-      };
-      document.querySelectorAll('[data-open-waitlist]').forEach((btn) => {
-        btn.addEventListener('click', openModal);
-      });
-      overlay?.addEventListener('click', closeModal);
-      document.getElementById('close-waitlist')?.addEventListener('click', closeModal);
 
       const io = new IntersectionObserver(
         (entries) => {

@@ -240,4 +240,19 @@
   #main-header.text-white .logo-image {
     filter: brightness(0) invert(1);
   }
+
+  /**
+   * Gancho waitlist (hero + sticky): transición suave al abrir el menú móvil.
+   * El script del header pone data-menu-open="true" en #slowork-layout-root.
+   */
+  .waitlist-landing-hook {
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  body[data-menu-open="true"] .waitlist-landing-hook {
+    visibility: hidden;
+    opacity: 0;
+  }
 }

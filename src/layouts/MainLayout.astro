@@ -7,6 +7,7 @@ import poppinsBold from '@fontsource/poppins/files/poppins-latin-700-normal.woff
 
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import HomeWaitlistModal from '../components/home/HomeWaitlistModal.astro';
 import SocialShareBar from '../components/ui/SocialShareBar.astro';
 import FallbackImage from '../assets/blog-placeholder-1.png';
 import { SITE_TITLE } from '../consts';
@@ -119,11 +120,59 @@ const gaEnabled = gaId.length > 0;
     <slot name="head" />
   </head>
 
-  <body class="min-w-0 overflow-x-hidden">
+  <body id="slowork-layout-root" class="min-w-0 overflow-x-hidden">
     {showHeader && <Header language={lang} alternateLink={headerAlternateLink ?? `/${lang === 'es' ? 'en' : 'es'}/`} />}
     <SocialShareBar language={lang} />
     <slot />
+    <HomeWaitlistModal lang={lang} />
     {showFooter && <Footer language={lang} />}
+
+    <script is:inline>
+      (() => {
+        let waitlistUiAbort;
+        const bindWaitlistModal = () => {
+          waitlistUiAbort?.abort();
+          waitlistUiAbort = new AbortController();
+          const { signal } = waitlistUiAbort;
+
+          const overlay = document.getElementById('modal-overlay');
+          const modal = document.getElementById('waitlist-modal');
+          if (!overlay || !modal) return;
+
+          const openModal = () => {
+            overlay.classList.remove('hidden');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+          };
+          const closeModal = () => {
+            overlay.classList.add('hidden');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+          };
+
+          const onDocClick = (e) => {
+            const opener = e.target?.closest?.('[data-open-waitlist]');
+            if (!opener) return;
+            e.preventDefault();
+            openModal();
+          };
+
+          document.addEventListener('click', onDocClick, { signal });
+          overlay.addEventListener('click', closeModal, { signal });
+          document.getElementById('close-waitlist')?.addEventListener('click', closeModal, { signal });
+          document.addEventListener(
+            'keydown',
+            (e) => {
+              if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+            },
+            { signal },
+          );
+        };
+
+        bindWaitlistModal();
+        document.addEventListener('astro:page-load', bindWaitlistModal);
+      })();
+    </script>
   </body>
 </html>
 

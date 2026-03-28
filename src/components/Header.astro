@@ -2,14 +2,12 @@
 import Logo from './Logo.astro';
 import { Image } from 'astro:assets';
 import menuBg from '../assets/menu-background.webp';
+import { getHeaderNav } from '../lib/headerNavCopy';
+import type { SupportedLang } from '../lib/seo';
 
 const { language, alternateLink } = Astro.props;
-
-const t = {
-  es: { blog: 'BLOG', about: 'ABOUT', impact: 'IMPACT', join: 'Únete a la lista de espera', menu: 'Abrir menú', close: 'Cerrar menú' },
-  en: { blog: 'BLOG', about: 'ABOUT', impact: 'IMPACT', join: 'Join the waiting list', menu: 'Open menu', close: 'Close menu' }
-};
-const nav = t[language as 'es' | 'en'] || t.es;
+const nav = getHeaderNav(language as SupportedLang);
+const waitlistCtaHref = `/${language}/#waitlist-cta`;
 
 // Determinar si estamos en la home para el efecto transparente inicial
 const isHome = Astro.url.pathname === '/es/' || Astro.url.pathname === '/en/' || Astro.url.pathname === '/es' || Astro.url.pathname === '/en' || Astro.url.pathname === '/';
@@ -31,8 +29,8 @@ const initialClasses = isHome
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center gap-6">
         <a href={`/${language}/blog/`} class="text-sm font-heading font-bold hover:opacity-80 transition-opacity">{nav.blog}</a>
-        <a href={`/${language}/about`} class="text-sm font-heading font-bold hover:opacity-80 transition-opacity">{nav.about}</a>
-        <a href={`/${language}/impact-program`} class="text-sm font-heading font-bold hover:opacity-80 transition-opacity">{nav.impact}</a>
+        <a href={`/${language}/about-us/`} class="text-sm font-heading font-bold hover:opacity-80 transition-opacity">{nav.about}</a>
+        <a href={`/${language}/impact-program/`} class="text-sm font-heading font-bold hover:opacity-80 transition-opacity">{nav.impact}</a>
       </div>
 
       <!-- Idioma: oculto en móvil -->
@@ -42,13 +40,14 @@ const initialClasses = isHome
         <a href={alternateLink} class="min-w-10 min-h-10 flex items-center justify-center rounded-lg hover:bg-current/5 transition-colors" aria-current={language === 'en' ? 'page' : undefined}>EN</a>
       </div>
 
-      <!-- Join: oculto en móvil (está en el drawer) -->
-      <a 
-        href="https://www.slowork.app/" 
-        class="hidden md:flex bg-secondary text-primary min-h-12 items-center justify-center px-6 py-3 rounded-full font-bold text-sm shadow-md hover:opacity-95 active:scale-[0.98] whitespace-nowrap touch-manipulation"
+      <!-- Join: oculto en móvil (drawer); abre waitlist global (MainLayout) -->
+      <button
+        type="button"
+        data-open-waitlist
+        class="hidden cursor-pointer items-center justify-center rounded-full bg-secondary px-6 py-3 font-heading text-sm font-bold text-primary shadow-md transition hover:opacity-95 active:scale-[0.98] md:flex min-h-12 whitespace-nowrap touch-manipulation"
       >
         {nav.join}
-      </a>
+      </button>
 
       <!-- Botón Hamburguesa Móvil -->
       <button 
@@ -105,8 +104,8 @@ const initialClasses = isHome
   <div class="flex-1 flex flex-col px-6 py-8 overflow-y-auto">
     <nav class="flex flex-col gap-6 text-right mb-12">
       <a href={`/${language}/blog/`} class="text-2xl font-heading font-bold text-primary hover:text-primary/70 transition-colors">{nav.blog}</a>
-      <a href={`/${language}/about`} class="text-2xl font-heading font-bold text-primary hover:text-primary/70 transition-colors">{nav.about}</a>
-      <a href={`/${language}/impact-program`} class="text-2xl font-heading font-bold text-primary hover:text-primary/70 transition-colors">{nav.impact}</a>
+      <a href={`/${language}/about-us/`} class="text-2xl font-heading font-bold text-primary hover:text-primary/70 transition-colors">{nav.about}</a>
+      <a href={`/${language}/impact-program/`} class="text-2xl font-heading font-bold text-primary hover:text-primary/70 transition-colors">{nav.impact}</a>
     </nav>
 
     <div class="flex flex-col items-center gap-8 mt-auto">
@@ -117,53 +116,90 @@ const initialClasses = isHome
         <a href={alternateLink} class={`min-w-12 min-h-12 flex items-center justify-center rounded-lg transition-colors ${language === 'en' ? 'bg-primary/10' : 'hover:bg-primary/5'}`} aria-current={language === 'en' ? 'page' : undefined}>EN</a>
       </div>
 
-      <!-- Join Button en Drawer -->
-      <a 
-        href="https://www.slowork.app/" 
-        class="w-full bg-secondary text-primary min-h-14 flex items-center justify-center px-6 py-4 rounded-full font-bold text-base shadow-md hover:opacity-95 active:scale-[0.98] touch-manipulation"
+      <!-- CTA principal drawer: acceso anticipado / waitlist -->
+      <a
+        href={waitlistCtaHref}
+        class="inline-flex w-full min-h-[3.75rem] items-center justify-center rounded-full bg-primary px-4 py-4 text-center text-sm font-heading font-bold leading-snug text-secondary shadow-xl ring-2 ring-secondary/60 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_28px_rgba(34,197,94,0.1)] active:scale-[0.99] touch-manipulation sm:px-6 sm:text-base"
       >
-        {nav.join}
+        {nav.mobileEarlyAccessWaitlist}
       </a>
     </div>
   </div>
 </div>
 
-<script define:vars={{ menuLabel: nav.menu, closeLabel: nav.close }}>
-  const menuButton = document.getElementById('menu-button');
-  const closeButton = document.getElementById('close-drawer-button');
-  const mobileDrawer = document.getElementById('mobile-drawer');
-  const drawerOverlay = document.getElementById('drawer-overlay');
+<script>
+  const layoutRoot = () => document.getElementById('slowork-layout-root');
 
-  const openMenu = () => {
-    mobileDrawer?.classList.remove('hidden');
-    drawerOverlay?.classList.remove('hidden');
-    // Forzar reflow para la transición
-    void mobileDrawer?.offsetWidth;
-    mobileDrawer?.classList.remove('translate-x-full');
-    menuButton?.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
+  const setMenuOpen = (open: boolean) => {
+    const root = layoutRoot();
+    if (!root) return;
+    if (open) root.setAttribute('data-menu-open', 'true');
+    else root.removeAttribute('data-menu-open');
   };
 
-  const closeMenu = () => {
-    mobileDrawer?.classList.add('translate-x-full');
-    menuButton?.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-    
-    // Esperar a que termine la transición para ocultar
-    setTimeout(() => {
-      mobileDrawer?.classList.add('hidden');
-      drawerOverlay?.classList.add('hidden');
-    }, 300);
+  const bindMobileMenu = () => {
+    const menuButton = document.getElementById('menu-button');
+    const closeButton = document.getElementById('close-drawer-button');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    if (!menuButton || !closeButton || !mobileDrawer || !drawerOverlay) return () => {};
+
+    const openMenu = () => {
+      setMenuOpen(true);
+      mobileDrawer.classList.remove('hidden');
+      drawerOverlay.classList.remove('hidden');
+      void mobileDrawer.offsetWidth;
+      mobileDrawer.classList.remove('translate-x-full');
+      menuButton.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeMenu = () => {
+      setMenuOpen(false);
+      mobileDrawer.classList.add('translate-x-full');
+      menuButton.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      window.setTimeout(() => {
+        mobileDrawer.classList.add('hidden');
+        drawerOverlay.classList.add('hidden');
+      }, 300);
+    };
+
+    const onDrawerLinkClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const anchor = target?.closest?.('a[href]');
+      if (anchor && mobileDrawer.contains(anchor)) closeMenu();
+    };
+
+    menuButton.addEventListener('click', openMenu);
+    closeButton.addEventListener('click', closeMenu);
+    drawerOverlay.addEventListener('click', closeMenu);
+    mobileDrawer.addEventListener('click', onDrawerLinkClick);
+
+    const onKeydown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !mobileDrawer.classList.contains('translate-x-full')) closeMenu();
+    };
+    document.addEventListener('keydown', onKeydown);
+
+    return () => {
+      menuButton.removeEventListener('click', openMenu);
+      closeButton.removeEventListener('click', closeMenu);
+      drawerOverlay.removeEventListener('click', closeMenu);
+      mobileDrawer.removeEventListener('click', onDrawerLinkClick);
+      document.removeEventListener('keydown', onKeydown);
+      setMenuOpen(false);
+      mobileDrawer.classList.add('hidden', 'translate-x-full');
+      drawerOverlay.classList.add('hidden');
+      document.body.style.overflow = '';
+    };
   };
 
-  menuButton?.addEventListener('click', openMenu);
-  closeButton?.addEventListener('click', closeMenu);
-  drawerOverlay?.addEventListener('click', closeMenu);
+  let teardownMobileMenu: (() => void) | undefined;
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !mobileDrawer?.classList.contains('translate-x-full')) {
-      closeMenu();
-    }
+  document.addEventListener('astro:page-load', () => {
+    teardownMobileMenu?.();
+    layoutRoot()?.removeAttribute('data-menu-open');
+    teardownMobileMenu = bindMobileMenu();
   });
 
   // Scroll effect for header
