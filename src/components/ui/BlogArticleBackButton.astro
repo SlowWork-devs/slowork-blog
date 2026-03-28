@@ -1,0 +1,32 @@
+---
+import type { SupportedLang } from '../../lib/seo';
+import { getBlogUiCopy } from '../../lib/blogContent';
+
+interface Props {
+  readonly lang: SupportedLang;
+}
+
+const { lang } = Astro.props;
+const { backToBlog } = getBlogUiCopy(lang);
+const href = `/${lang}/blog/`;
+---
+
+<a
+  href={href}
+  transition:name="back-to-blog"
+  class="group inline-flex touch-manipulation items-center justify-center gap-3 rounded-full border border-primary/10 bg-white/10 px-5 py-3 text-sm font-heading font-medium text-primary backdrop-blur-lg shadow-sm transition-all duration-300 hover:border-primary/20 hover:bg-primary/5 hover:shadow-lg hover:shadow-primary/5 hover:scale-[1.01] sm:px-6 sm:py-3"
+  aria-label={backToBlog}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="size-5 shrink-0 transition-transform duration-300 group-hover:-translate-x-1"
+    aria-hidden="true"
+  >
+    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+  </svg>
+  <span>{backToBlog}</span>
+</a>

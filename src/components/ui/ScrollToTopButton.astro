@@ -1,0 +1,70 @@
+---
+import type { SupportedLang } from '../../lib/seo';
+import { getBlogUiCopy } from '../../lib/blogContent';
+
+interface Props {
+  readonly lang: SupportedLang;
+}
+
+const { lang } = Astro.props;
+const { scrollToTop } = getBlogUiCopy(lang);
+---
+
+<button
+  id="scroll-to-top"
+  type="button"
+  aria-label={scrollToTop}
+  title={scrollToTop}
+  class="pointer-events-none fixed bottom-6 right-6 z-50 flex h-12 w-12 translate-y-10 items-center justify-center rounded-full border border-primary/10 bg-white/10 text-primary opacity-0 shadow-sm backdrop-blur-lg transition-all duration-500 hover:scale-110 hover:border-primary/20 hover:bg-primary/5 hover:shadow-lg hover:shadow-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 touch-manipulation sm:bottom-8 sm:right-8"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="2"
+    stroke="currentColor"
+    class="h-5 w-5"
+    aria-hidden="true"
+  >
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+  </svg>
+</button>
+
+<script>
+  const bindScrollToTop = () => {
+    const btn = document.getElementById('scroll-to-top');
+    if (!btn) return () => {};
+
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        btn.classList.remove('translate-y-10', 'opacity-0', 'pointer-events-none');
+        btn.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+      } else {
+        btn.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
+        btn.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+      }
+    };
+
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    btn.addEventListener('click', scrollToTop);
+
+    // Initial check
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      btn.removeEventListener('click', scrollToTop);
+    };
+  };
+
+  let teardownScrollToTop: (() => void) | undefined;
+
+  document.addEventListener('astro:page-load', () => {
+    teardownScrollToTop?.();
+    teardownScrollToTop = bindScrollToTop();
+  });
+</script>
