@@ -1,0 +1,380 @@
+{
+  "privacyPolicy": {
+    "helmet": {
+      "title": "Privacy Policy - Slowork",
+      "description": "Privacy Policy for Slowork, connecting remote workers with eco-friendly coworking and coliving spaces."
+    },
+    "heading": "SLOWORK PRIVACY POLICY",
+    "effectiveDate": "Effective Date: 27/02/2025",
+    "sections": {
+      "introduction": {
+        "title": "1. Introduction",
+        "paragraph1": "Slowork (hereinafter referred to as \"we,\" \"our,\" or \"the Platform\") is a platform designed to connect remote workers, digital nomads, and freelancers with natural environments that foster productivity and well-being. This Privacy Policy explains how we collect, use, share, and protect our users' personal data.",
+        "paragraph2": "By using our services, you agree to the practices described in this Privacy Policy. If you do not agree with its terms, please do not use the Platform."
+      },
+      "dataController": {
+        "title": "2. Data Controller",
+        "content": "The data controller is Slowork S.L., located at Rodrigo Caro 7, Sevilla, 41004. Contact email: sloworking.adm@gmail.com."
+      },
+      "personalData": {
+        "title": "3. Personal Data We Collect",
+        "items": [
+          "Identification data: Name, surname, email address, date of birth, phone number.",
+          "Account data: Username, password, and profile preferences.",
+          "Payment data: Billing information and payment methods.",
+          "Location data: IP address, geolocation data if enabled.",
+          "Interaction data: Booking history, searches, reviews, and comments.",
+          "Technical data: IP address, browser type, device, and operating system.",
+          "Data from social networks: If you log in via Facebook, Google, LinkedIn, we may receive public profile info and data you authorize us to access."
+        ]
+      },
+      "dataUsage": {
+        "title": "4. How We Use Your Data",
+        "items": [
+          "Facilitate the creation of user profiles and account management.",
+          "Process bookings and transactions.",
+          "Personalize the user experience on the Platform.",
+          "Send promotional and service communications.",
+          "Improve our services and features.",
+          "Facilitate communication between users within the Platform.",
+          "Comply with legal and regulatory obligations.",
+          "Implement security measures and fraud prevention."
+        ]
+      },
+      "legalBasis": {
+        "title": "5. Legal Basis for Data Processing",
+        "items": [
+          "Contract execution: To provide you with Platform services.",
+          "Consent: For sending commercial communications and personalizing services.",
+          "Legitimate interest: To improve our Platform and personalize the user experience.",
+          "Legal obligations: Compliance with tax and security regulations."
+        ]
+      },
+      "dataSharing": {
+        "title": "5. Data Sharing and Disclosure",
+        "items": [
+          "With service providers: We may share your data with third-party service providers who assist us in operating the Platform, conducting our business, or servicing you, so long as those parties agree to keep this information confidential.",
+          "For legal reasons: We may disclose your information if required to do so by law or in response to valid requests by public authorities (e.g., a court or a government agency).",
+          "Business transfers: In the event of a merger, acquisition, or sale of all or a portion of our assets, your personal data may be transferred as part of that transaction."
+        ]
+      },
+      "dataSecurity": {
+        "title": "6. Data Security",
+        "paragraph1": "We implement a variety of security measures to maintain the safety of your personal data when you place an order or enter, submit, or access your personal data.",
+        "paragraph2": "These security measures include password protected directories and databases to safeguard your information, and SSL (Secure Socket Layer) technology to ensure that your information is transmitted securely over the internet."
+      },
+      "dataRetention": {
+        "title": "8. Data Retention",
+        "paragraph1": "We retain personal data for as long as necessary to fulfill the purposes described in this Policy and comply with legal obligations.",
+        "table": {
+          "header": {
+            "type": "Data Type",
+            "period": "Retention Period"
+          },
+          "rows": [
+            {
+              "type": "Account data",
+              "period": "As long as the account is active or up to 5 years after inactivity"
+            },
+            {
+              "type": "Payment data",
+              "period": "10 years (due to tax and accounting regulations)"
+            },
+            {
+              "type": "Booking history",
+              "period": "3 years after the last booking"
+            },
+            {
+              "type": "Customer support communications",
+              "period": "2 years after inquiry"
+            }
+          ]
+        }
+      },
+      "userRights": {
+        "title": "7. Your Rights",
+        "items": [
+          "The right to access – You have the right to request copies of your personal data.",
+          "The right to rectification – You have the right to request that we correct any information you believe is inaccurate or incomplete.",
+          "The right to erasure – You have the right to request that we erase your personal data, under certain conditions.",
+          "The right to restrict processing – You have the right to request that we restrict the processing of your personal data, under certain conditions.",
+          "The right to data portability – You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.",
+          "The right to object to processing – You have the right to object to our processing of your personal data, under certain conditions."
+        ]
+      },
+      "cookiesPolicy": {
+        "title": "8. Cookies Policy",
+        "paragraph1": "Like many online services, we use cookies and similar technologies to collect data about your browsing activity and to provide you with a personalized experience.",
+        "paragraph2": "Cookies are small text files that are used to store small pieces of information. They are stored on your device when the website is loaded on your browser. These cookies help us make the website function properly, make it more secure, provide better user experience, and understand how the website performs and to analyze what works and where it needs improvement."
+      },
+      "changesToPolicy": {
+        "title": "9. Changes to This Privacy Policy",
+        "paragraph1": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.",
+        "paragraph2": "You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page."
+      },
+      "contactUs": {
+        "title": "10. Contact Us",
+        "paragraph1": "If you have any questions about this Privacy Policy, please contact us:",
+        "paragraph2": "By email: sloworking.adm@gmail.com",
+        "paragraph3": "By visiting this page on our website: www.slowork.app/contact"
+      }
+    }
+  },
+  "cookiesPolicy": {
+    "helmet": {
+      "title": "Cookies Policy - Slowork",
+      "description": "Cookie policy for Slowork, detailing the use of cookies and similar technologies to enhance user experience and ensure the proper functioning of the platform."
+    },
+    "heading": "COOKIE POLICY OF SLOWORK",
+    "effectiveDate": "Last updated: 27/02/2025",
+    "sections": {
+      "introduction": {
+        "title": "1. Introduction",
+        "paragraph1": "At Slowork (hereinafter, \"the Platform\"), we use cookies and similar technologies to ensure the proper functioning of our website and application, enhance user experience, and provide personalized content tailored to your interests. This Cookie Policy explains what cookies are, how we use them, and how you can manage them."
+      },
+      "technologies": {
+        "title": "2. What Are Cookies and Similar Technologies?",
+        "paragraph1": "Cookies are small text files stored on your device (computer, tablet, mobile) when you visit a website. In addition to cookies, we also use similar technologies such as:",
+        "items": [
+          "Web beacons: Small pieces of code embedded in web pages or emails to track user activity.",
+          "Local and session storage: Allows information to be stored in your browser to optimize site loading.",
+          "Tracking pixels: Used to improve advertising effectiveness."
+        ]
+      },
+      "types": {
+        "title": "3. Types of Cookies We Use",
+        "subsections": {
+          "essential": {
+            "title": "3.1. Essential (Necessary) Cookies",
+            "items": [
+              "Authentication and user account access.",
+              "Session security.",
+              "Management of bookings and payments on the Platform."
+            ]
+          },
+          "performance": {
+            "title": "3.2. Performance and Analytics Cookies",
+            "items": [
+              "Evaluate site traffic and usage.",
+              "Measure the performance of different site sections.",
+              "Identify technical errors and optimize navigation."
+            ]
+          },
+          "functionality": {
+            "title": "3.3. Functionality Cookies",
+            "items": [
+              "Selected language.",
+              "Display preferences.",
+              "Accessibility settings."
+            ]
+          },
+          "marketing": {
+            "title": "3.4. Advertising and Marketing Cookies",
+            "items": [
+              "Measure the effectiveness of advertising campaigns.",
+              "Personalize ads on social media and other websites."
+            ]
+          },
+          "thirdParty": {
+            "title": "3.5. Third-Party Cookies",
+            "items": [
+              "Interactive maps (Google Maps).",
+              "Social media integrations (Facebook, Instagram, LinkedIn).",
+              "Payment providers (Stripe, PayPal)."
+            ]
+          }
+        }
+      },
+      "duration": {
+        "title": "4. Duration and Storage of Cookies",
+        "items": [
+          "Session cookies: Automatically deleted when you close your browser.",
+          "Persistent cookies: Remain on your device for a specified period or until you delete them."
+        ]
+      },
+      "managing": {
+        "title": "5. Managing Cookie Preferences",
+        "paragraph1": "You can manage or delete cookies at any time from your browser settings. Below are some useful links to configure cookies in commonly used browsers:",
+        "items": [
+          "Google Chrome",
+          "Mozilla Firefox",
+          "Safari",
+          "Microsoft Edge"
+        ],
+        "paragraph2": "Additionally, if you wish to opt out of receiving personalized advertising cookies, you can visit Your Online Choices."
+      },
+      "updates": {
+        "title": "6. Updates to the Cookie Policy",
+        "paragraph1": "Slowork may update this Cookie Policy at any time to reflect changes in the use of cookies or applicable regulations, such as the General Data Protection Regulation (GDPR) and the Digital Services Act (DSA).",
+        "paragraph2": "Any significant changes will be communicated to users via the Platform."
+      },
+      "contact": {
+        "title": "7. Contact",
+        "paragraph1": "If you have any questions about this Cookie Policy, you can contact us at:",
+        "paragraph2": "Email: sloworking.adm@gmail.com"
+      }
+    }
+  },
+  "legalNotice": {
+    "helmet": {
+      "title": "Legal Notice - Slowork",
+      "description": "Legal notice for Slowork, including terms of use, intellectual property, and user responsibilities."
+    },
+    "heading": "LEGAL NOTICE",
+    "effectiveDate": "Last updated: 27/02/2025",
+    "sections": {
+      "generalInformation": {
+        "title": "1. General Information",
+        "paragraph1": "In accordance with the duty of information established in Article 10 of Law 34/2002, of July 11, on Information Society Services and Electronic Commerce (LSSI-CE), users of this website are informed of the following identifying details:",
+        "items": [
+          "Owner: Slowork S.L",
+          "Registered Address: Rodrigo Caro 7, Sevilla, 41004",
+          "CIF/NIF: B75950444",
+          "Email Address: sloworking.adm@gmail.com",
+          "Contact Phone: +34 692390453",
+          "Website: www.slowork.app"
+        ]
+      },
+      "purposeAndScope": {
+        "title": "2. Purpose and Scope",
+        "paragraph1": "This Legal Notice governs access, navigation, and use of the Slowork website and platform, which provides a digital tool for searching and booking coliving and coworking spaces for digital nomads and remote workers. Use of this website implies full and unconditional acceptance of all provisions included in this Legal Notice."
+      },
+      "termsOfUse": {
+        "title": "3. Terms of Use",
+        "users": {
+          "title": "3.1. Users",
+          "paragraph1": "Access and/or use of this website confers the status of user, implying acceptance of this Legal Notice from the moment of access and/or use."
+        },
+        "permittedUse": {
+          "title": "3.2. Permitted Use",
+          "paragraph1": "The user agrees to use the website and the services offered in accordance with current legislation, good faith, and public order. The use of the site for unlawful purposes or purposes that may cause harm to Slowork or third parties is prohibited."
+        },
+        "registrationAndAuthentication": {
+          "title": "3.3. Registration and Authentication",
+          "paragraph1": "Some functionalities require registration. The user agrees to provide truthful information and keep their data up to date. Users are responsible for safeguarding their access credentials."
+        },
+        "bookingAndCancellation": {
+          "title": "3.4. Booking and Cancellation Terms",
+          "paragraph1": "By using the platform to make reservations, the user accepts the payment, modification, and cancellation terms established in the specific terms and conditions of each offer. Slowork is not responsible for disputes between users and service providers."
+        }
+      },
+      "intellectualProperty": {
+        "title": "4. Intellectual and Industrial Property",
+        "paragraph1": "All website content (texts, images, logos, software, structure, and design) is the property of Slowork or authorized third parties, protected by intellectual and industrial property regulations. Reproduction, distribution, or modification without express authorization from the owner is prohibited."
+      },
+      "disclaimerOfLiability": {
+        "title": "5. Disclaimer of Liability",
+        "paragraph1": "Slowork is not responsible for:",
+        "items": [
+          "Misuse of the website by users.",
+          "Continuity of website operation or updates.",
+          "The presence of viruses or malicious elements.",
+          "Links to third-party websites, which have their own terms and conditions.",
+          "Cancellations, refunds, or non-compliance by service providers booked through the platform."
+        ]
+      },
+      "personalDataProtection": {
+        "title": "6. Personal Data Protection",
+        "paragraph1": "In accordance with the General Data Protection Regulation (EU) 2016/679 (GDPR) and Organic Law 3/2018 on Personal Data Protection and Digital Rights Guarantee (LOPDGDD), we inform you that personal data collected through the website will be processed in accordance with our Privacy Policy.",
+        "paragraph2": "Users may exercise their rights of access, rectification, deletion, objection, portability, and restriction of processing by submitting a request to <strong>sloworking.adm@gmail.com</strong>."
+      },
+      "useOfCookies": {
+        "title": "7. Use of Cookies",
+        "paragraph1": "This website uses first- and third-party cookies to enhance user experience and analyze navigation. For more information, see our Cookies Policy. Users can manage their cookie preferences at any time."
+      },
+      "applicableLawAndJurisdiction": {
+        "title": "8. Applicable Law and Jurisdiction",
+        "paragraph1": "For the resolution of any disputes or conflicts related to this website, Spanish legislation will apply, and the parties submit to the Courts and Tribunals of Sevilla, Spain."
+      },
+      "disputeResolution": {
+        "title": "9. Dispute Resolution",
+        "paragraph1": "In the event of a dispute, users may opt for alternative dispute resolution mechanisms, such as mediation or arbitration, before resorting to legal action."
+      }
+    }
+  },
+  "termsAndConditions": {
+    "helmet": {
+      "title": "Terms and Conditions of Use - Slowork",
+      "description": "Read the terms and conditions of use of Slowork, including information about waitlist registration, intellectual property, acceptable use of the website, and personal data protection."
+    },
+    "title": "TERMS AND CONDITIONS OF USE",
+    "date": "Version 1.0 | Date: July 7, 2025",
+    "generalInfoTitle": "1. GENERAL INFORMATION",
+    "generalInfo": "This document regulates the terms and conditions (hereinafter, the 'T&C') governing access to and use of the website www.slowork.app (hereinafter, the 'Platform'), owned by SLOWORK, S.L., with NIF B75950444, registered office at Calle Rodrigo Caro, 7, 1º Izquierda, 41004 – Sevilla (Spain), in process of registration in the Mercantile Registry according to public deed (hereinafter, 'SLOWORK').\n\nBy accessing and using this Platform, you (the 'User') declare that you have read, understood, and fully accepted these T&C.",
+    "purposeTitle": "2. PURPOSE AND SCOPE",
+    "purpose": "SLOWORK provides the User with a Platform solely for the purpose of allowing registration on a waitlist ('Waitlist') to receive notifications about the future launch of its services. No paid service is currently offered, nor is any contract formalized.",
+    "waitlistTitle": "3. WAITLIST REGISTRATION CONDITIONS",
+    "waitlist1": "3.1. Registration on the Waitlist is voluntary by completing a form enabled on the Platform, in which the User must truthfully and completely enter certain personal data, including: full name, email address, nationality, motivation or interests regarding the platform, as well as any other data that SLOWORK may request for exclusively informational and statistical purposes.",
+    "waitlist2": "3.2. The User guarantees that the information provided is truthful, current, and complete, and undertakes to keep it updated while remaining on the Waitlist. False or inaccurate data may result in exclusion from the Waitlist.",
+    "waitlist3": "3.3. The User may request removal from the Waitlist and deletion of their personal data at any time by sending an express request to hola@slowork.app, indicating in the subject 'Unsubscribe Waitlist – SLOWORK'.",
+    "ipTitle": "4. INTELLECTUAL AND INDUSTRIAL PROPERTY",
+    "ip": "All content on the website (texts, images, logos, software, structure, design, etc.) is owned by SLOWORK or used under the appropriate license. Total or partial reproduction without express authorization is prohibited. Access to the Platform does not grant the User any ownership rights over the content, elements, or functionalities. SLOWORK grants the User a limited, non-exclusive, revocable, and non-sublicensable license to browse the Platform and use it in accordance with these Terms. Any other use must have express written authorization.",
+    "acceptableUseTitle": "5. ACCEPTABLE USE OF THE WEBSITE",
+    "acceptableUse": "The User undertakes to use the Platform diligently, correctly, and lawfully, in accordance with applicable law, these Terms and Conditions, morality, public order, and generally accepted good customs. In particular, the User shall refrain from:\n- Introducing, storing, or disseminating on or from the Platform any malicious content, software, virus, malicious code, or any other program or file likely to cause damage or alterations to computer systems, networks, files, or content of the Platform or other users.\n- Interfering with, interrupting, or damaging, directly or indirectly, the normal operation of the Platform, including denial-of-service (DDoS) attacks, port scanning, code injection, or any similar technique.\n- Accessing, attempting to access, or using other Users' accounts without their express authorization, as well as breaching, attempting to breach, or circumventing the Platform's security, authentication, or access restriction measures.\n- Using third-party personal data without their express and informed consent, including unauthorized sending of commercial communications, as well as systematic or automated collection of personal data (data scraping).\n- Registering false, inaccurate, incomplete data, or impersonating third parties, as well as pretending to be another natural or legal person.\n- Using the Platform for fraudulent, illegal, defamatory, offensive, discriminatory purposes, contrary to fundamental rights and public freedoms recognized by applicable law, or contrary to good faith.\n- Reproducing, distributing, transforming, publicly communicating, making available, or extracting any content from the Platform without the prior and express authorization of the rights holder or unless legally permitted.\n- Using the Platform to send unsolicited or unauthorized advertising, promotional material, junk mail, spam, chain letters, or any other form of non-consensual solicitation, directly or indirectly.\n\nSLOWORK reserves the right to deny, suspend, or withdraw access to the Platform to any User who violates the above, as well as to take appropriate legal action for acts that may constitute administrative, civil, or criminal offenses.",
+    "dataProtectionTitle": "6. PERSONAL DATA PROTECTION",
+    "dataProtection": "The processing of personal data resulting from registration on the Waitlist is governed by the provisions of the <1>Privacy Policy</1>, in accordance with the General Data Protection Regulation (EU Regulation 2016/679).",
+    "liabilityTitle": "7. LIMITATION OF LIABILITY",
+    "liability1": "SLOWORK does not guarantee uninterrupted availability of the website, nor that it is free of errors or harmful elements. Use of the Platform is at the User's sole responsibility. At this stage, there is no contractual relationship with the User beyond registration on the Waitlist.",
+    "liability2": "The Platform may contain links to third-party websites or services not controlled by SLOWORK. We assume no responsibility for the content, policies, or practices of external sites or services. The User accesses them at their own risk.",
+    "modificationsTitle": "8. MODIFICATIONS TO THE TERMS",
+    "modifications": "SLOWORK reserves the right to modify these T&C at any time. Any changes will be duly notified through the Platform itself or to the email provided by the User.",
+    "lawTitle": "9. APPLICABLE LAW AND JURISDICTION",
+    "law1": "These Terms and Conditions shall be interpreted and governed in accordance with Spanish law and, where applicable, with the relevant European Union regulations. In particular, the following shall apply, among others:\n- Regulation (EU) 2016/679, of April 27, on the protection of natural persons with regard to the processing of personal data (GDPR),\n- Law 34/2002, of July 11, on information society services and electronic commerce (LSSI-CE),\n- Consolidated Text of the General Law for the Defense of Consumers and Users, approved by Royal Legislative Decree 1/2007, of November 16 (TRLGDCU),\n- Regulation (EU) 524/2013, on online dispute resolution for consumer matters,\n- As well as any other regulations applicable to relationships established through the Platform.",
+    "law2": "In case of conflict or dispute related to the interpretation, validity, execution, or compliance with these Terms and Conditions, the competent courts shall be:\n- For Users who are consumers (natural persons acting for purposes unrelated to their commercial, business, trade, or profession), the courts of the User's domicile, in accordance with articles 3, 29, and 90.2 of the TRLGDCU, with any clause limiting or conditioning this right being excluded.\n- For Users acting as professionals or companies (natural or legal persons acting within the scope of their economic activity), both parties agree to submit, with express waiver of any other jurisdiction, to the Courts and Tribunals of the city of Seville (Spain), the registered office of SLOWORK, S.L.",
+    "law3": "Notwithstanding the foregoing, in compliance with Article 14 of Regulation (EU) 524/2013, consumer Users are informed that they can access the European online dispute resolution platform at the following link: <1>https://ec.europa.eu/consumers/odr/</1>",
+    "law4": "If any clause of these Terms is declared null or unenforceable by a final decision of a competent authority, the remaining provisions shall remain in force and unaffected by such declaration of nullity.",
+    "law5": "In case of discrepancy between translated versions of these Terms and Conditions, the Spanish version shall prevail, unless expressly stated otherwise."
+  },
+  "impactProgram": {
+    "helmet": {
+      "title": "Slowork Impact Program",
+      "description": "Empowering sustainable remote work communities worldwide. Get your space remote-work ready and make a difference. The Slowork Impact Program is designed to support digital nomads, remote workers, and eco-conscious travelers by improving access to high-quality coworking and coliving spaces in underserved or rural areas."
+    },
+    "hero": {
+      "title": "IMPACT PROGRAM",
+      "subtitle": "We believe there's more to life than just working to live."
+    },
+    "story": {
+      "title": "Our Story",
+      "paragraph1": "Slowork was born from a simple yet powerful realization: we have an incredible planet that deserves to be protected and enjoyed. We created Slowork for people like you, who dream of working from anywhere, connecting deeply with nature, living with intention, and sharing meaningful moments with others along the way.",
+      "paragraph2": "We're not just a platform; we're a global movement of remote workers, digital nomads, freelancers, entrepreneurs, and conscious companies who want to redefine what it means to be productive."
+    },
+    "mission": {
+      "title": "Our mission is clear",
+      "paragraph1": "We want to help you break free from crowded cities, stressful routines, and uninspiring offices. Slowork connects you to unique coliving and coworking spaces in breathtaking natural settings, places that combine fast internet, peaceful work environments, and activities that nourish your body, mind, and spirit.",
+      "paragraph2": "But it's much more than that. We're building a real community of people who value authentic human connection. Here, you can share experiences, learn from others, collaborate on projects, and grow alongside like-minded souls.",
+      "paragraph3": "But purpose goes beyond lifestyle. With the Slowork Impact Program, we reinvest part of every reservation into local communities helping eco-conscious hosts improve their spaces and opening the door for sustainable growth in underrepresented regions."
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "items": [
+        "Up to 2% of each transaction goes directly to the Impact Program:",
+        "1% chosen by our community: After every booking, users vote on a project to support.",
+        "1% allocated by Slowork: Based on local needs and development potential.",
+        "All projects are listed on the Slowork Impact Funding Portal, open for donations.",
+        "Funds are delivered via Stripe (bank transfer) or Bitcoin (P2P).",
+        "Hosts receive advisory support to meet our certification standards.",
+        "Hosts must submit proof of improvements via photos, reports, and audits."
+      ]
+    },
+    "whatWeSupport": {
+      "title": "What we support",
+      "subtitle": "We back projects that improve:",
+      "items": [
+        "Internet connectivity",
+        "Hygiene and basic services",
+        "Coliving/coworking conditions",
+        "Eco-practices and community inclusion",
+        "Local business training and hospitality development"
+      ]
+    },
+    "whyItMatters": {
+      "title": "Why it matters",
+      "paragraph": "We're building a network where remote work uplifts local life, not replaces it. By staying in a Slowork space, you help us support rural hosts, protect cultural heritage, and make work-from-anywhere more inclusive, fair, and sustainable."
+    },
+    "cta": {
+      "title": "Join the Change",
+      "subtitle": "Ready to become part of the change? Join Slowork and make impact part of your journey."
+    }
+  }
+}

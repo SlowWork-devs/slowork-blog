@@ -1,0 +1,65 @@
+---
+import type { LegalNoticeContent } from '../../models/legal';
+
+interface Props {
+  legal: LegalNoticeContent;
+}
+
+const { legal } = Astro.props;
+const sec = legal.sections;
+const tou = sec.termsOfUse;
+---
+
+<article class="prose max-w-none px-1 text-justify sm:px-0">
+  <h1 class="text-center">{legal.heading}</h1>
+  <p class="text-center text-primary/80">{legal.effectiveDate}</p>
+
+  <h2>{sec.generalInformation.title}</h2>
+  <p>{sec.generalInformation.paragraph1}</p>
+  <ul>
+    {sec.generalInformation.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h2>{sec.purposeAndScope.title}</h2>
+  <p>{sec.purposeAndScope.paragraph1}</p>
+
+  <h2>{sec.termsOfUse.title}</h2>
+
+  <h3>{tou.users.title}</h3>
+  <p>{tou.users.paragraph1}</p>
+
+  <h3>{tou.permittedUse.title}</h3>
+  <p>{tou.permittedUse.paragraph1}</p>
+
+  <h3>{tou.registrationAndAuthentication.title}</h3>
+  <p>{tou.registrationAndAuthentication.paragraph1}</p>
+
+  <h3>{tou.bookingAndCancellation.title}</h3>
+  <p>{tou.bookingAndCancellation.paragraph1}</p>
+
+  <h2>{sec.intellectualProperty.title}</h2>
+  <p>{sec.intellectualProperty.paragraph1}</p>
+
+  <h2>{sec.disclaimerOfLiability.title}</h2>
+  <p>{sec.disclaimerOfLiability.paragraph1}</p>
+  <ul>
+    {sec.disclaimerOfLiability.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h2>{sec.personalDataProtection.title}</h2>
+  <p>{sec.personalDataProtection.paragraph1}</p>
+  <p set:html={sec.personalDataProtection.paragraph2} />
+
+  <h2>{sec.useOfCookies.title}</h2>
+  <p>{sec.useOfCookies.paragraph1}</p>
+
+  <h2>{sec.applicableLawAndJurisdiction.title}</h2>
+  <p>{sec.applicableLawAndJurisdiction.paragraph1}</p>
+
+  <h2>{sec.disputeResolution.title}</h2>
+  <p>{sec.disputeResolution.paragraph1}</p>
+</article>

@@ -1,15 +1,19 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import { SITE_TITLE } from '../../consts';
+import CookiesPolicyArticle from '../../components/legal/CookiesPolicyArticle.astro';
+import { buildI18nAlternates } from '../../lib/hreflang';
+import { getLegalBundle } from '../../lib/legalBundle';
+import type { SupportedLang } from '../../lib/seo';
 
-const lang = Astro.params.lang;
+const lang = Astro.params.lang as SupportedLang;
 if (lang !== 'es' && lang !== 'en') return Astro.redirect('/en/', 302);
 
-const alternateLang = lang === 'es' ? 'en' : 'es';
-const alternateLink = `/${alternateLang}/cookies-policy/`;
+const bundle = getLegalBundle(lang);
+const cookies = bundle.cookiesPolicy;
+const { alternates, headerAlternateLink } = buildI18nAlternates(Astro.url.origin, '/cookies-policy/', lang);
 
-const title = `${lang === 'es' ? 'Política de Cookies' : 'Cookies Policy'} | ${SITE_TITLE}`;
-const description = lang === 'es' ? 'Política de cookies de Slowork.' : 'Slowork cookies policy.';
+const title = cookies.helmet.title;
+const description = cookies.helmet.description;
 ---
 
 <MainLayout
@@ -17,23 +21,19 @@ const description = lang === 'es' ? 'Política de cookies de Slowork.' : 'Slowor
   title={title}
   description={description}
   canonical={`/${lang}/cookies-policy/`}
-  headerAlternateLink={alternateLink}
-  alternates={[
-    { hreflang: lang, href: Astro.url.href },
-    { hreflang: alternateLang, href: new URL(alternateLink, Astro.url.origin).href },
-  ]}
+  headerAlternateLink={headerAlternateLink}
+  alternates={alternates}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: cookies.heading,
+    description,
+    url: new URL(`/${lang}/cookies-policy/`, Astro.url.origin).href,
+  }}
 >
-  <main class="w-full max-w-5xl mx-auto px-6 pt-32 pb-16 md:py-24">
-    <h1 class="font-heading font-bold text-primary text-4xl sm:text-5xl tracking-tight">
-      {lang === 'es' ? 'Política de Cookies' : 'Cookies Policy'}
-    </h1>
-    <div class="mt-8 bg-white/70 rounded-2xl p-6 sm:p-10 border border-primary/5 shadow-sm">
-      <p class="text-primary/80 leading-relaxed">
-        {lang === 'es'
-          ? 'Usamos cookies y tecnologías similares para mejorar la experiencia y medir el rendimiento.'
-          : 'We use cookies and similar technologies to improve experience and measure performance.'}
-      </p>
+  <main class="mx-auto w-full max-w-4xl px-6 pb-20 pt-32 md:py-24">
+    <div class="rounded-2xl border border-primary/10 bg-white/75 p-6 shadow-sm sm:p-10 md:p-12">
+      <CookiesPolicyArticle cookies={cookies} />
     </div>
   </main>
 </MainLayout>
-

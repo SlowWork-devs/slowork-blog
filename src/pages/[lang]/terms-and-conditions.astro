@@ -1,16 +1,23 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import { SITE_TITLE } from '../../consts';
+import TermsPolicyArticle from '../../components/legal/TermsPolicyArticle.astro';
+import { buildI18nAlternates } from '../../lib/hreflang';
+import { getLegalBundle } from '../../lib/legalBundle';
+import type { SupportedLang } from '../../lib/seo';
 
-const lang = Astro.params.lang;
+const lang = Astro.params.lang as SupportedLang;
 if (lang !== 'es' && lang !== 'en') return Astro.redirect('/en/', 302);
 
-const alternateLang = lang === 'es' ? 'en' : 'es';
-const alternateLink = `/${alternateLang}/terms-and-conditions/`;
+const bundle = getLegalBundle(lang);
+const terms = bundle.termsAndConditions;
+const { alternates, headerAlternateLink } = buildI18nAlternates(
+  Astro.url.origin,
+  '/terms-and-conditions/',
+  lang,
+);
 
-const title = `${lang === 'es' ? 'Términos y Condiciones' : 'Terms & Conditions'} | ${SITE_TITLE}`;
-const description =
-  lang === 'es' ? 'Términos y condiciones de uso de Slowork.' : 'Slowork terms and conditions.';
+const title = terms.helmet.title;
+const description = terms.helmet.description;
 ---
 
 <MainLayout
@@ -18,28 +25,19 @@ const description =
   title={title}
   description={description}
   canonical={`/${lang}/terms-and-conditions/`}
-  headerAlternateLink={alternateLink}
-  alternates={[
-    { hreflang: lang, href: Astro.url.href },
-    { hreflang: alternateLang, href: new URL(alternateLink, Astro.url.origin).href },
-  ]}
+  headerAlternateLink={headerAlternateLink}
+  alternates={alternates}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: terms.title,
+    description,
+    url: new URL(`/${lang}/terms-and-conditions/`, Astro.url.origin).href,
+  }}
 >
-  <main class="w-full max-w-5xl mx-auto px-6 pt-32 pb-16 md:py-24">
-    <h1 class="font-heading font-bold text-primary text-4xl sm:text-5xl tracking-tight">
-      {lang === 'es' ? 'Términos y Condiciones' : 'Terms & Conditions'}
-    </h1>
-    <div class="mt-8 bg-white/70 rounded-2xl p-6 sm:p-10 border border-primary/5 shadow-sm">
-      <p class="text-primary/80 leading-relaxed">
-        {lang === 'es'
-          ? 'Al unirte a la waitlist aceptas que podamos contactarte con novedades de Slowork.'
-          : 'By joining the waitlist you agree that we can contact you with Slowork updates.'}
-      </p>
-      <p class="mt-4 text-primary/80 leading-relaxed">
-        {lang === 'es'
-          ? 'Puedes solicitar la baja en cualquier momento.'
-          : 'You can unsubscribe at any time.'}
-      </p>
+  <main class="mx-auto w-full max-w-4xl px-6 pb-20 pt-32 md:py-24">
+    <div class="rounded-2xl border border-primary/10 bg-white/75 p-6 shadow-sm sm:p-10 md:p-12">
+      <TermsPolicyArticle terms={terms} lang={lang} />
     </div>
   </main>
 </MainLayout>
-

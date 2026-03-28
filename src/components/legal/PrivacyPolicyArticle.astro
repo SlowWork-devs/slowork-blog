@@ -1,0 +1,95 @@
+---
+import type { PrivacyPolicyContent } from '../../models/legal';
+
+interface Props {
+  privacy: PrivacyPolicyContent;
+}
+
+const { privacy } = Astro.props;
+const s = privacy.sections;
+---
+
+<article class="prose max-w-none px-1 text-justify sm:px-0">
+  <h1 class="text-center">{privacy.heading}</h1>
+  <p class="text-center text-primary/80">{privacy.effectiveDate}</p>
+
+  <h2>{s.introduction.title}</h2>
+  <p>{s.introduction.paragraph1}</p>
+  <p>{s.introduction.paragraph2}</p>
+
+  <h2>{s.dataController.title}</h2>
+  <p>{s.dataController.content}</p>
+
+  <h2>{s.personalData.title}</h2>
+  <ul>
+    {s.personalData.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h2>{s.dataUsage.title}</h2>
+  <ul>
+    {s.dataUsage.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h2>{s.legalBasis.title}</h2>
+  <ul>
+    {s.legalBasis.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h2>{s.dataSharing.title}</h2>
+  <ul>
+    {s.dataSharing.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h2>{s.dataSecurity.title}</h2>
+  <p>{s.dataSecurity.paragraph1}</p>
+  <p>{s.dataSecurity.paragraph2}</p>
+
+  <h2>{s.dataRetention.title}</h2>
+  <p>{s.dataRetention.paragraph1}</p>
+  <div class="not-prose overflow-x-auto rounded-xl border border-primary/10 bg-white/60 my-8">
+    <table class="w-full min-w-[280px] border-collapse text-left text-sm">
+      <thead>
+        <tr class="border-b border-primary/15 bg-primary/5">
+          <th class="p-3 font-heading font-bold text-primary">{s.dataRetention.table.header.type}</th>
+          <th class="p-3 font-heading font-bold text-primary">{s.dataRetention.table.header.period}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {s.dataRetention.table.rows.map((row) => (
+          <tr class="border-b border-primary/10 last:border-0">
+            <td class="p-3 text-primary/90">{row.type}</td>
+            <td class="p-3 text-primary/90">{row.period}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>{s.userRights.title}</h2>
+  <ul>
+    {s.userRights.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h2>{s.cookiesPolicy.title}</h2>
+  <p>{s.cookiesPolicy.paragraph1}</p>
+  <p>{s.cookiesPolicy.paragraph2}</p>
+
+  <h2>{s.changesToPolicy.title}</h2>
+  <p>{s.changesToPolicy.paragraph1}</p>
+  <p>{s.changesToPolicy.paragraph2}</p>
+
+  <h2>{s.contactUs.title}</h2>
+  <p>{s.contactUs.paragraph1}</p>
+  <p>{s.contactUs.paragraph2}</p>
+  <p>{s.contactUs.paragraph3}</p>
+</article>

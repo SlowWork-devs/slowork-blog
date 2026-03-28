@@ -1,0 +1,88 @@
+---
+import type { CookiesPolicyContent } from '../../models/legal';
+
+interface Props {
+  cookies: CookiesPolicyContent;
+}
+
+const { cookies } = Astro.props;
+const sec = cookies.sections;
+const types = sec.types.subsections;
+---
+
+<article class="prose max-w-none px-1 text-justify sm:px-0">
+  <h1 class="text-center">{cookies.heading}</h1>
+  <p class="text-center text-primary/80">{cookies.effectiveDate}</p>
+
+  <h2>{sec.introduction.title}</h2>
+  <p>{sec.introduction.paragraph1}</p>
+
+  <h2>{sec.technologies.title}</h2>
+  <p>{sec.technologies.paragraph1}</p>
+  <ul>
+    {sec.technologies.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h2>{sec.types.title}</h2>
+
+  <h3>{types.essential.title}</h3>
+  <ul>
+    {types.essential.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h3>{types.performance.title}</h3>
+  <ul>
+    {types.performance.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h3>{types.functionality.title}</h3>
+  <ul>
+    {types.functionality.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h3>{types.marketing.title}</h3>
+  <ul>
+    {types.marketing.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h3>{types.thirdParty.title}</h3>
+  <ul>
+    {types.thirdParty.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h2>{sec.duration.title}</h2>
+  <ul>
+    {sec.duration.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+
+  <h2>{sec.managing.title}</h2>
+  <p>{sec.managing.paragraph1}</p>
+  <ul>
+    {sec.managing.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+  <p>{sec.managing.paragraph2}</p>
+
+  <h2>{sec.updates.title}</h2>
+  <p>{sec.updates.paragraph1}</p>
+  <p>{sec.updates.paragraph2}</p>
+
+  <h2>{sec.contact.title}</h2>
+  <p>{sec.contact.paragraph1}</p>
+  <p>{sec.contact.paragraph2}</p>
+</article>
