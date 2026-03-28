@@ -39,21 +39,21 @@ const blogHref = `/${lang}/blog/`;
     />
 
     <h1
-      class="mt-2 max-w-4xl font-heading text-[clamp(1.35rem,4vw+0.5rem,3.75rem)] font-bold leading-tight text-secondary md:mb-2"
+      class="mt-2 max-w-4xl font-heading text-[clamp(1.35rem,4vw+0.5rem,3.75rem)] font-bold leading-tight text-secondary md:mb-2 text-center flex flex-wrap justify-center items-center gap-x-2"
     >
-      <span class="block">{copy.line1}</span>
-      <span class="mt-1 flex flex-wrap items-center justify-center gap-x-2 md:gap-x-4">
+      <span>{copy.line1}</span>
+      <span class="whitespace-nowrap flex items-center gap-x-2">
         <span
           id="hero-first"
-          class="inline-block min-h-[1.2em] font-bold text-white transition-all duration-500"
+          class="inline-block font-bold text-soft-blue rotator-text"
         ></span>
-        <span class="text-secondary">{copy.line1b}</span>
+        <span>{copy.line1b}</span>
       </span>
     </h1>
     <h2
-      class="mt-3 flex min-h-[2.5rem] items-center justify-center px-2 text-[clamp(1rem,2.5vw+0.5rem,2.75rem)] font-light text-secondary md:min-h-[4rem]"
+      class="mt-3 flex min-h-[3.5rem] items-center justify-center px-2 text-[clamp(1.2rem,3vw+0.5rem,3rem)] font-light text-secondary md:min-h-[4rem]"
     >
-      <span id="hero-phrase" class="inline-block"></span>
+      <span id="hero-phrase" class="inline-block rotator-text"></span>
     </h2>
 
     <p class="mt-6 max-w-2xl text-base text-secondary md:text-2xl">{copy.desc1}</p>
@@ -74,6 +74,101 @@ const blogHref = `/${lang}/blog/`;
         {copy.ctaBlog}
       </a>
     </div>
-    <p class="mt-4 max-w-2xl px-4 text-sm italic text-secondary md:text-sm">{copy.italic}</p>
+    <p class="mt-4 max-w-2xl px-4 text-sm italic text-white/80 md:text-sm">{copy.italic}</p>
   </div>
 </section>
+
+<script define:vars={{ combinations: copy.combinations }}>
+  document.addEventListener('astro:page-load', () => {
+    const firstEl = document.getElementById('hero-first');
+    const phraseEl = document.getElementById('hero-phrase');
+
+    if (firstEl && phraseEl && combinations && combinations.length > 0) {
+      let currentIndexFirst = 0;
+      let currentIndexPhrase = 0;
+      let intervalFirstId;
+      let intervalPhraseId;
+
+      const transitionDuration = 1500; // 1.5s para transiciones muy suaves
+
+      const animateChange = (el, newText) => {
+        if (!el) return;
+
+        // 1. Iniciar salida (desvanecer hacia arriba con blur)
+        el.classList.add('word-exit');
+
+        // 2. Esperar a que termine la salida
+        setTimeout(() => {
+          // Cambiar texto
+          el.textContent = newText;
+
+          // Preparar entrada (emerger desde abajo sin animar la posición inicial)
+          el.classList.remove('word-exit');
+          el.classList.add('word-enter');
+
+          // Forzar reflow para que el navegador aplique la posición inicial sin animar
+          void el.offsetWidth;
+
+          // 3. Iniciar entrada (remover clase enter para que vuelva a su estado original animado)
+          el.classList.remove('word-enter');
+        }, transitionDuration);
+      };
+
+      const updateFirst = () => {
+        currentIndexFirst = (currentIndexFirst + 1) % combinations.length;
+        animateChange(document.getElementById('hero-first'), combinations[currentIndexFirst].first);
+      };
+
+      const updatePhrase = () => {
+        currentIndexPhrase = (currentIndexPhrase + 1) % combinations.length;
+        animateChange(document.getElementById('hero-phrase'), combinations[currentIndexPhrase].phrase);
+      };
+
+      // Set initial text immediately
+      const initialCombo = combinations[0];
+      firstEl.textContent = initialCombo.first;
+      phraseEl.textContent = initialCombo.phrase;
+
+      // Start intervals desincronizados y muy lentos
+      intervalFirstId = setInterval(updateFirst, 7000);
+      
+      setTimeout(() => {
+        intervalPhraseId = setInterval(updatePhrase, 8500);
+        updatePhrase(); 
+      }, 3000);
+
+      // Cleanup on page change
+      document.addEventListener('astro:before-preparation', () => {
+        clearInterval(intervalFirstId);
+        clearInterval(intervalPhraseId);
+      }, { once: true });
+    }
+  }, { once: false });
+</script>
+
+<style>
+  .rotator-text {
+    will-change: transform, opacity, filter;
+    transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                filter 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+  }
+
+  /* Salida: desvanecer hacia arriba con blur */
+  .word-exit {
+    opacity: 0 !important;
+    transform: translateY(-8px) !important;
+    filter: blur(6px) !important;
+  }
+
+  /* Entrada: emerger desde abajo (se aplica sin transición para preparar la posición) */
+  .word-enter {
+    transition: none !important;
+    opacity: 0 !important;
+    transform: translateY(8px) !important;
+    filter: blur(6px) !important;
+  }
+</style>

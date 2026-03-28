@@ -345,7 +345,20 @@ export function heroCombinations(lang: SupportedLang) {
 export function homeHeroCopy(lang: SupportedLang) {
   return {
     line1: lang === 'es' ? 'Es hora de redefinir' : "It's time to redefine",
-    line1b: lang === 'es' ? ' tu forma de trabajar' : ' you',
+    line1b: lang === 'es' ? 'tu forma de trabajar' : 'you',
+    combinations: lang === 'es'
+      ? [
+          { first: 'con quién', phrase: 'trabajas desde cualquier lugar' },
+          { first: 'cómo', phrase: 'encuentras tu ritmo' },
+          { first: 'por qué', phrase: 'eliges la libertad' },
+          { first: 'dónde', phrase: 'trabajas en la naturaleza' },
+        ]
+      : [
+          { first: 'with who', phrase: 'work from anywhere' },
+          { first: 'how', phrase: 'find your rhythm' },
+          { first: 'why', phrase: 'choose freedom' },
+          { first: 'where', phrase: 'work in nature' },
+        ],
     desc1:
       lang === 'es'
         ? 'Trabajar viajando no es prisa ni agotamiento.'
