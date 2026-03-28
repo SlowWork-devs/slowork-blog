@@ -63,12 +63,12 @@ const description =
       const combos = heroCombinations;
       const firstEl = document.getElementById('hero-first');
       const phraseEl = document.getElementById('hero-phrase');
-      let heroIdx = 0;
+      const hero = { index: 0 };
       const tickHero = () => {
-        const c = combos[heroIdx % combos.length];
+        const c = combos[hero.index % combos.length];
         if (firstEl) firstEl.textContent = c.first;
         if (phraseEl) phraseEl.textContent = c.phrase;
-        heroIdx += 1;
+        hero.index += 1;
       };
       tickHero();
       setInterval(tickHero, 2800);
@@ -96,22 +96,8 @@ const description =
       form?.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (msg) msg.textContent = lang === 'es' ? 'Enviando...' : 'Sending...';
-        const token = window.grecaptcha?.getResponse?.() || '';
-        if (!token) {
-          if (msg) msg.textContent = lang === 'es' ? 'Completa el reCAPTCHA.' : 'Please complete reCAPTCHA.';
-          return;
-        }
         const fd = new FormData(form);
         const payload = Object.fromEntries(fd.entries());
-        const verify = await fetch('/api/verify-recaptcha', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ token }),
-        });
-        if (!verify.ok) {
-          if (msg) msg.textContent = lang === 'es' ? 'reCAPTCHA inválido.' : 'Invalid reCAPTCHA.';
-          return;
-        }
         const res = await fetch('/api/waitlist', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
@@ -130,7 +116,6 @@ const description =
         }).catch(() => {});
         if (msg) msg.textContent = lang === 'es' ? '¡Listo! Revisa tu email.' : 'Done! Check your email.';
         form.reset();
-        window.grecaptcha?.reset?.();
         closeModal();
       });
 
@@ -145,6 +130,4 @@ const description =
       document.querySelectorAll('[data-home-reveal]').forEach((el) => io.observe(el));
     })();
   </script>
-
-  <script is:inline src="https://www.google.com/recaptcha/api.js" async defer></script>
 </MainLayout>

@@ -15,7 +15,6 @@ model Waitlist {
   linkedin         String?
   preferredContact String?
   communityInterest String?
-  referralCode     String?  @map("referral_code")
   creationDate     DateTime @default(now()) @map("creation_date")
   ipAddress        String?  @map("ip_address")
   userAgent        String?  @map("user_agent")

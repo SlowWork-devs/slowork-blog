@@ -6,7 +6,6 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const siteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
 ---
 
 <div id="modal-overlay" class="hidden fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm"></div>
@@ -47,16 +46,7 @@ const siteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
         </label>
 
         <div class="md:col-span-2">
-          {siteKey ? (
-            <div class="g-recaptcha" data-sitekey={siteKey} />
-          ) : (
-            <p class="text-sm text-amber-800">
-              {lang === 'es'
-                ? 'Falta PUBLIC_RECAPTCHA_SITE_KEY en el entorno.'
-                : 'Missing PUBLIC_RECAPTCHA_SITE_KEY in environment.'}
-            </p>
-          )}
-          <p class="mt-2 text-xs text-primary/60">
+          <p class="text-xs text-primary/60">
             {lang === 'es'
               ? 'Al enviar aceptas recibir actualizaciones de Slowork.'
               : 'By submitting you agree to receive Slowork updates.'}
