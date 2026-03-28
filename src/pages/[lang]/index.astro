@@ -1,6 +1,5 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import { heroCombinations } from '../../lib/homeContent';
 import HomeHero from '../../components/home/HomeHero.astro';
 import HomeValueProposition from '../../components/home/HomeValueProposition.astro';
 import HomeFeatures from '../../components/home/HomeFeatures.astro';
@@ -53,20 +52,17 @@ const description =
 
   <HomeStickyWaitlist lang={lang} />
 
-  <script is:inline define:vars={{ heroCombinations: heroCombinations(lang) }}>
-    (() => {
-      const combos = heroCombinations;
-      const firstEl = document.getElementById('hero-first');
-      const phraseEl = document.getElementById('hero-phrase');
-      const hero = { index: 0 };
-      const tickHero = () => {
-        const c = combos[hero.index % combos.length];
-        if (firstEl) firstEl.textContent = c.first;
-        if (phraseEl) phraseEl.textContent = c.phrase;
-        hero.index += 1;
-      };
-      tickHero();
-      setInterval(tickHero, 2800);
+  <script>
+    let homeRevealCleanup: (() => void) | undefined;
+
+    document.addEventListener('astro:page-load', () => {
+      homeRevealCleanup?.();
+
+      const nodes = document.querySelectorAll('[data-home-reveal]');
+      if (nodes.length === 0) {
+        homeRevealCleanup = undefined;
+        return;
+      }
 
       const io = new IntersectionObserver(
         (entries) => {
@@ -76,7 +72,9 @@ const description =
         },
         { threshold: 0.12, rootMargin: '0px 0px -10% 0px' },
       );
-      document.querySelectorAll('[data-home-reveal]').forEach((el) => io.observe(el));
-    })();
+
+      nodes.forEach((el) => io.observe(el));
+      homeRevealCleanup = () => io.disconnect();
+    });
   </script>
 </MainLayout>

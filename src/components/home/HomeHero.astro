@@ -79,71 +79,81 @@ const blogHref = `/${lang}/blog/`;
 </section>
 
 <script define:vars={{ combinations: copy.combinations }}>
+  let heroRotatorCleanup;
+
   document.addEventListener('astro:page-load', () => {
+    if (typeof heroRotatorCleanup === 'function') heroRotatorCleanup();
+
     const firstEl = document.getElementById('hero-first');
     const phraseEl = document.getElementById('hero-phrase');
 
-    if (firstEl && phraseEl && combinations && combinations.length > 0) {
-      let currentIndexFirst = 0;
-      let currentIndexPhrase = 0;
-      let intervalFirstId;
-      let intervalPhraseId;
-
-      const transitionDuration = 1500; // 1.5s para transiciones muy suaves
-
-      const animateChange = (el, newText) => {
-        if (!el) return;
-
-        // 1. Iniciar salida (desvanecer hacia arriba con blur)
-        el.classList.add('word-exit');
-
-        // 2. Esperar a que termine la salida
-        setTimeout(() => {
-          // Cambiar texto
-          el.textContent = newText;
-
-          // Preparar entrada (emerger desde abajo sin animar la posición inicial)
-          el.classList.remove('word-exit');
-          el.classList.add('word-enter');
-
-          // Forzar reflow para que el navegador aplique la posición inicial sin animar
-          void el.offsetWidth;
-
-          // 3. Iniciar entrada (remover clase enter para que vuelva a su estado original animado)
-          el.classList.remove('word-enter');
-        }, transitionDuration);
-      };
-
-      const updateFirst = () => {
-        currentIndexFirst = (currentIndexFirst + 1) % combinations.length;
-        animateChange(document.getElementById('hero-first'), combinations[currentIndexFirst].first);
-      };
-
-      const updatePhrase = () => {
-        currentIndexPhrase = (currentIndexPhrase + 1) % combinations.length;
-        animateChange(document.getElementById('hero-phrase'), combinations[currentIndexPhrase].phrase);
-      };
-
-      // Set initial text immediately
-      const initialCombo = combinations[0];
-      firstEl.textContent = initialCombo.first;
-      phraseEl.textContent = initialCombo.phrase;
-
-      // Start intervals desincronizados y muy lentos
-      intervalFirstId = setInterval(updateFirst, 7000);
-      
-      setTimeout(() => {
-        intervalPhraseId = setInterval(updatePhrase, 8500);
-        updatePhrase(); 
-      }, 3000);
-
-      // Cleanup on page change
-      document.addEventListener('astro:before-preparation', () => {
-        clearInterval(intervalFirstId);
-        clearInterval(intervalPhraseId);
-      }, { once: true });
+    if (!firstEl || !phraseEl || !combinations?.length) {
+      heroRotatorCleanup = undefined;
+      return;
     }
-  }, { once: false });
+
+    const pendingTimeouts = [];
+    const schedule = (fn, ms) => {
+      const id = window.setTimeout(fn, ms);
+      pendingTimeouts.push(id);
+      return id;
+    };
+
+    let intervalFirstId;
+    let intervalPhraseId;
+    let phraseDelayId;
+
+    const clearAll = () => {
+      pendingTimeouts.forEach((tid) => window.clearTimeout(tid));
+      pendingTimeouts.length = 0;
+      if (intervalFirstId !== undefined) window.clearInterval(intervalFirstId);
+      if (intervalPhraseId !== undefined) window.clearInterval(intervalPhraseId);
+      if (phraseDelayId !== undefined) window.clearTimeout(phraseDelayId);
+      intervalFirstId = undefined;
+      intervalPhraseId = undefined;
+      phraseDelayId = undefined;
+    };
+
+    heroRotatorCleanup = clearAll;
+
+    const transitionDuration = 1500;
+    let currentIndexFirst = 0;
+    let currentIndexPhrase = 0;
+
+    const animateChange = (el, newText) => {
+      if (!el) return;
+      el.classList.add('word-exit');
+      schedule(() => {
+        el.textContent = newText;
+        el.classList.remove('word-exit');
+        el.classList.add('word-enter');
+        void el.offsetWidth;
+        el.classList.remove('word-enter');
+      }, transitionDuration);
+    };
+
+    const updateFirst = () => {
+      currentIndexFirst = (currentIndexFirst + 1) % combinations.length;
+      animateChange(document.getElementById('hero-first'), combinations[currentIndexFirst].first);
+    };
+
+    const updatePhrase = () => {
+      currentIndexPhrase = (currentIndexPhrase + 1) % combinations.length;
+      animateChange(document.getElementById('hero-phrase'), combinations[currentIndexPhrase].phrase);
+    };
+
+    const initialCombo = combinations[0];
+    firstEl.textContent = initialCombo.first;
+    phraseEl.textContent = initialCombo.phrase;
+
+    intervalFirstId = window.setInterval(updateFirst, 7000);
+
+    phraseDelayId = window.setTimeout(() => {
+      phraseDelayId = undefined;
+      intervalPhraseId = window.setInterval(updatePhrase, 8500);
+      updatePhrase();
+    }, 3000);
+  });
 </script>
 
 <style>

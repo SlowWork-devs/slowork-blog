@@ -1,8 +1,21 @@
 ---
 import { Image } from 'astro:assets';
+import type { SupportedLang } from '../lib/seo';
 import logoImg from '../assets/logo-slowork.png';
+
+interface Props {
+  language: SupportedLang;
+  class?: string;
+}
+
+const { language, class: className = '' } = Astro.props;
+const homeHref = `/${language}/`;
 ---
-<a href="/" class="block min-w-11 min-h-11 flex items-center touch-manipulation" aria-label="SloWork - Ir al inicio">
+<a
+  href={homeHref}
+  class={`flex min-h-11 min-w-11 touch-manipulation items-center ${className}`.trim()}
+  aria-label="SloWork - Ir al inicio"
+>
   <Image 
     src={logoImg} 
     alt="SloWork Logo" 
