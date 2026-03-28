@@ -11,6 +11,13 @@ interface Props {
 const { lang, layout = 'full' } = Astro.props;
 const c = waitlistFormCopy(lang);
 const termsHref = `/${lang}/terms-and-conditions`;
+const homeHref = `/${lang}/`;
+const suffix = `${layout}-${lang}`;
+const ringOffset = layout === 'full' ? 'focus:ring-offset-light-green' : 'focus:ring-offset-white';
+
+/** SVG chevron inline (evita `data:image` en el template, que Astro interpreta como prop). */
+const selectChevronStyle =
+  'background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 24 24%27 stroke=%27%23013333%27%3E%3Cpath stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27M19 9l-7 7-7-7%27/%3E%3C/svg%3E"); background-size: 1rem; background-position: right 0.75rem center; background-repeat: no-repeat;';
 
 const rootClass =
   layout === 'full'
@@ -19,11 +26,15 @@ const rootClass =
 const gridClass = layout === 'full' ? 'grid min-h-[min(70vh,720px)] grid-cols-1 lg:grid-cols-2' : 'grid grid-cols-1';
 const formPanelClass =
   layout === 'full'
-    ? 'flex flex-col justify-center bg-light-green p-6 sm:p-8 lg:rounded-r-lg'
-    : 'flex flex-col justify-center';
-const inputClass =
-  'mt-2 w-full rounded-lg border-2 border-primary px-3 py-3 text-primary transition focus:outline-none focus:ring-2 focus:ring-secondary';
-const selectClass = `${inputClass} bg-secondary/90 text-lg font-medium text-primary`;
+    ? 'relative z-10 flex flex-col justify-center bg-light-green p-6 sm:p-8 lg:rounded-r-lg'
+    : 'relative z-10 flex flex-col justify-center';
+
+const floatInput = `peer block w-full rounded-lg border-2 border-primary/80 bg-white/95 px-3 pb-2.5 pt-5 text-base text-primary shadow-sm transition placeholder:text-transparent focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${ringOffset}`;
+const floatLabel =
+  'pointer-events-none absolute left-3 top-1/2 z-10 origin-left -translate-y-1/2 text-base text-primary/55 transition-all duration-200 ease-out peer-focus:top-2 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-primary peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-primary/55';
+const floatLabelIcon = `${floatLabel} left-10`;
+const errText =
+  'mt-1.5 min-h-[1.125rem] text-xs font-medium text-red-600 opacity-0 transition-opacity duration-200 ease-out data-[visible=true]:opacity-100';
 ---
 
 <div
@@ -33,6 +44,9 @@ const selectClass = `${inputClass} bg-secondary/90 text-lg font-medium text-prim
   data-waitlist-success={c.success}
   data-waitlist-error={c.error}
   data-waitlist-button={c.button}
+  data-waitlist-validation={JSON.stringify(c.validation)}
+  data-success-inside-before={c.successInsideBefore}
+  data-success-inside-after={c.successInsideAfter}
 >
   <div class={gridClass}>
     {
@@ -53,181 +67,585 @@ const selectClass = `${inputClass} bg-secondary/90 text-lg font-medium text-prim
     }
 
     <div class={formPanelClass}>
-      <form class="flex h-full flex-col gap-6" data-waitlist-form novalidate>
-        <h2 class="text-center font-heading text-2xl font-bold text-primary">
-          {c.formTitle}
-        </h2>
+      <div class="relative z-10 min-h-[min(60vh,520px)] w-full">
+        <div
+          class="transition-opacity duration-300 ease-out data-[state=hidden]:pointer-events-none data-[state=hidden]:invisible data-[state=hidden]:opacity-0"
+          data-waitlist-form-panel
+          data-state="visible"
+        >
+          <form class="flex h-full flex-col gap-8" data-waitlist-form novalidate>
+            <h2 class="text-center font-heading text-2xl font-bold text-primary">
+              {c.formTitle}
+            </h2>
 
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <label class="block font-semibold text-primary">
-            {c.firstName}
-            <span class="text-red-500">*</span>
-            <input name="firstName" type="text" required autocomplete="given-name" placeholder={c.phFirstName} class={inputClass} />
-          </label>
-          <label class="block font-semibold text-primary">
-            {c.email}
-            <span class="text-red-500">*</span>
-            <input
-              name="email"
-              type="email"
-              required
-              autocomplete="email"
-              placeholder={c.phEmail}
-              class={inputClass}
-            />
-          </label>
+            <section class="space-y-5" aria-labelledby={`wl-sec-personal-${suffix}`}>
+              <h3 id={`wl-sec-personal-${suffix}`} class="text-xs font-bold uppercase tracking-[0.2em] text-primary/60">
+                {c.sectionPersonal}
+              </h3>
+              <div class="grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
+                <div class="flex flex-col">
+                  <div class="relative">
+                    <input
+                      id={`wl-fn-${suffix}`}
+                      name="firstName"
+                      type="text"
+                      autocomplete="given-name"
+                      placeholder=" "
+                      data-waitlist-field="firstName"
+                      class={floatInput}
+                      aria-invalid="false"
+                    />
+                    <label for={`wl-fn-${suffix}`} class={floatLabel}>
+                      {c.firstName}
+                      <span class="text-red-500">*</span>
+                    </label>
+                  </div>
+                  <p
+                    id={`wl-err-firstName-${suffix}`}
+                    role="alert"
+                    class={errText}
+                    data-waitlist-err="firstName"
+                    data-visible="false"
+                  />
+                </div>
+                <div class="flex flex-col">
+                  <div class="relative">
+                    <input
+                      id={`wl-em-${suffix}`}
+                      name="email"
+                      type="email"
+                      autocomplete="email"
+                      placeholder=" "
+                      data-waitlist-field="email"
+                      class={floatInput}
+                      aria-invalid="false"
+                    />
+                    <label for={`wl-em-${suffix}`} class={floatLabel}>
+                      {c.email}
+                      <span class="text-red-500">*</span>
+                    </label>
+                  </div>
+                  <p
+                    id={`wl-err-email-${suffix}`}
+                    role="alert"
+                    class={errText}
+                    data-waitlist-err="email"
+                    data-visible="false"
+                  />
+                </div>
+              </div>
+              <div class="flex flex-col">
+                <div class="relative">
+                  <input
+                    id={`wl-ph-${suffix}`}
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    placeholder=" "
+                    data-waitlist-field="phone"
+                    class={floatInput}
+                    aria-invalid="false"
+                  />
+                  <label for={`wl-ph-${suffix}`} class={floatLabel}>
+                    {c.phone}
+                    <span class="text-red-500">*</span>
+                  </label>
+                </div>
+                <p
+                  id={`wl-err-phone-${suffix}`}
+                  role="alert"
+                  class={errText}
+                  data-waitlist-err="phone"
+                  data-visible="false"
+                />
+              </div>
+            </section>
+
+            <section class="space-y-5" aria-labelledby={`wl-sec-social-${suffix}`}>
+              <h3 id={`wl-sec-social-${suffix}`} class="text-xs font-bold uppercase tracking-[0.2em] text-primary/60">
+                {c.sectionSocial}
+              </h3>
+              <div class="grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
+                <div class="flex flex-col">
+                  <div class="group/fi relative">
+                    <span
+                      class="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-primary/35 transition-colors group-focus-within/fi:text-primary/55"
+                      aria-hidden="true"
+                    >
+                      <svg class="size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.75" />
+                        <circle cx="12" cy="12" r="3.25" stroke="currentColor" stroke-width="1.75" />
+                        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+                      </svg>
+                    </span>
+                    <input
+                      id={`wl-ig-${suffix}`}
+                      name="instagram"
+                      type="text"
+                      autocomplete="off"
+                      placeholder=" "
+                      data-waitlist-field="instagram"
+                      class={`${floatInput} pl-10`}
+                      aria-invalid="false"
+                    />
+                    <label for={`wl-ig-${suffix}`} class={floatLabelIcon}>
+                      {c.instagram}
+                    </label>
+                  </div>
+                  <p
+                    id={`wl-err-instagram-${suffix}`}
+                    role="alert"
+                    class={errText}
+                    data-waitlist-err="instagram"
+                    data-visible="false"
+                  />
+                </div>
+                <div class="flex flex-col">
+                  <div class="group/fi relative">
+                    <span
+                      class="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-primary/35 transition-colors group-focus-within/fi:text-primary/55"
+                      aria-hidden="true"
+                    >
+                      <svg class="size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.75" />
+                        <path
+                          d="M8 10v7M8 8.2V8M12 17v-4.2c0-1.1.9-2 2-2s2 .9 2 2V17M16 10v7"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </span>
+                    <input
+                      id={`wl-li-${suffix}`}
+                      name="linkedin"
+                      type="text"
+                      inputmode="url"
+                      autocomplete="url"
+                      placeholder=" "
+                      data-waitlist-field="linkedin"
+                      class={`${floatInput} pl-10`}
+                      aria-invalid="false"
+                    />
+                    <label for={`wl-li-${suffix}`} class={floatLabelIcon}>
+                      {c.linkedin}
+                    </label>
+                  </div>
+                  <p
+                    id={`wl-err-linkedin-${suffix}`}
+                    role="alert"
+                    class={errText}
+                    data-waitlist-err="linkedin"
+                    data-visible="false"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section class="space-y-5" aria-labelledby={`wl-sec-pref-${suffix}`}>
+              <h3 id={`wl-sec-pref-${suffix}`} class="text-xs font-bold uppercase tracking-[0.2em] text-primary/60">
+                {c.sectionPreferences}
+              </h3>
+              <div class="flex flex-col">
+                <div class="relative">
+                  <select
+                    id={`wl-pref-${suffix}`}
+                    name="preferredContact"
+                    required
+                    data-waitlist-field="preferredContact"
+                    class={`${floatInput} appearance-none pt-6 pr-10 ${ringOffset}`}
+                    style={selectChevronStyle}
+                    aria-invalid="false"
+                  >
+                    <option value="">{c.selectDefault}</option>
+                    <option value="Sloworker">{c.optSloworker}</option>
+                    <option value="Host">{c.optHost}</option>
+                    <option value="Bussines">{c.optBusiness}</option>
+                  </select>
+                  <label for={`wl-pref-${suffix}`} class="pointer-events-none absolute left-3 top-2 z-10 text-xs font-medium text-primary/70">
+                    {c.preferredContact}
+                    <span class="text-red-500">*</span>
+                  </label>
+                </div>
+                <p
+                  id={`wl-err-preferredContact-${suffix}`}
+                  role="alert"
+                  class={errText}
+                  data-waitlist-err="preferredContact"
+                  data-visible="false"
+                />
+              </div>
+              <div class="flex flex-col">
+                <div class="relative">
+                  <textarea
+                    id={`wl-com-${suffix}`}
+                    name="communityInterest"
+                    rows={3}
+                    placeholder=" "
+                    data-waitlist-field="communityInterest"
+                    class={`${floatInput} min-h-24 resize-y`}
+                    aria-invalid="false"
+                  />
+                  <label for={`wl-com-${suffix}`} class={floatLabel}>
+                    {c.communityInterest}
+                    <span class="text-red-500">*</span>
+                  </label>
+                </div>
+                <p
+                  id={`wl-err-communityInterest-${suffix}`}
+                  role="alert"
+                  class={errText}
+                  data-waitlist-err="communityInterest"
+                  data-visible="false"
+                />
+              </div>
+            </section>
+
+            <div class="flex flex-col gap-2">
+              <div class="flex items-start gap-3">
+                <input
+                  id={`waitlist-terms-${layout}-${lang}`}
+                  name="termsAccepted"
+                  type="checkbox"
+                  data-waitlist-field="terms"
+                  class="peer/terms mt-1 size-5 shrink-0 cursor-pointer rounded border-primary text-primary accent-primary focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none"
+                  aria-invalid="false"
+                />
+                <label for={`waitlist-terms-${layout}-${lang}`} class="cursor-pointer text-sm font-semibold text-primary">
+                  {c.termsBefore}
+                  <a href={termsHref} class="text-soft-blue underline decoration-2 underline-offset-2 hover:text-primary">
+                    {c.termsLink}
+                  </a>
+                  {c.termsAfter}
+                  <span class="text-red-500">*</span>
+                </label>
+              </div>
+              <p
+                id={`wl-err-terms-${suffix}`}
+                role="alert"
+                class={errText}
+                data-waitlist-err="terms"
+                data-visible="false"
+              />
+            </div>
+
+            <div class="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                type="submit"
+                data-waitlist-submit-btn
+                data-busy="false"
+                data-status="idle"
+                class="group/submit relative inline-flex min-h-12 min-w-44 items-center justify-center overflow-hidden rounded-lg bg-primary px-8 py-3 font-semibold text-white shadow-md transition enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-primary/45 data-[status=sending]:animate-pulse data-[status=sending]:cursor-wait data-[status=sending]:shadow-[0_0_0_3px_rgba(1,51,51,0.18)]"
+              >
+                <span class="inline-flex items-center justify-center gap-2.5">
+                  <svg
+                    data-waitlist-spinner
+                    class="hidden size-4 shrink-0 animate-spin text-white"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                    <path
+                      class="opacity-90"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  <span data-waitlist-submit-label>{c.button}</span>
+                </span>
+              </button>
+              <p
+                role="status"
+                aria-live="polite"
+                data-waitlist-status
+                data-status="idle"
+                class="min-h-5 text-sm font-semibold text-primary/80 data-[status=error]:text-red-600 data-[status=sending]:text-primary/60 data-[status=success]:sr-only"
+              />
+            </div>
+          </form>
         </div>
 
-        <label class="block font-semibold text-primary">
-          {c.phone}
-          <span class="text-red-500">*</span>
-          <input name="phone" type="tel" required autocomplete="tel" class={inputClass} />
-        </label>
-
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <label class="block font-semibold text-primary">
-            {c.instagram}
-            <input name="instagram" type="text" autocomplete="off" placeholder={c.phInstagram} class={inputClass} />
-          </label>
-          <label class="block font-semibold text-primary">
-            {c.linkedin}
-            <input name="linkedin" type="url" autocomplete="url" placeholder={c.phLinkedin} class={inputClass} />
-          </label>
-        </div>
-
-        <label class="block font-semibold text-primary">
-          {c.preferredContact}
-          <span class="text-red-500">*</span>
-          <select name="preferredContact" required class={selectClass}>
-            <option value="">{c.selectDefault}</option>
-            <option value="Sloworker">{c.optSloworker}</option>
-            <option value="Host">{c.optHost}</option>
-            <option value="Bussines">{c.optBusiness}</option>
-          </select>
-        </label>
-
-        <label class="block font-semibold text-primary">
-          {c.communityInterest}
-          <span class="text-red-500">*</span>
-          <textarea
-            name="communityInterest"
-            required
-            rows={3}
-            placeholder={c.phCommunity}
-            class={`${inputClass} resize-y min-h-22`}></textarea>
-        </label>
-
-        <div class="flex items-start gap-3">
-          <input
-            id={`waitlist-terms-${layout}-${lang}`}
-            name="termsAccepted"
-            type="checkbox"
-            required
-            class="mt-1 size-5 shrink-0 cursor-pointer rounded border-primary text-primary accent-primary"
-          />
-          <label for={`waitlist-terms-${layout}-${lang}`} class="cursor-pointer text-sm font-semibold text-primary">
-            {c.termsBefore}
-            <a href={termsHref} class="text-soft-blue underline decoration-2 underline-offset-2 hover:text-primary">
-              {c.termsLink}
-            </a>
-            {c.termsAfter}
-            <span class="text-red-500">*</span>
-          </label>
-        </div>
-
-        <div class="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <button
-            type="submit"
-            data-waitlist-submit-btn
-            data-busy="false"
-            class="inline-flex min-h-12 min-w-40 items-center justify-center rounded-lg bg-primary px-8 py-3 font-semibold text-white shadow-md transition hover:opacity-95 enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-primary/40 data-[busy=true]:cursor-wait data-[busy=true]:opacity-80"
-          >
-            <span data-waitlist-submit-label>{c.button}</span>
-          </button>
-          <p
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-center gap-6 px-2 text-center opacity-0 pointer-events-none transition-opacity duration-300 ease-out data-[state=visible]:pointer-events-auto data-[state=visible]:opacity-100"
+          data-waitlist-success-panel
+          data-state="hidden"
+          aria-hidden="true"
+        >
+          <div
+            class="w-full max-w-md rounded-2xl border border-primary/15 bg-white/95 px-6 py-8 shadow-lg"
             role="status"
             aria-live="polite"
-            data-waitlist-status
-            data-status="idle"
-            class="min-h-5 text-sm font-semibold text-primary/80 data-[status=error]:text-red-600 data-[status=success]:text-green-700 data-[status=sending]:text-primary/60"
-          ></p>
+          >
+            <p class="font-heading text-xl font-bold leading-snug text-primary sm:text-2xl" data-waitlist-success-headline />
+            <p class="mt-3 text-sm text-primary/75">{c.successCardSub}</p>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <button
+                type="button"
+                data-waitlist-success-close
+                class="inline-flex min-h-11 items-center justify-center rounded-lg border-2 border-primary/20 bg-white px-6 font-semibold text-primary transition hover:border-primary/40"
+              >
+                {c.closeSuccess}
+              </button>
+              <a
+                href={homeHref}
+                class="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-6 font-semibold text-white shadow transition hover:opacity-95"
+              >
+                {c.backHome}
+              </a>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
+  import {
+    waitlistCreateBodySchema,
+    createWaitlistFormSchema,
+    createWaitlistFormFieldSchemas,
+    WAITLIST_FORM_FIELD_NAMES,
+  } from '../../models/waitlist';
+  import type { WaitlistFormFieldName } from '../../models/waitlist';
+
+  type ValidationMsgs = {
+    emailRequired: string;
+    emailInvalid: string;
+    firstNameRequired: string;
+    phoneRequired: string;
+    instagramInvalid: string;
+    linkedinInvalid: string;
+    preferredContactRequired: string;
+    communityRequired: string;
+    termsRequired: string;
+  };
+
   const skipPayloadKeys = new Set(['termsAccepted']);
 
-  const payloadFromForm = (form: HTMLFormElement): Record<string, unknown> =>
-    Object.fromEntries([...new FormData(form).entries()].filter(([k]) => !skipPayloadKeys.has(k)));
+  const payloadFromForm = (form: HTMLFormElement): Record<string, string> =>
+    Object.fromEntries(
+      [...new FormData(form).entries()]
+        .filter(([k]) => !skipPayloadKeys.has(k))
+        .map(([k, v]) => [k, typeof v === 'string' ? v : '']),
+    ) as Record<string, string>;
 
   const parseErrorMessage = async (res: Response): Promise<string | null> => {
     const body = (await res.json().catch(() => null)) as { message?: string } | null;
     return body?.message ?? null;
   };
 
+  const isWaitlistFieldName = (v: string): v is WaitlistFormFieldName =>
+    (WAITLIST_FORM_FIELD_NAMES as readonly string[]).includes(v);
+
   const initWaitlistRoot = (root: HTMLElement) => {
     if (root.dataset.waitlistBound === '1') return;
     root.dataset.waitlistBound = '1';
 
     const form = root.querySelector<HTMLFormElement>('[data-waitlist-form]');
+    const formPanel = root.querySelector<HTMLElement>('[data-waitlist-form-panel]');
+    const successPanel = root.querySelector<HTMLElement>('[data-waitlist-success-panel]');
+    const successHeadline = root.querySelector<HTMLElement>('[data-waitlist-success-headline]');
+    const successClose = root.querySelector<HTMLButtonElement>('[data-waitlist-success-close]');
     const statusEl = root.querySelector<HTMLElement>('[data-waitlist-status]');
     const submitBtn = root.querySelector<HTMLButtonElement>('[data-waitlist-submit-btn]');
     const submitLabel = root.querySelector<HTMLElement>('[data-waitlist-submit-label]');
-    if (!form || !statusEl || !submitBtn || !submitLabel) return;
+    const spinner = root.querySelector<SVGElement>('[data-waitlist-spinner]');
+    if (
+      !form ||
+      !formPanel ||
+      !successPanel ||
+      !successHeadline ||
+      !successClose ||
+      !statusEl ||
+      !submitBtn ||
+      !submitLabel
+    )
+      return;
 
     const sending = root.dataset.waitlistSending ?? '';
-    const successMsg = root.dataset.waitlistSuccess ?? '';
     const errorMsg = root.dataset.waitlistError ?? '';
     const defaultBtn = root.dataset.waitlistButton ?? '';
     const lang = root.dataset.lang === 'es' ? 'es' : 'en';
 
+    const validationMsgs = JSON.parse(root.dataset.waitlistValidation ?? '{}') as ValidationMsgs;
+    const successInsideBefore = root.dataset.successInsideBefore ?? '';
+    const successInsideAfter = root.dataset.successInsideAfter ?? '';
+
+    const fieldSchemas = createWaitlistFormFieldSchemas(validationMsgs);
+    const formSchema = createWaitlistFormSchema(validationMsgs);
+
+    const setSubmitVisual = (state: 'idle' | 'sending') => {
+      submitBtn.dataset.status = state;
+      submitBtn.dataset.busy = state === 'sending' ? 'true' : 'false';
+      submitBtn.disabled = state === 'sending';
+      submitLabel.textContent = state === 'sending' ? sending : defaultBtn;
+      spinner?.classList.toggle('hidden', state !== 'sending');
+    };
+
+    const setFieldA11y = (el: HTMLElement, invalid: boolean, errId: string | null) => {
+      el.setAttribute('aria-invalid', invalid ? 'true' : 'false');
+      if (invalid && errId) el.setAttribute('aria-describedby', errId);
+      else el.removeAttribute('aria-describedby');
+    };
+
+    const showFieldError = (field: WaitlistFormFieldName | 'terms', message: string) => {
+      const errEl = root.querySelector<HTMLElement>(`[data-waitlist-err="${field}"]`);
+      const input = root.querySelector<HTMLElement>(`[data-waitlist-field="${field}"]`);
+      if (!errEl || !input) return;
+      errEl.textContent = message;
+      errEl.dataset.visible = 'true';
+      setFieldA11y(input, true, errEl.id || null);
+    };
+
+    const clearFieldError = (field: WaitlistFormFieldName | 'terms') => {
+      const errEl = root.querySelector<HTMLElement>(`[data-waitlist-err="${field}"]`);
+      const input = root.querySelector<HTMLElement>(`[data-waitlist-field="${field}"]`);
+      if (!errEl || !input) return;
+      errEl.textContent = '';
+      errEl.dataset.visible = 'false';
+      setFieldA11y(input, false, null);
+    };
+
+    const clearAllFieldErrors = () => {
+      WAITLIST_FORM_FIELD_NAMES.map((f) => clearFieldError(f));
+      clearFieldError('terms');
+    };
+
+    const readControlValue = (field: WaitlistFormFieldName | 'terms'): string => {
+      const el = root.querySelector<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+        `[data-waitlist-field="${field}"]`,
+      );
+      return el?.value ?? '';
+    };
+
+    const validateFieldOnBlur = (field: WaitlistFormFieldName) => {
+      const raw = readControlValue(field);
+      const parsed = fieldSchemas[field].safeParse(raw);
+      if (parsed.success) clearFieldError(field);
+      else showFieldError(field, parsed.error.issues[0]?.message ?? errorMsg);
+    };
+
+    const validateTerms = (): boolean => {
+      const cb = root.querySelector<HTMLInputElement>('[data-waitlist-field="terms"]');
+      if (!cb) return false;
+      if (cb.checked) {
+        clearFieldError('terms');
+        return true;
+      }
+      showFieldError('terms', validationMsgs.termsRequired);
+      return false;
+    };
+
+    WAITLIST_FORM_FIELD_NAMES.map((name) => {
+      const el = root.querySelector(`[data-waitlist-field="${name}"]`);
+      el?.addEventListener('blur', () => validateFieldOnBlur(name));
+      el?.addEventListener('focus', () => clearFieldError(name));
+    });
+
+    const termsEl = root.querySelector('[data-waitlist-field="terms"]');
+    termsEl?.addEventListener('change', () => {
+      const cb = termsEl as HTMLInputElement;
+      if (cb.checked) clearFieldError('terms');
+    });
+    termsEl?.addEventListener('blur', () => {
+      const cb = termsEl as HTMLInputElement;
+      if (!cb.checked) showFieldError('terms', validationMsgs.termsRequired);
+      else clearFieldError('terms');
+    });
+
+    const validateAllFields = (): boolean => {
+      clearAllFieldErrors();
+      const invalidFields = WAITLIST_FORM_FIELD_NAMES.filter((name) => {
+        const raw = readControlValue(name);
+        const parsed = fieldSchemas[name].safeParse(raw);
+        if (!parsed.success) {
+          showFieldError(name, parsed.error.issues[0]?.message ?? errorMsg);
+          return true;
+        }
+        return false;
+      });
+      const termsOk = validateTerms();
+      return invalidFields.length === 0 && termsOk;
+    };
+
+    const showSuccessView = (firstName: string) => {
+      const safeName = firstName.trim() || (lang === 'es' ? 'sloworker' : 'friend');
+      successHeadline.textContent = `${successInsideBefore} ${safeName}${successInsideAfter}`;
+      formPanel.dataset.state = 'hidden';
+      successPanel.dataset.state = 'visible';
+      successPanel.setAttribute('aria-hidden', 'false');
+      statusEl.dataset.status = 'success';
+      statusEl.textContent = '';
+      setSubmitVisual('idle');
+    };
+
+    const resetToFormView = () => {
+      form.reset();
+      clearAllFieldErrors();
+      formPanel.dataset.state = 'visible';
+      successPanel.dataset.state = 'hidden';
+      successPanel.setAttribute('aria-hidden', 'true');
+      statusEl.dataset.status = 'idle';
+      statusEl.textContent = '';
+      setSubmitVisual('idle');
+    };
+
+    successClose.addEventListener('click', () => {
+      resetToFormView();
+      document.getElementById('close-waitlist')?.click();
+    });
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const applySending = () => {
-        statusEl.dataset.status = 'sending';
-        statusEl.textContent = '';
-        submitBtn.dataset.busy = 'true';
-        submitBtn.disabled = true;
-        submitLabel.textContent = sending;
-      };
+      if (!validateAllFields()) {
+        const firstInvalid = root.querySelector<HTMLElement>('[aria-invalid="true"]');
+        firstInvalid?.focus();
+        return;
+      }
 
-      const applyError = (message: string) => {
+      const payloadStrings = payloadFromForm(form);
+      const parsed = formSchema.safeParse(payloadStrings);
+
+      if (!parsed.success) {
+        parsed.error.issues.forEach((issue) => {
+          const key = issue.path[0];
+          if (typeof key === 'string' && isWaitlistFieldName(key)) showFieldError(key, issue.message);
+        });
+        return;
+      }
+
+      const apiReady = waitlistCreateBodySchema.safeParse(parsed.data);
+      if (!apiReady.success) {
         statusEl.dataset.status = 'error';
-        statusEl.textContent = message;
-        submitBtn.dataset.busy = 'false';
-        submitBtn.disabled = false;
-        submitLabel.textContent = defaultBtn;
-      };
+        statusEl.textContent = errorMsg;
+        return;
+      }
 
-      const applySuccess = (message: string) => {
-        statusEl.dataset.status = 'success';
-        statusEl.textContent = message;
-        submitBtn.dataset.busy = 'false';
-        submitBtn.disabled = false;
-        submitLabel.textContent = defaultBtn;
-      };
+      statusEl.dataset.status = 'sending';
+      statusEl.textContent = '';
+      setSubmitVisual('sending');
 
-      applySending();
-
-      const payload = payloadFromForm(form);
       const res = await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(apiReady.data),
       }).catch(() => null);
 
       if (res === null) {
-        applyError(errorMsg);
+        statusEl.dataset.status = 'error';
+        statusEl.textContent = errorMsg;
+        setSubmitVisual('idle');
         return;
       }
 
       if (!res.ok) {
         const serverMessage = await parseErrorMessage(res);
-        applyError(serverMessage ?? errorMsg);
+        statusEl.dataset.status = 'error';
+        statusEl.textContent = serverMessage ?? errorMsg;
+        setSubmitVisual('idle');
         return;
       }
 
@@ -235,14 +653,16 @@ const selectClass = `${inputClass} bg-secondary/90 text-lg font-medium text-prim
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name: payload.firstName,
-          email: payload.email,
+          name: parsed.data.firstName,
+          email: parsed.data.email,
           lang,
         }),
       }).catch(() => {});
 
-      applySuccess(successMsg);
+      const firstName = parsed.data.firstName;
       form.reset();
+      clearAllFieldErrors();
+      showSuccessView(firstName);
     });
   };
 
