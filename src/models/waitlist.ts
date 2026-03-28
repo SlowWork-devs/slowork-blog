@@ -8,6 +8,7 @@ const trimmedNullable = z
     return t.length > 0 ? t : null;
   });
 
+/** Payload JSON válido para POST /api/waitlist (alineado con columnas de negocio en `waitlists`). */
 export const waitlistCreateBodySchema = z.object({
   email: z.string().trim().min(1, 'Email requerido'),
   firstName: trimmedNullable,
@@ -19,3 +20,6 @@ export const waitlistCreateBodySchema = z.object({
 });
 
 export type WaitlistCreateInput = z.infer<typeof waitlistCreateBodySchema>;
+
+/** Alias explícito: payload de alta = campos de negocio persistidos (sin metadata de servidor). */
+export type WaitlistRegistrationPayload = WaitlistCreateInput;

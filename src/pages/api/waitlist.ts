@@ -21,6 +21,10 @@ export const POST: APIRoute = async ({ request }) => {
       return jsonResponse({ success: false, message: 'Email ya registrado' }, { status: 409 });
     }
 
+    if (result.outcome === 'persist_failed') {
+      return jsonResponse({ success: false, message: result.message }, { status: 503 });
+    }
+
     return jsonResponse({ success: true, item: result.item }, { status: 200 });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Error interno';

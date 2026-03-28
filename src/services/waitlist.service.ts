@@ -15,16 +15,50 @@ export function getClientIp(request: Request): string | null {
 
 export type WaitlistRegisterResult =
   | { outcome: 'created'; item: { id: number; email: string; creationDate: Date } }
-  | { outcome: 'duplicate' };
+  | { outcome: 'duplicate' }
+  | { outcome: 'persist_failed'; message: string };
+
+const toCreateData = (input: WaitlistCreateInput, request: Request) => ({
+  email: input.email,
+  firstName: input.firstName,
+  phone: input.phone,
+  instagram: input.instagram,
+  linkedin: input.linkedin,
+  preferredContact: input.preferredContact,
+  communityInterest: input.communityInterest,
+  ipAddress: getClientIp(request),
+  userAgent: request.headers.get('user-agent'),
+});
+
+/** Solo email + metadatos de request: último recurso si el create completo falla (p. ej. columna desalineada en BD). */
+const toMinimalCreateData = (input: WaitlistCreateInput, request: Request) => ({
+  email: input.email,
+  firstName: null,
+  phone: null,
+  instagram: null,
+  linkedin: null,
+  preferredContact: null,
+  communityInterest: null,
+  ipAddress: getClientIp(request),
+  userAgent: request.headers.get('user-agent'),
+});
+
+const tryPersist = async (
+  data: ReturnType<typeof toCreateData>,
+): Promise<{ id: number; email: string; creationDate: Date } | null> => {
+  try {
+    return await prisma.waitlist.create({ data, select: selectSafe });
+  } catch {
+    return null;
+  }
+};
 
 export async function registerWaitlistEntry(
   input: WaitlistCreateInput,
   request: Request,
 ): Promise<WaitlistRegisterResult> {
-  const { email, firstName, phone, instagram, linkedin, preferredContact, communityInterest } = input;
-
   const existing = await prisma.waitlist.findFirst({
-    where: { email },
+    where: { email: input.email },
     select: { id: true },
   });
 
@@ -32,23 +66,19 @@ export async function registerWaitlistEntry(
     return { outcome: 'duplicate' };
   }
 
-  const ipAddress = getClientIp(request);
-  const userAgent = request.headers.get('user-agent');
+  const fullData = toCreateData(input, request);
+  const fromFull = await tryPersist(fullData);
+  if (fromFull) {
+    return { outcome: 'created', item: fromFull };
+  }
 
-  const item = await prisma.waitlist.create({
-    data: {
-      email,
-      firstName,
-      phone,
-      instagram,
-      linkedin,
-      preferredContact,
-      communityInterest,
-      ipAddress,
-      userAgent,
-    },
-    select: selectSafe,
-  });
+  const fromMinimal = await tryPersist(toMinimalCreateData(input, request));
+  if (fromMinimal) {
+    return { outcome: 'created', item: fromMinimal };
+  }
 
-  return { outcome: 'created', item };
+  return {
+    outcome: 'persist_failed',
+    message: 'No se pudo guardar el registro. Inténtalo de nuevo más tarde.',
+  };
 }
