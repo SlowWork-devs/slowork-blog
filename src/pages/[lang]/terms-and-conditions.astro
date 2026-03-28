@@ -1,5 +1,6 @@
 ---
 import MainLayout from '@/layouts/MainLayout.astro';
+import LegalDocumentShell from '@/components/legal/LegalDocumentShell.astro';
 import TermsPolicyArticle from '@/components/legal/TermsPolicyArticle.astro';
 import { buildI18nAlternates } from '@/lib/hreflang';
 import { getLegalBundle } from '@/lib/legalBundle';
@@ -35,9 +36,7 @@ const description = terms.helmet.description;
     url: new URL(`/${lang}/terms-and-conditions/`, Astro.url.origin).href,
   }}
 >
-  <main class="mx-auto w-full max-w-4xl px-6 pb-20 pt-32 md:py-24">
-    <div class="rounded-2xl border border-primary/10 bg-white/75 p-6 shadow-sm sm:p-10 md:p-12">
-      <TermsPolicyArticle terms={terms} lang={lang} />
-    </div>
-  </main>
+  <LegalDocumentShell>
+    <TermsPolicyArticle terms={terms} lang={lang} />
+  </LegalDocumentShell>
 </MainLayout>

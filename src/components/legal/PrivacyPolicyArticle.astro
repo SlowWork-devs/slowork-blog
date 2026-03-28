@@ -9,7 +9,7 @@ const { privacy } = Astro.props;
 const s = privacy.sections;
 ---
 
-<article class="prose max-w-none px-1 text-justify sm:px-0">
+<article class="prose legal-doc max-w-none">
   <h1 class="text-center">{privacy.heading}</h1>
   <p class="text-center text-primary/80">{privacy.effectiveDate}</p>
 
@@ -54,19 +54,19 @@ const s = privacy.sections;
 
   <h2>{s.dataRetention.title}</h2>
   <p>{s.dataRetention.paragraph1}</p>
-  <div class="not-prose overflow-x-auto rounded-xl border border-primary/10 bg-white/60 my-8">
-    <table class="w-full min-w-[280px] border-collapse text-left text-sm">
+  <div class="legal-doc-table-wrap not-prose my-6 overflow-x-auto">
+    <table>
       <thead>
-        <tr class="border-b border-primary/15 bg-primary/5">
-          <th class="p-3 font-heading font-bold text-primary">{s.dataRetention.table.header.type}</th>
-          <th class="p-3 font-heading font-bold text-primary">{s.dataRetention.table.header.period}</th>
+        <tr>
+          <th>{s.dataRetention.table.header.type}</th>
+          <th>{s.dataRetention.table.header.period}</th>
         </tr>
       </thead>
       <tbody>
         {s.dataRetention.table.rows.map((row) => (
-          <tr class="border-b border-primary/10 last:border-0">
-            <td class="p-3 text-primary/90">{row.type}</td>
-            <td class="p-3 text-primary/90">{row.period}</td>
+          <tr>
+            <td>{row.type}</td>
+            <td>{row.period}</td>
           </tr>
         ))}
       </tbody>
