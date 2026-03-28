@@ -227,12 +227,17 @@
   }
 
   .header-scrolled {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding-top: 1rem;
     padding-bottom: 1rem;
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-    border-bottom: 1px solid rgb(1 51 51 / 0.06);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(1, 51, 51, 0.08);
+  }
+
+  /* Logo filter based on header state */
+  #main-header.text-white .logo-image {
+    filter: brightness(0) invert(1);
   }
 }

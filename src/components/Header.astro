@@ -6,17 +6,23 @@ import menuBg from '../assets/menu-background.webp';
 const { language, alternateLink } = Astro.props;
 
 const t = {
-  es: { blog: 'BLOG', about: 'ABOUT', join: 'Únete a la lista de espera', menu: 'Abrir menú', close: 'Cerrar menú' },
-  en: { blog: 'BLOG', about: 'ABOUT', join: 'Join the waiting list', menu: 'Open menu', close: 'Close menu' }
+  es: { blog: 'BLOG', about: 'ABOUT', impact: 'IMPACT', join: 'Únete a la lista de espera', menu: 'Abrir menú', close: 'Cerrar menú' },
+  en: { blog: 'BLOG', about: 'ABOUT', impact: 'IMPACT', join: 'Join the waiting list', menu: 'Open menu', close: 'Close menu' }
 };
 const nav = t[language as 'es' | 'en'] || t.es;
+
+// Determinar si estamos en la home para el efecto transparente inicial
+const isHome = Astro.url.pathname === '/es/' || Astro.url.pathname === '/en/' || Astro.url.pathname === '/es' || Astro.url.pathname === '/en' || Astro.url.pathname === '/';
+const initialClasses = isHome 
+  ? "py-4 md:py-6 text-white bg-white/5 backdrop-blur-sm border-b border-white/10" 
+  : "header-scrolled text-primary";
 ---
 
-<header class="absolute top-0 left-0 w-full z-50 bg-transparent py-4 md:py-8">
+<header id="main-header" class={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${initialClasses}`} data-is-home={isHome ? "true" : "false"}>
   <nav class="max-w-7xl mx-auto px-6 flex justify-between items-center gap-4 min-h-12">
     <!-- Logo: siempre a la izquierda -->
     <div class="shrink-0 flex items-center">
-      <Logo language={language} />
+      <Logo language={language} class="text-current" />
     </div>
 
     <!-- Móvil: solo hamburguesa a la derecha | Desktop: menú + idioma + Join -->
@@ -24,15 +30,16 @@ const nav = t[language as 'es' | 'en'] || t.es;
       
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center gap-6">
-        <a href={`/${language}/blog/`} class="text-sm font-bold text-primary hover:opacity-80 transition-opacity">{nav.blog}</a>
-        <a href="/about" class="text-sm font-bold text-primary hover:opacity-80 transition-opacity">{nav.about}</a>
+        <a href={`/${language}/blog/`} class="text-sm font-heading font-bold hover:opacity-80 transition-opacity">{nav.blog}</a>
+        <a href={`/${language}/about`} class="text-sm font-heading font-bold hover:opacity-80 transition-opacity">{nav.about}</a>
+        <a href={`/${language}/impact-program`} class="text-sm font-heading font-bold hover:opacity-80 transition-opacity">{nav.impact}</a>
       </div>
 
       <!-- Idioma: oculto en móvil -->
-      <div class="hidden md:flex items-center gap-1 text-xs font-bold border-l border-primary/20 pl-4 text-primary">
-        <a href={alternateLink} class="min-w-10 min-h-10 flex items-center justify-center rounded-lg hover:bg-primary/5 transition-colors" aria-current={language === 'es' ? 'page' : undefined}>ES</a>
+      <div class="hidden md:flex items-center gap-1 text-xs font-bold border-l border-current/20 pl-4">
+        <a href={alternateLink} class="min-w-10 min-h-10 flex items-center justify-center rounded-lg hover:bg-current/5 transition-colors" aria-current={language === 'es' ? 'page' : undefined}>ES</a>
         <span class="opacity-30">|</span>
-        <a href={alternateLink} class="min-w-10 min-h-10 flex items-center justify-center rounded-lg hover:bg-primary/5 transition-colors" aria-current={language === 'en' ? 'page' : undefined}>EN</a>
+        <a href={alternateLink} class="min-w-10 min-h-10 flex items-center justify-center rounded-lg hover:bg-current/5 transition-colors" aria-current={language === 'en' ? 'page' : undefined}>EN</a>
       </div>
 
       <!-- Join: oculto en móvil (está en el drawer) -->
@@ -46,7 +53,7 @@ const nav = t[language as 'es' | 'en'] || t.es;
       <!-- Botón Hamburguesa Móvil -->
       <button 
         id="menu-button" 
-        class="md:hidden flex items-center justify-center text-primary hover:opacity-80 transition-opacity min-w-12 min-h-12 p-3 -m-2 rounded-lg touch-manipulation"
+        class="md:hidden flex items-center justify-center hover:opacity-80 transition-opacity min-w-12 min-h-12 p-3 -m-2 rounded-lg touch-manipulation"
         aria-label={nav.menu}
         aria-expanded="false"
         aria-controls="mobile-drawer"
@@ -97,8 +104,9 @@ const nav = t[language as 'es' | 'en'] || t.es;
   <!-- Drawer Content -->
   <div class="flex-1 flex flex-col px-6 py-8 overflow-y-auto">
     <nav class="flex flex-col gap-6 text-right mb-12">
-      <a href={`/${language}/blog/`} class="text-2xl font-bold text-primary hover:text-primary/70 transition-colors">{nav.blog}</a>
-      <a href="/about" class="text-2xl font-bold text-primary hover:text-primary/70 transition-colors">{nav.about}</a>
+      <a href={`/${language}/blog/`} class="text-2xl font-heading font-bold text-primary hover:text-primary/70 transition-colors">{nav.blog}</a>
+      <a href={`/${language}/about`} class="text-2xl font-heading font-bold text-primary hover:text-primary/70 transition-colors">{nav.about}</a>
+      <a href={`/${language}/impact-program`} class="text-2xl font-heading font-bold text-primary hover:text-primary/70 transition-colors">{nav.impact}</a>
     </nav>
 
     <div class="flex flex-col items-center gap-8 mt-auto">
@@ -157,4 +165,28 @@ const nav = t[language as 'es' | 'en'] || t.es;
       closeMenu();
     }
   });
+
+  // Scroll effect for header
+  document.addEventListener('astro:page-load', () => {
+    const header = document.getElementById('main-header');
+    if (!header) return;
+    
+    const isHome = header.getAttribute('data-is-home') === 'true';
+    
+    const handleScroll = () => {
+      if (!isHome) return; // Si no es home, siempre tiene el estilo scrolled
+      
+      if (window.scrollY > 50) {
+        header.classList.add('header-scrolled', 'text-primary');
+        header.classList.remove('py-4', 'md:py-6', 'text-white', 'bg-white/5', 'backdrop-blur-sm', 'border-white/10');
+      } else {
+        header.classList.remove('header-scrolled', 'text-primary');
+        header.classList.add('py-4', 'md:py-6', 'text-white', 'bg-white/5', 'backdrop-blur-sm', 'border-white/10');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Initial check
+    handleScroll();
+  }, { once: false });
 </script>
