@@ -23,3 +23,84 @@ export type WaitlistCreateInput = z.infer<typeof waitlistCreateBodySchema>;
 
 /** Alias explícito: payload de alta = campos de negocio persistidos (sin metadata de servidor). */
 export type WaitlistRegistrationPayload = WaitlistCreateInput;
+
+/** Mensajes i18n inyectados desde la capa de UI (`waitlistFormCopy`). */
+export type WaitlistFormValidationMessages = {
+  emailRequired: string;
+  emailInvalid: string;
+  firstNameRequired: string;
+  phoneRequired: string;
+  instagramInvalid: string;
+  linkedinInvalid: string;
+  preferredContactRequired: string;
+  communityRequired: string;
+  termsRequired: string;
+};
+
+const preferredContactValues = ['Sloworker', 'Host', 'Bussines'] as const;
+
+/** Campos del formulario validados en cliente (onBlur + submit). */
+export const WAITLIST_FORM_FIELD_NAMES = [
+  'firstName',
+  'email',
+  'phone',
+  'instagram',
+  'linkedin',
+  'preferredContact',
+  'communityInterest',
+] as const;
+
+export type WaitlistFormFieldName = (typeof WAITLIST_FORM_FIELD_NAMES)[number];
+
+/**
+ * Esquema estricto de envío: mismas claves que `waitlistCreateBodySchema`, con reglas de UX
+ * (obligatorios, URL LinkedIn, patrón Instagram opcional). El resultado es válido para la API.
+ */
+export const createWaitlistFormSchema = (m: WaitlistFormValidationMessages) =>
+  z.object({
+    email: z.string().trim().min(1, m.emailRequired).email(m.emailInvalid),
+    firstName: z.string().trim().min(1, m.firstNameRequired),
+    phone: z.string().trim().min(1, m.phoneRequired),
+    instagram: z
+      .string()
+      .transform((s) => s.trim())
+      .refine(
+        (s) => s === '' || /^@?[a-zA-Z0-9._]{1,64}$/.test(s),
+        m.instagramInvalid,
+      )
+      .transform((s) => (s.length === 0 ? null : s)),
+    linkedin: z
+      .string()
+      .transform((s) => s.trim())
+      .superRefine((val, ctx) => {
+        if (val.length === 0) return;
+        const urlOk = z.string().url().safeParse(val).success;
+        if (!urlOk) ctx.addIssue({ code: 'custom', message: m.linkedinInvalid });
+      })
+      .transform((s) => (s.trim().length === 0 ? null : s.trim())),
+    preferredContact: z
+      .string()
+      .trim()
+      .min(1, m.preferredContactRequired)
+      .refine(
+        (v): v is (typeof preferredContactValues)[number] =>
+          (preferredContactValues as readonly string[]).includes(v),
+        m.preferredContactRequired,
+      ),
+    communityInterest: z.string().trim().min(1, m.communityRequired),
+  });
+
+export type WaitlistFormClientValues = z.infer<
+  ReturnType<typeof createWaitlistFormSchema>
+>;
+
+/**
+ * Esquemas por campo para validación onBlur (misma lógica que `createWaitlistFormSchema`).
+ */
+export const createWaitlistFormFieldSchemas = (m: WaitlistFormValidationMessages) => {
+  const full = createWaitlistFormSchema(m);
+  return WAITLIST_FORM_FIELD_NAMES.reduce(
+    (acc, key) => ({ ...acc, [key]: full.shape[key] }),
+    {} as Record<WaitlistFormFieldName, z.ZodType<unknown>>,
+  );
+};
