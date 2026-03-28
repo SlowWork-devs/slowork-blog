@@ -66,12 +66,18 @@ const initialClasses = isHome
 </header>
 
 <!-- Mobile Drawer Overlay -->
-<div id="drawer-overlay" class="hidden fixed inset-0 z-50 bg-primary/20 backdrop-blur-sm md:hidden" aria-hidden="true"></div>
+<div
+  id="drawer-overlay"
+  class="pointer-events-none fixed inset-0 z-50 hidden bg-primary/20 backdrop-blur-sm data-[drawer-open=true]:pointer-events-auto md:hidden"
+  data-drawer-open="false"
+  aria-hidden="true"
+></div>
 
 <!-- Mobile Drawer -->
-<div 
-  id="mobile-drawer" 
-  class="hidden fixed inset-y-0 right-0 w-full max-w-sm shadow-2xl z-50 flex flex-col md:hidden transform transition-transform duration-300 translate-x-full overflow-hidden"
+<div
+  id="mobile-drawer"
+  class="pointer-events-none fixed inset-y-0 right-0 z-50 flex hidden w-full max-w-sm translate-x-full transform flex-col overflow-hidden shadow-2xl transition-transform duration-300 data-[drawer-open=true]:pointer-events-auto md:hidden"
+  data-drawer-open="false"
   role="dialog"
   aria-modal="true"
   aria-label="Menú móvil"
@@ -146,6 +152,8 @@ const initialClasses = isHome
 
     const openMenu = () => {
       setMenuOpen(true);
+      drawerOverlay.dataset.drawerOpen = 'true';
+      mobileDrawer.dataset.drawerOpen = 'true';
       mobileDrawer.classList.remove('hidden');
       drawerOverlay.classList.remove('hidden');
       void mobileDrawer.offsetWidth;
@@ -156,10 +164,12 @@ const initialClasses = isHome
 
     const closeMenu = () => {
       setMenuOpen(false);
+      drawerOverlay.dataset.drawerOpen = 'false';
       mobileDrawer.classList.add('translate-x-full');
       menuButton.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       window.setTimeout(() => {
+        mobileDrawer.dataset.drawerOpen = 'false';
         mobileDrawer.classList.add('hidden');
         drawerOverlay.classList.add('hidden');
       }, 300);
@@ -188,6 +198,8 @@ const initialClasses = isHome
       mobileDrawer.removeEventListener('click', onDrawerLinkClick);
       document.removeEventListener('keydown', onKeydown);
       setMenuOpen(false);
+      drawerOverlay.dataset.drawerOpen = 'false';
+      mobileDrawer.dataset.drawerOpen = 'false';
       mobileDrawer.classList.add('hidden', 'translate-x-full');
       drawerOverlay.classList.add('hidden');
       document.body.style.overflow = '';

@@ -16,10 +16,12 @@ const ariaById: Record<(typeof SLOWORK_SOCIAL_LINKS)[number]['id'], { es: string
 };
 
 const linkClass =
-  'text-secondary hover:text-white focus-visible:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary/90 rounded-md p-1 transition-all duration-500 ease-out hover:scale-110 hover:-translate-x-0.5';
+  'pointer-events-auto text-secondary hover:text-white focus-visible:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary/90 rounded-md p-1 transition-all duration-500 ease-out hover:scale-110 hover:-translate-x-0.5';
 ---
 
-<div class="fixed right-0 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center lg:flex">
+<div
+  class="pointer-events-none fixed right-0 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center lg:flex"
+>
   <div
     class="group relative flex flex-col items-center"
     aria-label={language === 'es' ? 'Redes sociales Slowork' : 'Slowork social links'}

@@ -255,4 +255,12 @@
     visibility: hidden;
     opacity: 0;
   }
+
+  /**
+   * Backdrop del menú móvil: sin menú abierto no debe capturar clics (p. ej. si
+   * `hidden` o `data-drawer-open` quedan desincronizados tras View Transitions).
+   */
+  body:not([data-menu-open="true"]) #drawer-overlay {
+    pointer-events: none;
+  }
 }
