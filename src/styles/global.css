@@ -243,7 +243,7 @@
 
   /**
    * Gancho waitlist (hero + sticky): transición suave al abrir el menú móvil.
-   * El script del header pone data-menu-open="true" en #slowork-layout-root.
+   * El script del header pone data-menu-open="true" en document.body.
    */
   .waitlist-landing-hook {
     transition:
@@ -257,10 +257,22 @@
   }
 
   /**
-   * Backdrop del menú móvil: sin menú abierto no debe capturar clics (p. ej. si
-   * `hidden` o `data-drawer-open` quedan desincronizados tras View Transitions).
+   * Drawer móvil + overlay: pointer-events solo con menú abierto (body), para
+   * que capas desincronizadas tras View Transitions no bloqueen el blog.
    */
-  body:not([data-menu-open="true"]) #drawer-overlay {
+  #drawer-overlay {
     pointer-events: none;
+  }
+
+  body[data-menu-open="true"] #drawer-overlay {
+    pointer-events: auto;
+  }
+
+  #mobile-drawer {
+    pointer-events: none;
+  }
+
+  body[data-menu-open="true"] #mobile-drawer {
+    pointer-events: auto;
   }
 }

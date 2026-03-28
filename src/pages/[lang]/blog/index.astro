@@ -6,6 +6,7 @@ export async function getStaticPaths() {
 }
 
 import { getCollection } from 'astro:content';
+import { ClientRouter } from 'astro:transitions';
 import BaseHead from '../../../components/BaseHead.astro';
 import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
@@ -31,11 +32,12 @@ const enBlogIndex = new URL('/en/blog/', Astro.url.origin).href;
 <html lang={lang}>
 	<head>
 		<BaseHead title={`${SITE_TITLE} | Blog`} description={SITE_DESCRIPTION} />
+		<ClientRouter />
 		<link rel="alternate" hreflang="es" href={esBlogIndex} />
 		<link rel="alternate" hreflang="en" href={enBlogIndex} />
 		<link rel="alternate" hreflang="x-default" href={esBlogIndex} />
 	</head>
-	<body class="min-w-0 overflow-x-hidden">
+	<body id="slowork-layout-root" class="min-w-0 overflow-x-hidden">
 		<Header language={lang} alternateLink={alternateLink} />
 
 		<main class="w-full max-w-7xl mx-auto px-6 pt-32 pb-10 sm:pt-32 sm:pb-14 md:py-24">

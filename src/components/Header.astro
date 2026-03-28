@@ -16,7 +16,7 @@ const initialClasses = isHome
   : "header-scrolled text-primary";
 ---
 
-<header id="main-header" class={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${initialClasses}`} data-is-home={isHome ? "true" : "false"}>
+<header id="main-header" class={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${initialClasses}`} data-is-home={isHome ? "true" : "false"}>
   <nav class="max-w-7xl mx-auto px-6 flex justify-between items-center gap-4 min-h-12">
     <!-- Logo: siempre a la izquierda -->
     <div class="shrink-0 flex items-center">
@@ -68,7 +68,7 @@ const initialClasses = isHome
 <!-- Mobile Drawer Overlay -->
 <div
   id="drawer-overlay"
-  class="pointer-events-none fixed inset-0 z-50 hidden bg-primary/20 backdrop-blur-sm data-[drawer-open=true]:pointer-events-auto md:hidden"
+  class="fixed inset-0 z-[105] hidden bg-primary/20 backdrop-blur-sm md:hidden"
   data-drawer-open="false"
   aria-hidden="true"
 ></div>
@@ -76,7 +76,7 @@ const initialClasses = isHome
 <!-- Mobile Drawer -->
 <div
   id="mobile-drawer"
-  class="pointer-events-none fixed inset-y-0 right-0 z-50 flex hidden w-full max-w-sm translate-x-full transform flex-col overflow-hidden shadow-2xl transition-transform duration-300 data-[drawer-open=true]:pointer-events-auto md:hidden"
+  class="fixed inset-y-0 right-0 z-[110] flex hidden w-full max-w-sm translate-x-full transform flex-col overflow-hidden shadow-2xl transition-transform duration-300 md:hidden"
   data-drawer-open="false"
   role="dialog"
   aria-modal="true"
@@ -134,13 +134,32 @@ const initialClasses = isHome
 </div>
 
 <script>
-  const layoutRoot = () => document.getElementById('slowork-layout-root');
+  let closeMenuTimeoutId: number | undefined;
+
+  const clearCloseMenuTimeout = () => {
+    if (closeMenuTimeoutId === undefined) return;
+    window.clearTimeout(closeMenuTimeoutId);
+    closeMenuTimeoutId = undefined;
+  };
 
   const setMenuOpen = (open: boolean) => {
-    const root = layoutRoot();
-    if (!root) return;
-    if (open) root.setAttribute('data-menu-open', 'true');
-    else root.removeAttribute('data-menu-open');
+    if (open) document.body.setAttribute('data-menu-open', 'true');
+    else document.body.removeAttribute('data-menu-open');
+  };
+
+  /** Cierre inmediato (sin animación): evita drawer “atascado” entre transiciones. */
+  const closeMenuDirectly = () => {
+    clearCloseMenuTimeout();
+    setMenuOpen(false);
+    document.body.style.overflow = '';
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const menuButton = document.getElementById('menu-button');
+    drawerOverlay?.classList.add('hidden');
+    if (drawerOverlay) drawerOverlay.dataset.drawerOpen = 'false';
+    mobileDrawer?.classList.add('hidden', 'translate-x-full');
+    if (mobileDrawer) mobileDrawer.dataset.drawerOpen = 'false';
+    menuButton?.setAttribute('aria-expanded', 'false');
   };
 
   const bindMobileMenu = () => {
@@ -168,10 +187,12 @@ const initialClasses = isHome
       mobileDrawer.classList.add('translate-x-full');
       menuButton.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
-      window.setTimeout(() => {
+      clearCloseMenuTimeout();
+      closeMenuTimeoutId = window.setTimeout(() => {
         mobileDrawer.dataset.drawerOpen = 'false';
         mobileDrawer.classList.add('hidden');
         drawerOverlay.classList.add('hidden');
+        closeMenuTimeoutId = undefined;
       }, 300);
     };
 
@@ -192,38 +213,25 @@ const initialClasses = isHome
     document.addEventListener('keydown', onKeydown);
 
     return () => {
+      clearCloseMenuTimeout();
       menuButton.removeEventListener('click', openMenu);
       closeButton.removeEventListener('click', closeMenu);
       drawerOverlay.removeEventListener('click', closeMenu);
       mobileDrawer.removeEventListener('click', onDrawerLinkClick);
       document.removeEventListener('keydown', onKeydown);
-      setMenuOpen(false);
-      drawerOverlay.dataset.drawerOpen = 'false';
-      mobileDrawer.dataset.drawerOpen = 'false';
-      mobileDrawer.classList.add('hidden', 'translate-x-full');
-      drawerOverlay.classList.add('hidden');
-      document.body.style.overflow = '';
+      closeMenuDirectly();
     };
   };
 
-  let teardownMobileMenu: (() => void) | undefined;
-
-  document.addEventListener('astro:page-load', () => {
-    teardownMobileMenu?.();
-    layoutRoot()?.removeAttribute('data-menu-open');
-    teardownMobileMenu = bindMobileMenu();
-  });
-
-  // Scroll effect for header
-  document.addEventListener('astro:page-load', () => {
+  const bindHeaderScroll = () => {
     const header = document.getElementById('main-header');
-    if (!header) return;
-    
+    if (!header) return () => {};
+
     const isHome = header.getAttribute('data-is-home') === 'true';
-    
+
     const handleScroll = () => {
-      if (!isHome) return; // Si no es home, siempre tiene el estilo scrolled
-      
+      if (!isHome) return;
+
       if (window.scrollY > 50) {
         header.classList.add('header-scrolled', 'text-primary');
         header.classList.remove('py-4', 'md:py-6', 'text-white', 'bg-white/5', 'backdrop-blur-sm', 'border-white/10');
@@ -234,7 +242,22 @@ const initialClasses = isHome
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    // Initial check
     handleScroll();
-  }, { once: false });
+    return () => window.removeEventListener('scroll', handleScroll);
+  };
+
+  let teardownMobileMenu: (() => void) | undefined;
+  let teardownHeaderScroll: (() => void) | undefined;
+
+  document.addEventListener('astro:after-preparation', () => {
+    closeMenuDirectly();
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    closeMenuDirectly();
+    teardownMobileMenu?.();
+    teardownHeaderScroll?.();
+    teardownMobileMenu = bindMobileMenu();
+    teardownHeaderScroll = bindHeaderScroll();
+  });
 </script>
