@@ -433,6 +433,52 @@ export function homeFinalCtaCopy(lang: SupportedLang) {
   };
 }
 
+/** Sección contacto home: copy + email de primera línea. */
+export function homeContactCopy(lang: SupportedLang) {
+  if (lang === 'es') {
+    return {
+      eyebrow: 'Contacto',
+      title: 'Hablemos',
+      subtitle: 'Estamos aquí para ayudarte',
+      intro:
+        'Escríbenos para colaboraciones, prensa o cualquier duda sobre la comunidad Slowork.',
+      emailLabel: 'Correo',
+      email: 'sloworking.adm@gmail.com',
+      formTitle: 'Envíanos un mensaje',
+      name: 'Nombre',
+      emailField: 'Email',
+      subject: 'Asunto',
+      message: 'Mensaje',
+      honeypotLabel: 'No rellenar',
+      button: 'Enviar mensaje',
+      sending: 'Enviando…',
+      successTitle: '¡Mensaje enviado!',
+      successBody: 'Te responderemos pronto. Gracias por contactar con Slowork.',
+      errorGeneric: 'No se pudo enviar. Inténtalo de nuevo.',
+    };
+  }
+  return {
+    eyebrow: 'Contact',
+    title: "Let's talk",
+    subtitle: "We're here to help",
+    intro:
+      'Reach out for partnerships, press, or anything about the Slowork community.',
+    emailLabel: 'Email',
+    email: 'sloworking.adm@gmail.com',
+    formTitle: 'Send us a message',
+    name: 'Name',
+    emailField: 'Email',
+    subject: 'Subject',
+    message: 'Message',
+    honeypotLabel: 'Leave blank',
+    button: 'Send message',
+    sending: 'Sending…',
+    successTitle: 'Message sent!',
+    successBody: "We'll get back to you soon. Thanks for reaching out.",
+    errorGeneric: 'Could not send. Please try again.',
+  };
+}
+
 /** Textos del formulario waitlist (alineados a la landing React histórica). */
 export function waitlistFormCopy(lang: SupportedLang) {
   if (lang === 'es') {

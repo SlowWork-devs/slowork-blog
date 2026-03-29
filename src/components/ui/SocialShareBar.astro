@@ -3,8 +3,8 @@ import SocialIconsLinks from '@/components/ui/SocialIconsLinks.astro';
 
 interface Props {
   language: 'es' | 'en';
-  /** dock: barra fija derecha (desktop). drawer: bloque para menú móvil */
-  variant?: 'dock' | 'drawer';
+  /** dock: barra fija derecha (desktop). drawer: menú móvil. contact: fila minimal en sección contacto */
+  variant?: 'dock' | 'drawer' | 'contact';
 }
 
 const { language, variant = 'dock' } = Astro.props;
@@ -17,6 +17,9 @@ const linkClassDock =
 
 const linkClassDrawer =
   'pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/12 text-primary/60 ring-1 ring-white/20 backdrop-blur-[2px] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-white/22 hover:text-primary hover:ring-white/35 active:translate-y-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-soft-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white/60 touch-manipulation';
+
+const linkClassContact =
+  'pointer-events-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-secondary ring-1 ring-white/25 backdrop-blur-sm transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-white/18 hover:text-white hover:ring-secondary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary/80 active:translate-y-0 active:scale-95 touch-manipulation';
 ---
 
 {
@@ -51,6 +54,20 @@ const linkClassDrawer =
         linkClass={linkClassDrawer}
         containerClass="mx-auto flex max-w-[18.5rem] flex-wrap items-center justify-center gap-3 sm:max-w-none sm:gap-x-4 sm:gap-y-4"
         iconClass="h-[1.35rem] w-[1.35rem] sm:h-6 sm:w-6"
+      />
+    </section>
+  )
+}
+
+{
+  variant === 'contact' && (
+    <section class="w-full" aria-label={regionLabel}>
+      <p class="mb-3 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-secondary/90">{tagText}</p>
+      <SocialIconsLinks
+        language={language}
+        linkClass={linkClassContact}
+        containerClass="flex flex-wrap items-center gap-3"
+        iconClass="h-[1.15rem] w-[1.15rem] sm:h-5 sm:w-5"
       />
     </section>
   )

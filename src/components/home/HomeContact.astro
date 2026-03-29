@@ -1,0 +1,271 @@
+---
+import SocialShareBar from '@/components/ui/SocialShareBar.astro';
+import { homeContactCopy } from '@/lib/homeContent';
+import type { SupportedLang } from '@/lib/seo';
+
+interface Props {
+  lang: SupportedLang;
+}
+
+const { lang } = Astro.props;
+const c = homeContactCopy(lang);
+const suffix = `contact-${lang}`;
+
+const floatInput =
+  'peer block w-full rounded-xl border border-white/25 bg-white/10 px-3 pb-2.5 pt-5 text-base text-white shadow-sm transition placeholder:text-transparent focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/45 focus:ring-offset-2 focus:ring-offset-primary/25';
+const floatTextarea =
+  'peer block min-h-[148px] w-full resize-y rounded-xl border border-white/25 bg-white/10 px-3 pb-3 pt-6 text-base text-white shadow-sm transition placeholder:text-transparent focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/45 focus:ring-offset-2 focus:ring-offset-primary/25';
+---
+
+<section
+  id="contact"
+  class="relative z-10 -mt-6 scroll-mt-28 overflow-hidden rounded-t-[32px] py-16 md:scroll-mt-32 md:py-24"
+  aria-labelledby={`contact-title-${suffix}`}
+>
+  <div
+    class="pointer-events-none absolute inset-0 z-0 bg-linear-to-b from-primary via-[color-mix(in_oklab,var(--color-primary)_55%,var(--color-soft-blue)_45%)] to-[color-mix(in_oklab,var(--color-bg-landing)_42%,var(--color-primary)_58%)] mask-[linear-gradient(to_bottom,black_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_92%,transparent_100%)]"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-4 md:px-8">
+    <div class="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-16 lg:items-start">
+      <div class="home-reveal text-white lg:pt-4" data-home-reveal>
+        <p class="text-xs font-bold uppercase tracking-[0.2em] text-secondary/95">{c.eyebrow}</p>
+        <h2
+          id={`contact-title-${suffix}`}
+          class="mt-3 font-heading text-3xl font-bold text-balance text-white md:text-4xl lg:text-5xl"
+        >
+          {c.title}
+        </h2>
+        <h3 class="mt-3 font-heading text-xl font-medium text-balance text-white/85 md:text-2xl">
+          {c.subtitle}
+        </h3>
+        <p class="mt-6 max-w-md text-base leading-relaxed text-white/80">{c.intro}</p>
+
+        <div class="mt-8 border-t border-white/15 pt-8">
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-secondary/90">{c.emailLabel}</p>
+          <a
+            class="mt-2 inline-flex text-lg font-semibold text-white underline decoration-secondary/80 decoration-2 underline-offset-4 transition hover:decoration-secondary"
+            href={`mailto:${c.email}`}
+          >
+            {c.email}
+          </a>
+        </div>
+
+        <div class="mt-10">
+          <SocialShareBar language={lang === 'es' ? 'es' : 'en'} variant="contact" />
+        </div>
+      </div>
+
+      <div
+        class="home-reveal rounded-2xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-xl sm:p-8"
+        data-home-reveal
+        data-reveal-delay="120"
+      >
+        <div
+          class="contact-form-root relative isolate min-h-[320px] w-full"
+          id={`contact-form-root-${suffix}`}
+          data-contact-sending={c.sending}
+          data-contact-error-generic={c.errorGeneric}
+        >
+          <div
+            class="relative z-10 transition-opacity duration-300 ease-out data-[state=hidden]:pointer-events-none data-[state=hidden]:invisible data-[state=hidden]:opacity-0"
+            data-contact-form-panel
+            data-state="visible"
+          >
+            <p class="mb-6 font-heading text-lg font-bold text-secondary sm:text-xl">{c.formTitle}</p>
+
+            <div
+              class="mb-4 hidden rounded-xl border border-red-300/40 bg-red-950/30 px-4 py-3 text-sm text-red-100"
+              data-contact-error
+              role="alert"
+              hidden
+            ></div>
+
+            <form class="flex flex-col gap-5" data-contact-form novalidate>
+              <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+                <label for={`contact-hp-${suffix}`}>{c.honeypotLabel}</label>
+                <input
+                  id={`contact-hp-${suffix}`}
+                  type="text"
+                  name="website"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
+
+              <div class="relative">
+                <input
+                  id={`contact-name-${suffix}`}
+                  name="name"
+                  type="text"
+                  autocomplete="name"
+                  placeholder=" "
+                  required
+                  maxlength="120"
+                  class={floatInput}
+                  aria-required="true"
+                />
+                <label class="contact-float-label" for={`contact-name-${suffix}`}>{c.name}</label>
+              </div>
+
+              <div class="relative">
+                <input
+                  id={`contact-email-${suffix}`}
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  placeholder=" "
+                  required
+                  class={floatInput}
+                  aria-required="true"
+                />
+                <label class="contact-float-label" for={`contact-email-${suffix}`}>{c.emailField}</label>
+              </div>
+
+              <div class="relative">
+                <input
+                  id={`contact-subject-${suffix}`}
+                  name="subject"
+                  type="text"
+                  autocomplete="off"
+                  placeholder=" "
+                  required
+                  maxlength="200"
+                  class={floatInput}
+                  aria-required="true"
+                />
+                <label class="contact-float-label" for={`contact-subject-${suffix}`}>{c.subject}</label>
+              </div>
+
+              <div class="relative">
+                <textarea
+                  id={`contact-message-${suffix}`}
+                  name="message"
+                  placeholder=" "
+                  required
+                  maxlength="8000"
+                  rows={6}
+                  class={floatTextarea}
+                  aria-required="true"
+                ></textarea>
+                <label class="contact-float-label" for={`contact-message-${suffix}`}>{c.message}</label>
+              </div>
+
+              <div class="pt-2">
+                <button type="submit" class="btn btn-primary w-full min-h-12 sm:w-auto sm:min-w-[200px]">
+                  <span data-contact-submit-label>{c.button}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div
+            class="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-xl border border-white/15 bg-primary/85 p-6 text-center opacity-0 backdrop-blur-md transition-opacity duration-300 ease-out pointer-events-none invisible"
+            data-contact-success-panel
+            aria-live="polite"
+          >
+            <p class="font-heading text-xl font-bold text-secondary md:text-2xl">{c.successTitle}</p>
+            <p class="mt-3 max-w-sm text-sm leading-relaxed text-white/90">{c.successBody}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ lang }}>
+  const initContactForm = () => {
+    const roots = document.querySelectorAll('.contact-form-root');
+    roots.forEach((root) => {
+      if (!(root instanceof HTMLElement)) return;
+      if (root.dataset.contactBound === '1') return;
+      root.dataset.contactBound = '1';
+
+      const form = root.querySelector('form[data-contact-form]');
+      const panel = root.querySelector('[data-contact-form-panel]');
+      const success = root.querySelector('[data-contact-success-panel]');
+      const errBox = root.querySelector('[data-contact-error]');
+      const submitLabel = root.querySelector('[data-contact-submit-label]');
+      const sendingText = root.dataset.contactSending ?? '';
+      const errorGeneric = root.dataset.contactErrorGeneric ?? '';
+
+      if (
+        !(form instanceof HTMLFormElement) ||
+        !(panel instanceof HTMLElement) ||
+        !(success instanceof HTMLElement) ||
+        !(errBox instanceof HTMLElement) ||
+        !(submitLabel instanceof HTMLElement)
+      ) {
+        return;
+      }
+
+      const defaultLabel = submitLabel.textContent ?? '';
+
+      const showError = (msg) => {
+        errBox.textContent = msg;
+        errBox.hidden = false;
+      };
+
+      const hideError = () => {
+        errBox.textContent = '';
+        errBox.hidden = true;
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        hideError();
+
+        const formData = new FormData(form);
+        const website = String(formData.get('website') ?? '').trim();
+        const body = {
+          name: String(formData.get('name') ?? '').trim(),
+          email: String(formData.get('email') ?? '').trim(),
+          subject: String(formData.get('subject') ?? '').trim(),
+          message: String(formData.get('message') ?? '').trim(),
+          lang,
+          website,
+        };
+
+        submitLabel.textContent = sendingText;
+        form.querySelectorAll('input, textarea, button').forEach((el) => {
+          if (el instanceof HTMLElement) el.setAttribute('disabled', '');
+        });
+
+        try {
+          const res = await fetch('/api/contact/', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(body),
+          });
+
+          const data = await res.json().catch(() => ({}));
+          const message =
+            typeof data.message === 'string' && data.message ? data.message : errorGeneric;
+
+          if (!res.ok || !data.success) {
+            showError(message);
+            submitLabel.textContent = defaultLabel;
+            form.querySelectorAll('input, textarea, button').forEach((el) => {
+              if (el instanceof HTMLElement) el.removeAttribute('disabled');
+            });
+            return;
+          }
+
+          panel.dataset.state = 'hidden';
+          success.classList.remove('pointer-events-none', 'invisible', 'opacity-0');
+          success.classList.add('opacity-100');
+          form.reset();
+        } catch {
+          showError(errorGeneric);
+          submitLabel.textContent = defaultLabel;
+          form.querySelectorAll('input, textarea, button').forEach((el) => {
+            if (el instanceof HTMLElement) el.removeAttribute('disabled');
+          });
+        }
+      });
+    });
+  };
+
+  document.addEventListener('astro:page-load', initContactForm);
+</script>

@@ -723,4 +723,46 @@
     font-weight: 500;
     color: var(--color-primary);
   }
+
+  /** Contacto home: etiquetas flotantes sobre cristal (texto claro / acento secondary al foco). */
+  .contact-form-root label.contact-float-label {
+    pointer-events: none;
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    z-index: 10;
+    transform-origin: left center;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: color-mix(in srgb, white 58%, transparent);
+    transition-property: top, transform, font-size, color;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .contact-form-root textarea.peer ~ label.contact-float-label {
+    top: 1.25rem;
+    transform: translateY(0);
+    font-size: 1rem;
+  }
+
+  .contact-form-root textarea.peer:focus ~ label.contact-float-label,
+  .contact-form-root textarea.peer:not(:placeholder-shown) ~ label.contact-float-label {
+    top: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    color: var(--color-secondary);
+  }
+
+  .contact-form-root input.peer:focus ~ label.contact-float-label,
+  .contact-form-root input.peer:not(:placeholder-shown) ~ label.contact-float-label {
+    top: 0.5rem;
+    transform: translateY(0);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    color: var(--color-secondary);
+  }
 }
