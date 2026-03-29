@@ -11,7 +11,7 @@ import BaseHead from '@/components/BaseHead.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import PostCard from '@/components/PostCard.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '@/consts';
+import { SITE_TITLE } from '@/consts';
 
 const lang = Astro.params.lang;
 if (lang !== 'es' && lang !== 'en') {
@@ -26,12 +26,17 @@ const alternateLang = lang === 'es' ? 'en' : 'es';
 const alternateLink = `/${alternateLang}/blog/`;
 const esBlogIndex = new URL('/es/blog/', Astro.url.origin).href;
 const enBlogIndex = new URL('/en/blog/', Astro.url.origin).href;
+
+const blogMetaDescription =
+	lang === 'es'
+		? `${SITE_TITLE} — Sitio oficial. Blog: guías y reflexiones para confirmar que otro estilo de vida es posible.`
+		: `${SITE_TITLE} — Official site. Blog: guides and reflections on another way of life.`;
 ---
 
 <!doctype html>
 <html lang={lang}>
 	<head>
-		<BaseHead title={`${SITE_TITLE} | Blog`} description={SITE_DESCRIPTION} />
+		<BaseHead title={`${SITE_TITLE} | Blog`} description={blogMetaDescription} lang={lang} />
 		<ClientRouter />
 		<link rel="alternate" hreflang="es" href={esBlogIndex} />
 		<link rel="alternate" hreflang="en" href={enBlogIndex} />

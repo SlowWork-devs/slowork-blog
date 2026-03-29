@@ -36,9 +36,12 @@ const description =
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Slowork',
+    name: 'SloWork',
+    alternateName: lang === 'es' ? 'SloWork — sitio oficial' : 'SloWork — official site',
     description,
     url: `https://www.slowork.app/${lang}/`,
+    inLanguage: lang === 'es' ? 'es' : 'en',
+    publisher: { '@type': 'Organization', name: 'SloWork' },
   }}
 >
   <main class="w-full">

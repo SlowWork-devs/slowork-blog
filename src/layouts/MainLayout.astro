@@ -10,7 +10,7 @@ import Footer from '@/components/Footer.astro';
 import HomeWaitlistModal from '@/components/home/HomeWaitlistModal.astro';
 import SocialShareBar from '@/components/ui/SocialShareBar.astro';
 import FallbackImage from '@/assets/blog-placeholder-1.png';
-import { SITE_TITLE } from '@/consts';
+import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts';
 
 type Alternate = {
   hreflang: string;
@@ -35,7 +35,7 @@ interface Props {
 const {
   lang,
   title = SITE_TITLE,
-  description = '',
+  description = SITE_DESCRIPTION,
   canonical,
   image = FallbackImage,
   ogType = 'website',
@@ -54,6 +54,8 @@ const ogImageURL = new URL(image.src, Astro.url);
 
 const gaId = import.meta.env.PUBLIC_GA_ID?.trim() ?? '';
 const gaEnabled = gaId.length > 0;
+
+const ogLocale = lang === 'es' ? 'es_ES' : 'en_US';
 ---
 
 <!doctype html>
@@ -64,6 +66,8 @@ const gaEnabled = gaId.length > 0;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="robots" content="index, follow" />
+    <meta name="publisher" content="SloWork" />
+    <meta name="application-name" content={SITE_TITLE} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
@@ -81,6 +85,8 @@ const gaEnabled = gaId.length > 0;
     {description && <meta name="description" content={description} />}
 
     <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta property="og:locale" content={ogLocale} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
