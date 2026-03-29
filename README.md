@@ -1,35 +1,47 @@
-# 🌿 SloWork Blog
+# SloWork — slowork-landing-v2
 
 > **Otro estilo de vida es posible.**
 
-SloWork es una plataforma editorial dedicada a validar y explorar nuevas formas de vida y trabajo. Este blog es el corazón de la marca, ofreciendo recursos prácticos, guías de destinos y reflexiones para la comunidad nómada digital y remota.
+Repositorio **`slowork-landing-v2`**: **sitio web oficial de SloWork** (landing y blog unificados en un solo proyecto Astro). Incluye la experiencia de marca, la waitlist, el contenido editorial y las páginas legales bajo rutas internacionales.
 
 ---
 
-## 🚀 Stack Tecnológico
+## Stack tecnológico
 
-Este proyecto está construido con las tecnologías más modernas para garantizar velocidad, SEO y una experiencia de lectura premium:
-
-- **Framework:** [Astro v5](https://astro.build/) (Content Layer API)
-- **Estilos:** [Tailwind CSS v4](https://tailwindcss.com/) (Vite Plugin)
-- **Contenido:** MDX & Markdown
-- **Tipografía:** Poppins (Google Fonts)
-- **Despliegue:** Optimizado para Vercel / Netlify
-
----
-
-## 🌍 Arquitectura Internacional (i18n)
-
-El blog está estructurado para una audiencia global con soporte nativo para:
-- 🇪🇸 **Español:** `/es/blog/`
-- 🇬🇧 **Inglés:** `/en/blog/`
-
-Los contenidos se sincronizan mediante el campo `id` y `translationSlug` en el frontmatter de los archivos Markdown ubicados en `src/content/blog/`.
+- **Framework:** [Astro 6](https://astro.build/) (SSR, Content Collections)
+- **Estilos:** [Tailwind CSS 4](https://tailwindcss.com/) (plugin Vite)
+- **Contenido:** MDX y Markdown
+- **Tipografía:** Poppins (Fontsource)
+- **Datos:** Prisma (waitlist y formularios)
+- **Despliegue:** optimizado para Vercel
 
 ---
 
-## 🛠️ Instalación y Desarrollo
+## Arquitectura internacional (i18n)
+
+- 🇪🇸 **Español:** `/es/` (home, blog, legales)
+- 🇬🇧 **Inglés:** `/en/`
+
+Los artículos del blog se enlazan entre idiomas con `id` y `translationSlug` en el frontmatter (`src/content/blog/`).
+
+---
+
+## Instalación y desarrollo
 
 1. **Instalar dependencias:**
+
    ```bash
    npm install
+   ```
+
+2. **Variables de entorno:** copiar y ajustar según `.env.example` (base de datos, correo, analytics).
+
+3. **Arrancar en local:**
+
+   ```bash
+   npm run dev
+   ```
+
+---
+
+Nombre del paquete npm: **`slowork-landing-v2`**. El dominio público canónico del sitio es **`https://www.slowork.app`** (definido en `astro.config.mjs`).

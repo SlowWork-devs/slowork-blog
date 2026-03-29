@@ -15,6 +15,7 @@ export default defineConfig({
   /** Canonicals y sitemap usan barra final; coherente con Vercel + Search Console. */
   trailingSlash: 'always',
   adapter: vercel(),
+  /** Dominio canónico del sitio oficial SloWork (`slowork-landing-v2`). En preview, Vercel expone VERCEL_URL. */
   site: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://www.slowork.app',
   integrations: [
     mdx({
