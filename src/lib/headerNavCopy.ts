@@ -4,7 +4,7 @@ import type { SupportedLang } from '@/lib/seo';
 const es: HeaderNavTranslations = {
   blog: 'BLOG',
   about: 'ABOUT',
-  impact: 'IMPACT',
+  impact: 'IMPACT PROGRAM',
   join: 'Únete a la lista de espera',
   menu: 'Abrir menú',
   close: 'Cerrar menú',
@@ -14,7 +14,7 @@ const es: HeaderNavTranslations = {
 const en: HeaderNavTranslations = {
   blog: 'BLOG',
   about: 'ABOUT',
-  impact: 'IMPACT',
+  impact: 'IMPACT PROGRAM',
   join: 'Join the waiting list',
   menu: 'Open menu',
   close: 'Close menu',
