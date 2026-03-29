@@ -12,7 +12,7 @@ const copy = homeValueCopy(lang);
 ---
 
 <section
-  class="relative -mt-10 min-h-screen w-full rounded-t-[35px] bg-gradient-to-bl from-bg-landing via-light-green/30 to-bg-landing pb-20 pt-14"
+  class="home-value-bleed relative z-0 -mt-24 max-sm:-mt-16 min-h-screen w-full rounded-t-[35px] border-t border-white/20 pb-20 pt-14"
 >
   <div class="mx-auto max-w-7xl px-6">
     <h2
@@ -31,7 +31,7 @@ const copy = homeValueCopy(lang);
 
     <div class="my-12 flex flex-col-reverse items-center justify-center gap-10 lg:flex-row lg:gap-16">
       <div
-        class="home-reveal w-full max-w-xl rounded-3xl border border-primary/10 bg-white/80 p-6 shadow-lg shadow-primary/15 transition-transform duration-300 hover:scale-[1.02] sm:p-8 lg:p-10"
+        class="home-reveal w-full max-w-xl rounded-3xl border border-primary/10 border-t-white/25 bg-white/75 p-6 shadow-lg shadow-primary/15 backdrop-blur-xl transition-transform duration-300 hover:scale-[1.02] sm:p-8 lg:p-10"
         data-home-reveal
         data-reveal-delay="220"
       >
@@ -198,3 +198,17 @@ const copy = homeValueCopy(lang);
     apply();
   })();
 </script>
+
+<style>
+  /* Cristal: tramos altos semitransparentes + tinte oklab (verde suave del tema). */
+  .home-value-bleed {
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    background-image: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-light-green) 38%, white 62% / 0.78) 0%,
+      color-mix(in oklab, var(--color-bg-landing) 76%, var(--color-light-green) 24% / 0.92) 48%,
+      var(--color-bg-landing) 100%
+    );
+  }
+</style>
