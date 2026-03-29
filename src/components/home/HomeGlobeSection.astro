@@ -11,7 +11,10 @@ const { lang } = Astro.props;
 const copy = homeGlobeCopy(lang);
 ---
 
-<section class="relative -mt-12 overflow-hidden rounded-t-[40px] bg-gradient-to-t from-bg-landing via-primary to-bg-landing py-16 md:py-24">
+<section
+  class="relative -mt-12 overflow-hidden rounded-t-[40px] bg-gradient-to-t from-bg-landing via-primary to-bg-landing py-16 md:py-24"
+  data-globe-reveal
+>
   <div class="mx-auto max-w-7xl px-6">
     <h2 class="mt-8 text-center font-heading text-3xl font-bold text-secondary md:text-5xl">
       {copy.title}
@@ -37,14 +40,18 @@ const copy = homeGlobeCopy(lang);
         </div>
       </div>
       <div class="space-y-6">
-        <div class="rounded-2xl border border-white/20 bg-white/10 p-8 text-white backdrop-blur">
+        <div
+          class="home-reveal rounded-2xl border border-white/20 bg-white/10 p-8 text-white backdrop-blur"
+          data-home-reveal
+          data-reveal-delay="150"
+        >
           <h2 class="font-heading text-2xl font-bold sm:text-3xl md:text-4xl">{copy.asideTitle}</h2>
           <p class="mt-4 leading-relaxed text-white/90">{copy.asideBody}</p>
         </div>
         <ul class="grid gap-4 sm:grid-cols-2">
           {
             HOME_GLOBE_CARDS.map((c) => (
-              <li class="rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-white backdrop-blur">
+              <li class="globe-dest-item rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-white backdrop-blur">
                 <p class="font-heading font-bold text-secondary">{c.title[lang]}</p>
                 <p class="mt-1 text-sm leading-relaxed text-white/85">{c.description[lang]}</p>
               </li>

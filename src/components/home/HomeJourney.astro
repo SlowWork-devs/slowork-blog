@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { SupportedLang } from '@/lib/seo';
-import { HOME_JOURNEY, HOME_MEDIA, homeJourneyTitleParts } from '@/lib/homeContent';
+import { HOME_JOURNEY, HOME_MEDIA, homeJourneyTitleParts, homeFinalCtaCopy } from '@/lib/homeContent';
 import HomeIcon from '@/components/home/HomeIcon.astro';
 
 interface Props {
@@ -10,21 +10,30 @@ interface Props {
 
 const { lang } = Astro.props;
 const titleParts = homeJourneyTitleParts(lang);
+const ctaCopy = homeFinalCtaCopy(lang);
 ---
 
-<section class="relative -mt-8 overflow-hidden rounded-t-[5rem] bg-gradient-to-t from-bg-landing via-primary/85 to-bg-landing py-16 pb-24">
+<section class="journey-section relative -mt-8 overflow-hidden rounded-t-[5rem] bg-linear-to-t from-bg-landing via-primary/85 to-bg-landing py-16 pb-24">
   <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <h2
-      class="mb-12 text-center font-heading text-2xl font-bold text-secondary sm:mb-16 sm:text-3xl md:text-4xl lg:text-5xl"
+      class="home-reveal mb-12 text-center font-heading text-2xl font-bold text-secondary sm:mb-16 sm:text-3xl md:text-4xl lg:text-5xl"
+      data-home-reveal
     >
       {titleParts.before}<span class="text-soft-blue">{titleParts.highlight}</span>{titleParts.after}
     </h2>
 
     <div class="relative flex flex-col items-center">
+      <!-- Línea vertical que crece con scroll-driven animation -->
       <div
-        class="absolute left-1/2 hidden h-full w-1 -translate-x-1/2 bg-gradient-to-b from-primary to-soft-blue md:block"
+        class="journey-line-track absolute left-1/2 hidden h-full w-1 -translate-x-1/2 bg-linear-to-b from-primary to-soft-blue md:block"
         aria-hidden="true"
-      >
+      ></div>
+
+      <!-- Nodo viajero (solo visible en md+ con scroll-driven animations) -->
+      <div class="journey-node absolute left-1/2 z-20" aria-hidden="true">
+        <div class="-translate-x-1/2 flex h-6 w-6 items-center justify-center rounded-full bg-secondary shadow-xl ring-4 ring-secondary/30">
+          <div class="h-2 w-2 rounded-full bg-primary"></div>
+        </div>
       </div>
 
       <div class="relative z-10 w-full space-y-12 sm:space-y-10 md:space-y-8">
@@ -38,7 +47,7 @@ const titleParts = homeJourneyTitleParts(lang);
                 <div class="flex max-w-md flex-col items-center text-center sm:max-w-lg mx-auto">
                   <div
                     class:list={[
-                      'mb-4 flex h-20 w-20 items-center justify-center rounded-full shadow-xl sm:mb-6 sm:h-24 sm:w-24',
+                      'journey-step-icon mb-4 flex h-20 w-20 items-center justify-center rounded-full shadow-xl sm:mb-6 sm:h-24 sm:w-24',
                       step.iconWrapClass,
                     ]}
                   >
@@ -82,7 +91,7 @@ const titleParts = homeJourneyTitleParts(lang);
                 </div>
                 <div
                   class:list={[
-                    'order-1 flex h-16 w-16 shrink-0 items-center justify-center rounded-full shadow-lg sm:h-20 sm:w-20 md:order-2 z-10',
+                    'journey-step-icon order-1 flex h-16 w-16 shrink-0 items-center justify-center rounded-full shadow-lg sm:h-20 sm:w-20 md:order-2 z-10',
                     step.iconWrapClass,
                   ]}
                 >
@@ -107,6 +116,23 @@ const titleParts = homeJourneyTitleParts(lang);
             ),
           )
         }
+      </div>
+
+      <!-- CTA waitlist al final de la línea del viaje -->
+      <div
+        class="home-reveal journey-from-bottom relative z-10 mt-14 flex flex-col items-center gap-4"
+        data-home-reveal
+        data-reveal-delay="200"
+      >
+        <div class="h-10 w-px bg-linear-to-b from-soft-blue to-secondary opacity-70" aria-hidden="true"></div>
+        <button
+          type="button"
+          data-open-waitlist
+          class="waitlist-landing-hook inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-secondary px-8 py-3.5 text-lg font-bold text-primary shadow-xl transition hover:opacity-95 active:scale-[0.98] touch-manipulation"
+        >
+          {ctaCopy.waitlist}
+        </button>
+        <p class="text-sm text-white/65">{ctaCopy.subtitle}</p>
       </div>
     </div>
   </div>

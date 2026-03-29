@@ -55,7 +55,7 @@ const title = homeWhoTitleParts(lang);
             HOME_WHO_CARDS.map((card) => (
               <div
                 class:list={[
-                  'home-reveal group relative aspect-square overflow-hidden rounded-2xl',
+                  'home-reveal reveal-scale group relative aspect-square overflow-hidden rounded-2xl',
                   card.side === 'left' ? 'who-from-left' : 'who-from-right',
                   card.delayClass ?? '',
                 ]}

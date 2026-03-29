@@ -337,41 +337,195 @@
 }
 
 @layer components {
-  /* Scroll reveal (landing) */
+  /* ── Scroll reveal (landing) ─────────────────────────────────────────────── */
   .home-reveal {
     opacity: 0;
-    transform: translate3d(0, 1.25rem, 0);
+    transform: translate3d(0, 1.5rem, 0);
+    will-change: opacity, transform;
     transition:
-      opacity 0.55s ease,
-      transform 0.55s ease;
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.65s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .home-reveal.is-visible {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+
+  /* Scale-in variant: features, who-cards, value card */
+  .home-reveal.reveal-scale {
+    transform: translate3d(0, 1rem, 0) scale(0.96);
+  }
+  .home-reveal.reveal-scale.is-visible {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  /* Depth variant: final CTA */
+  .home-reveal.reveal-depth {
+    transform: translate3d(0, 2.5rem, 0) scale(0.94);
+    filter: blur(4px);
+  }
+  .home-reveal.reveal-depth.is-visible {
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+
+  /* Journey directional reveals (stronger offset for drama) */
   .home-reveal.journey-from-left {
-    transform: translate3d(-1.25rem, 0, 0);
+    transform: translate3d(-2rem, 0, 0);
   }
   .home-reveal.journey-from-right {
-    transform: translate3d(1.25rem, 0, 0);
+    transform: translate3d(2rem, 0, 0);
   }
   .home-reveal.journey-from-bottom {
-    transform: translate3d(0, 2rem, 0);
+    transform: translate3d(0, 2.5rem, 0);
   }
   .home-reveal.journey-from-left.is-visible,
   .home-reveal.journey-from-right.is-visible,
   .home-reveal.journey-from-bottom.is-visible {
     transform: translate3d(0, 0, 0);
   }
+
+  /* Who cards: diagonal + scale reveal */
   .home-reveal.who-from-left {
-    transform: translate3d(-1.5rem, 1rem, 0);
+    transform: translate3d(-1.5rem, 1.5rem, 0) scale(0.97);
   }
   .home-reveal.who-from-right {
-    transform: translate3d(1.5rem, 1rem, 0);
+    transform: translate3d(1.5rem, 1.5rem, 0) scale(0.97);
   }
   .home-reveal.who-from-left.is-visible,
   .home-reveal.who-from-right.is-visible {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  /* ── Feature cards stagger (parent triggers children via is-visible) ─────── */
+  .features-reveal-frame .feature-card > div {
+    opacity: 0;
+    transform: translateY(1.25rem) scale(0.97);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .features-reveal-frame.is-visible .feature-card > div {
+    opacity: 1;
+    transform: none;
+  }
+  .features-reveal-frame.is-visible .feature-card:nth-child(1) > div { transition-delay: 0ms; }
+  .features-reveal-frame.is-visible .feature-card:nth-child(2) > div { transition-delay: 120ms; }
+  .features-reveal-frame.is-visible .feature-card:nth-child(3) > div { transition-delay: 240ms; }
+
+  /* ── Globe section: in-view scale + speed change ─────────────────────────── */
+  .globe-frame {
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .globe-in-view .globe-frame {
+    transform: scale(1.05);
+  }
+  .globe-in-view .globe-spin {
+    animation-duration: 12s;
+  }
+
+  /* Globe destination cards stagger */
+  .globe-dest-item {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+  }
+  .globe-in-view .globe-dest-item {
+    opacity: 1;
+    transform: none;
+  }
+  .globe-in-view .globe-dest-item:nth-child(1) { transition-delay: 0ms; }
+  .globe-in-view .globe-dest-item:nth-child(2) { transition-delay: 90ms; }
+  .globe-in-view .globe-dest-item:nth-child(3) { transition-delay: 180ms; }
+  .globe-in-view .globe-dest-item:nth-child(4) { transition-delay: 270ms; }
+
+  /* ── Journey: scroll-driven line + traveling node ────────────────────────── */
+  .journey-section {
+    view-timeline-name: --journey-section;
+    view-timeline-axis: block;
+  }
+
+  /* Fallback: line visible as static, node hidden */
+  .journey-line-track {
+    transform-origin: top center;
+  }
+  .journey-node {
+    display: none;
+  }
+
+  /* Glow ring on icon when hito becomes visible */
+  .journey-step-icon {
+    transition:
+      box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .home-reveal.is-visible .journey-step-icon {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-soft-blue) 30%, transparent);
+    transform: scale(1.08);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .journey-line-track {
+      transform: scaleY(0);
+      animation: journey-line-grow linear both;
+      animation-timeline: --journey-section;
+      animation-range: entry 0% cover 80%;
+    }
+    @keyframes journey-line-grow {
+      from { transform: scaleY(0); }
+      to   { transform: scaleY(1); }
+    }
+
+    @media (min-width: 768px) {
+      .journey-node {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: journey-node-travel linear both;
+        animation-timeline: --journey-section;
+        animation-range: entry 0% cover 80%;
+      }
+      @keyframes journey-node-travel {
+        from { top: 0; }
+        to   { top: calc(100% - 1.5rem); }
+      }
+    }
+  }
+
+  /* ── prefers-reduced-motion: disable all scroll animations ──────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .home-reveal,
+    .home-reveal.reveal-scale,
+    .home-reveal.reveal-depth,
+    .home-reveal.journey-from-left,
+    .home-reveal.journey-from-right,
+    .home-reveal.journey-from-bottom,
+    .home-reveal.who-from-left,
+    .home-reveal.who-from-right {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      transition: none !important;
+      animation: none !important;
+    }
+    .features-reveal-frame .feature-card > div {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .globe-dest-item {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .journey-line-track,
+    .journey-node {
+      animation: none !important;
+      transform: none !important;
+    }
   }
 
   .header-scrolled {
