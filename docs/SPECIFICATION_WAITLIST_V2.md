@@ -1,11 +1,11 @@
 # Especificación: landing-waitlist-v2
 
-Documento de especificación del producto **landing-waitlist-v2**: unifica la visión del **blog SloWork en Astro** (`blog-slowork`) con la **migración de la landing histórica** (CRA + Express en `sloworkLanding`) hacia una sola propuesta Astro, waitlist incluida. Sirve como referencia para equipos, despliegue y evolución del repositorio.
+Documento de especificación del producto **landing-waitlist-v2**: unifica la visión del **blog SloWork en Astro** (`slowork-landing-v2`) con la **migración de la landing histórica** (CRA + Express en `sloworkLanding`) hacia una sola propuesta Astro, waitlist incluida. Sirve como referencia para equipos, despliegue y evolución del repositorio.
 
 **Versión del documento:** 1.3 (marzo 2026)  
-**Repositorio de implementación actual:** `blog-slowork`  
+**Repositorio de implementación actual:** `slowork-landing-v2`  
 **Nombre de producto / release:** **landing-waitlist-v2**  
-**Memoria de decisiones:** parte del contenido de la §5 proviene de **Engram** (proyectos `slowork-unified` y `blog-slowork`).
+**Memoria de decisiones:** parte del contenido de la §5 proviene de **Engram** (proyectos `slowork-unified` y `slowork-landing-v2`).
 
 ---
 
@@ -13,9 +13,9 @@ Documento de especificación del producto **landing-waitlist-v2**: unifica la vi
 
 **landing-waitlist-v2** es el nombre del proyecto que representa el sitio público SloWork en **un solo stack Astro** (home, páginas legales, programa impact, about, blog y **lista de espera con persistencia**), desplegable de forma coherente (p. ej. Vercel con adapter serverless), con **i18n** `es` / `en` alineada a la landing anterior y SEO unificado.
 
-La implementación vive hoy principalmente en **`blog-slowork`**, que ha dejado de ser “solo blog” para incorporar las piezas que antes dependían de **sloworkLanding** (React) y de backends externos o paralelos.
+La implementación vive hoy principalmente en **`slowork-landing-v2`**, que ha dejado de ser “solo blog” para incorporar las piezas que antes dependían de **sloworkLanding** (React) y de backends externos o paralelos.
 
-En documentación interna y memoria de equipo, la misma línea arquitectónica se denomina a veces **slowork-unified** (producto/arquitectura); el código permanece bajo la carpeta del repo **`blog-slowork`**.
+En documentación interna y memoria de equipo, la misma línea arquitectónica se denomina a veces **slowork-unified** (producto/arquitectura); el código permanece bajo la carpeta del repo **`slowork-landing-v2`**.
 
 La **unificación** (landing React + blog en un solo sitio Astro) consiste en:
 
@@ -47,7 +47,7 @@ La **unificación** (landing React + blog en un solo sitio Astro) consiste en:
 
 ### 3.1 Rutas públicas principales
 
-Implementación de referencia: `src/pages/` en `blog-slowork`.
+Implementación de referencia: `src/pages/` en `slowork-landing-v2`.
 
 | Área | Patrón de ruta | Notas |
 |------|----------------|--------|
@@ -80,7 +80,7 @@ Ambas rutas están definidas como **no prerender** (`prerender = false`).
 
 ---
 
-## 4. Arquitectura técnica (blog-slowork como base)
+## 4. Arquitectura técnica (slowork-landing-v2 como base)
 
 ### 4.1 Stack
 
@@ -122,12 +122,12 @@ Referencia: `.env.example` en la raíz del repo.
 - **`PUBLIC_GA_ID`**: opcional, GA4 (`G-…`) vía Partytown en `MainLayout`.
 - **`VERCEL_URL`**: usado en config Astro para URLs en previews; producción apunta a `https://www.slowork.app` cuando no hay preview.
 
-### 4.5 Árbol del repositorio (`blog-slowork`)
+### 4.5 Árbol del repositorio (`slowork-landing-v2`)
 
 Vista orientativa de carpetas y ficheros relevantes. **No** incluye `node_modules/`, `dist/`, `.vercel/`, `.astro/` ni el volumen completo de `src/assets/` ni de `src/content/blog/**/*.md`.
 
 ```
-blog-slowork/
+slowork-landing-v2/
 ├── astro.config.mjs
 ├── prisma.config.ts
 ├── package.json
@@ -204,7 +204,13 @@ blog-slowork/
 
 ## 5. Decisiones técnicas y arquitectura (memoria Engram)
 
-Esta sección consolida decisiones explícitas guardadas en **Engram** para los proyectos **slowork-unified** y **blog-slowork**. Si el código diverge, prima el repositorio; Engram sirve como registro de intención y contexto.
+Esta sección consolida decisiones explícitas guardadas en **Engram** para los proyectos **slowork-unified** y **slowork-landing-v2**. Si el código diverge, prima el repositorio; Engram sirve como registro de intención y contexto.
+
+### 5.0 Naming del proyecto, carpeta y dominio canónico (decisiones de Engram)
+
+- El proyecto Astro unificado ha usado el nombre **`blog-slowork`** en etapas anteriores, pero la carpeta y el `name` de `package.json` se estandarizaron a **`slowork-landing-v2`**.
+- En Engram, el nombre “de arquitectura/producto” para la unificación es **`slowork-unified`** (y se considera typo hablar de `slowork-unifie`).
+- El dominio canónico de producción se mantiene como **`https://www.slowork.app`** (con previews usando `VERCEL_URL` cuando aplica), y debe guiar `astro.config.mjs` (`site`), canonicals y generación de sitemap.
 
 ### 5.1 Unificación Astro 6 frente a React + Express
 
@@ -293,9 +299,9 @@ Pendientes acordados para seguimiento entre sesiones:
 
 ## 6. Relación con sloworkLanding (legacy)
 
-La landing en **Create React App** + **Express** (`sloworkLanding`) es la línea base funcional y de rutas. Los documentos `sloworkLanding/docs/RESUMEN-PARA-MIGRACION-ASTRO.md` y `blog-slowork/docs/RESUMEN-PARA-INTEGRACION-LANDING.md` siguen siendo útiles para **diff** de comportamiento, con matices:
+La landing en **Create React App** + **Express** (`sloworkLanding`) es la línea base funcional y de rutas. Los documentos `sloworkLanding/docs/RESUMEN-PARA-MIGRACION-ASTRO.md` y `slowork-landing-v2/docs/RESUMEN-PARA-INTEGRACION-LANDING.md` siguen siendo útiles para **diff** de comportamiento, con matices:
 
-- **blog-slowork** ya incorpora muchas páginas que el resumen de integración listaba como “pendientes en el repo del blog” (legales, home, impact, waitlist).
+- **slowork-landing-v2** ya incorpora muchas páginas que el resumen de integración listaba como “pendientes en el repo del blog” (legales, home, impact, waitlist).
 - Las **URLs del blog** pueden seguir sin coincidir 1:1 con slugs históricos generados con `slugify(título)` en React; **landing-waitlist-v2** debe incluir política explícita de **redirecciones 301** o aceptación de nueva estructura de slugs.
 - El formulario legacy usaba **reCAPTCHA v2** y API propia; en Astro actual **no hay CAPTCHA** (ver §5.5 y §9): mitigar spam por otros medios hasta **v3**.
 
@@ -306,7 +312,7 @@ La landing en **Create React App** + **Express** (`sloworkLanding`) es la línea
 Se entiende por unificación el trabajo de:
 
 1. **Un solo repositorio y un solo despliegue** orientado a producción (posible renombrado del repo a `landing-waitlist-v2` o monorepo con paquete homónimo; decisión de equipo).
-2. **Eliminar duplicación** entre `sloworkLanding` y `blog-slowork` en documentación, assets y copy.
+2. **Eliminar duplicación** entre `sloworkLanding` y `slowork-landing-v2` en documentación, assets y copy.
 3. **Alinear métricas y analítica** con lo que existía en `public/index.html` del CRA; hoy GA4 vía Partytown + `PUBLIC_GA_ID` (contenedor **GTM** requeriría bloque adicional explícito).
 4. **Definir el rol de `api.slowork.app`** si sigue vivo: solo administración, solo lectura legacy, o retirada.
 
@@ -339,12 +345,12 @@ Se entiende por unificación el trabajo de:
 
 | Documento | Ubicación |
 |-----------|-----------|
-| Resumen blog → landing (contexto anterior) | `blog-slowork/docs/RESUMEN-PARA-INTEGRACION-LANDING.md` |
+| Resumen blog → landing (contexto anterior) | `slowork-landing-v2/docs/RESUMEN-PARA-INTEGRACION-LANDING.md` |
 | Resumen migración CRA → Astro | `sloworkLanding/docs/RESUMEN-PARA-MIGRACION-ASTRO.md` |
-| README producto blog | `blog-slowork/README.md` |
-| Esquema waitlist | `blog-slowork/prisma/schema.prisma` |
-| Middleware idioma | `blog-slowork/src/middleware.ts` |
-| Memoria persistente (decisiones de sesión) | **Engram** — proyectos `slowork-unified`, `blog-slowork` (tópicos p. ej. `slowork-unified/assets-legal-seo-sitemap`, `blog-slowork/waitlist-api-architecture`, `slowork-unified/home-hero-vt-rotator`, `architecture/aliases-api-waitlist`) |
+| README producto blog | `slowork-landing-v2/README.md` |
+| Esquema waitlist | `slowork-landing-v2/prisma/schema.prisma` |
+| Middleware idioma | `slowork-landing-v2/src/middleware.ts` |
+| Memoria persistente (decisiones de sesión) | **Engram** — proyectos `slowork-unified`, `slowork-landing-v2` (tópicos p. ej. `slowork-unified/assets-legal-seo-sitemap`, `slowork-landing-v2/waitlist-api-architecture`, `slowork-unified/home-hero-vt-rotator`, `architecture/aliases-api-waitlist`) |
 
 ---
 
@@ -353,8 +359,8 @@ Se entiende por unificación el trabajo de:
 | Término | Significado |
 |---------|-------------|
 | **landing-waitlist-v2** | Nombre del producto / release: landing unificada en Astro con waitlist v2. |
-| **slowork-unified** | Nombre de arquitectura / producto y línea de trabajo de unificación (landing + blog), usado en memoria de equipo (Engram); código en repo `blog-slowork`. |
-| **blog-slowork** | Repositorio Astro que implementa hoy la mayor parte del alcance. |
+| **slowork-unified** | Nombre de arquitectura / producto y línea de trabajo de unificación (landing + blog), usado en memoria de equipo (Engram); código en repo `slowork-landing-v2`. |
+| **slowork-landing-v2** | Repositorio Astro que implementa hoy la mayor parte del alcance. |
 | **sloworkLanding** | Legacy React + Express; fuente de paridad y migración. |
 
 ---

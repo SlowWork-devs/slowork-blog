@@ -1,4 +1,4 @@
-# SloWork Blog (`blog-slowork`) — Resumen técnico para integración con la landing
+# SloWork Blog (`slowork-landing-v2`) — Resumen técnico para integración con la landing
 
 Documento de referencia del proyecto **Astro** del blog, pensado para **fusionarlo con la futura landing unificada** (por ejemplo sustituyendo o coexistiendo con el blog React de `sloworkLanding`). Incluye rutas, contenido, estilos, gaps respecto a producción actual y checklist de integración.
 
@@ -8,7 +8,7 @@ Documento de referencia del proyecto **Astro** del blog, pensado para **fusionar
 
 | Aspecto | Valor |
 | -------- | ------ |
-| Paquete npm | `blog-slowork` |
+| Paquete npm | `slowork-landing-v2` |
 | Tipo de módulo | ESM (`"type": "module"`) |
 | Node requerido | `>=22.12.0` (ver `package.json`) |
 | Framework | **Astro ^6.0.4** (el README habla de “v5”; el lockfile/`package.json` apunta a 6.x) |
@@ -209,7 +209,7 @@ Siguen siendo **placeholders**: afectan título del RSS, meta del índice del bl
 
 ## 11. Diferencias críticas respecto al blog en `sloworkLanding`
 
-| Tema | Landing React (`sloworkLanding`) | Blog Astro (`blog-slowork`) |
+| Tema | Landing React (`sloworkLanding`) | Blog Astro (`slowork-landing-v2`) |
 |------|----------------------------------|------------------------------|
 | Origen de posts | API `api.slowork.app` + fallback `locales/*/posts.js` | Solo Markdown en repo |
 | Slug URL | `slugify(título)` completo (p. ej. en sitemap) | Nombre de fichero truncado (~60 chars) en migración |
