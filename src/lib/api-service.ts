@@ -2,18 +2,38 @@ import type { BlogPost, BlogResponse } from '@/types/blog';
 
 export type ApiLang = 'es' | 'en';
 
-export type LocalizedBlogPost = Omit<BlogPost, 'title_es' | 'title_en' | 'content_es' | 'content_en'> & {
+export type LocalizedBlogPost = Omit<
+  BlogPost,
+  'title_es' | 'title_en' | 'content_es' | 'content_en' | 'excerpt_es' | 'excerpt_en' | 'slug'
+> & {
+  slug: string;
   title: string;
   content: string;
+  excerpt: string;
 };
 
-const localizeBlogPost = (post: BlogPost, lang: ApiLang): LocalizedBlogPost => ({
-  ...post,
-  slug: post.slug || String(post.id),
-  category_id: post.category_id ?? 0,
-  title: lang === 'es' ? post.title_es : post.title_en,
-  content: lang === 'es' ? post.content_es : post.content_en,
-});
+const resolveSlug = (post: BlogPost): string => {
+  const fromDb = post.slug?.trim();
+  return fromDb && fromDb.length > 0 ? fromDb : String(post.id);
+};
+
+const localizeBlogPost = (post: BlogPost, lang: ApiLang): LocalizedBlogPost => {
+  const excerpt =
+    lang === 'es' ? (post.excerpt_es?.trim() ?? '') : (post.excerpt_en?.trim() ?? '');
+
+  return {
+    id: post.id,
+    slug: resolveSlug(post),
+    title: lang === 'es' ? post.title_es : post.title_en,
+    content: lang === 'es' ? post.content_es : post.content_en,
+    excerpt,
+    keywords: post.keywords ?? [],
+    image_url: post.image_url,
+    category_id: post.category_id ?? 0,
+    category: post.category,
+    creation_date: post.creation_date,
+  };
+};
 
 const fetchGraphQL = async <T>(query: string, variables = {}): Promise<T> => {
   const baseUrl = import.meta.env.SLOWORK_API_URL as string | undefined;
@@ -42,24 +62,32 @@ const fetchGraphQL = async <T>(query: string, variables = {}): Promise<T> => {
   return data;
 };
 
+const BLOG_FIELDS = `
+  id
+  slug
+  title_es
+  title_en
+  content_es
+  content_en
+  excerpt_es
+  excerpt_en
+  keywords
+  image_url
+  category_id
+  creation_date
+  category {
+    id
+    name_es
+    name_en
+    creation_date
+  }
+`;
+
 const GET_BLOGS_QUERY = `
   query GetBlogs($currentPage: Int, $paginationSize: Int) {
     getBlogs(currentPage: $currentPage, paginationSize: $paginationSize) {
       items {
-        id
-        title_es
-        title_en
-        content_es
-        content_en
-        image_url
-        category_id
-        creation_date
-        category {
-          id
-          name_es
-          name_en
-          creation_date
-        }
+        ${BLOG_FIELDS}
       }
       pageInfo {
         totalItems
@@ -74,20 +102,15 @@ const GET_BLOGS_QUERY = `
 const GET_BLOG_BY_ID_QUERY = `
   query GetBlog($id: Int!) {
     getBlog(id: $id) {
-      id
-      title_es
-      title_en
-      content_es
-      content_en
-      image_url
-      category_id
-      creation_date
-      category {
-        id
-        name_es
-        name_en
-        creation_date
-      }
+      ${BLOG_FIELDS}
+    }
+  }
+`;
+
+const GET_BLOG_BY_SLUG_QUERY = `
+  query GetBlogBySlug($slug: String!) {
+    getBlogBySlug(slug: $slug) {
+      ${BLOG_FIELDS}
     }
   }
 `;
@@ -114,3 +137,11 @@ export async function getBlogById(params: { id: number; lang?: ApiLang }) {
   return localizeBlogPost(data.getBlog, lang);
 }
 
+export async function getBlogBySlug(params: { slug: string; lang?: ApiLang }) {
+  const data = await fetchGraphQL<{ getBlogBySlug: BlogPost }>(GET_BLOG_BY_SLUG_QUERY, {
+    slug: params.slug,
+  });
+
+  const lang = params.lang === 'es' ? 'es' : 'en';
+  return localizeBlogPost(data.getBlogBySlug, lang);
+}

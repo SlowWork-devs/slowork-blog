@@ -12,7 +12,11 @@ export interface BlogPost {
   content_es: string;
   content_en: string;
   image_url: string;
-  slug?: string;
+  /** Slug canónico en BD; si viene vacío, el cliente usa `id` en la URL. */
+  slug?: string | null;
+  excerpt_es?: string | null;
+  excerpt_en?: string | null;
+  keywords?: string[] | null;
   category_id: number;
   category?: BlogCategory;
   creation_date: string;
