@@ -6,8 +6,8 @@ import BlogPost from '@/layouts/BlogPost.astro';
 import MainLayout from '@/layouts/MainLayout.astro';
 import { getBlogById, getBlogBySlug, type ApiLang } from '@/lib/api-service';
 import { Image } from 'astro:assets';
-import FormattedDate from '@/components/FormattedDate.astro';
 import BlogArticleBackButton from '@/components/ui/BlogArticleBackButton.astro';
+import { formatBlogCreationDate, htmlToPlainText } from '@/lib/blog-display';
 import ScrollToTopButton from '@/components/ui/ScrollToTopButton.astro';
 import type { SupportedLang } from '@/lib/seo';
 import { BLOG_IMAGE_CLOUDFRONT_HOST, SITE_DESCRIPTION } from '@/consts';
@@ -64,8 +64,17 @@ const apiEsHref = new URL(apiEsPath, Astro.url.origin).href;
 const apiEnHref = new URL(apiEnPath, Astro.url.origin).href;
 const apiXDefaultHref = lang === 'es' ? apiEsHref : apiPost ? apiEsHref : apiEnHref;
 
+const apiExcerptPlain =
+  apiPost && apiPost.excerpt.trim().length > 0
+    ? htmlToPlainText(apiPost.excerpt)
+    : '';
 const apiMetaDescription =
-  apiPost && apiPost.excerpt.trim().length > 0 ? apiPost.excerpt : SITE_DESCRIPTION;
+  apiExcerptPlain.length > 0 ? apiExcerptPlain : SITE_DESCRIPTION;
+
+const apiFormattedDate =
+  apiPost ? formatBlogCreationDate(apiPost.creation_date, lang) : '';
+const apiCreationDatetimeIso =
+  apiPost ? new Date(apiPost.creation_date).toISOString() : '';
 
 const apiSocialImage =
   apiPost?.image_url && /^https?:\/\//i.test(apiPost.image_url) ? apiPost.image_url : undefined;
@@ -139,8 +148,8 @@ const apiCfHero =
               <BlogArticleBackButton lang={blogLang} />
             </div>
             <header class="mb-8 md:mb-12">
-              <div class="text-sm text-primary/60 mb-2">
-                <FormattedDate date={new Date(apiPost.creation_date)} />
+              <div class="text-sm text-primary/60 mb-2 capitalize">
+                <time datetime={apiCreationDatetimeIso}>{apiFormattedDate}</time>
               </div>
               <h1 class="font-heading font-bold text-primary text-[clamp(1.5rem,4vw+1rem,2.5rem)] leading-tight tracking-tight">
                 {apiPost.title}
@@ -148,7 +157,7 @@ const apiCfHero =
               <hr class="border-primary/20 my-6" />
             </header>
             <div
-              class="prose prose-lg prose-headings:font-heading prose-p:mb-6 prose-img:rounded-3xl prose-img:mx-auto w-full max-w-none"
+              class="prose prose-lg prose-headings:font-heading prose-p:mb-6 prose-a:no-underline prose-a:font-medium prose-a:text-primary prose-img:rounded-3xl prose-img:mx-auto w-full max-w-none text-primary"
               set:html={apiPost.content}
             />
           </div>

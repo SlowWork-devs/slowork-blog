@@ -1,6 +1,13 @@
+import { marked } from 'marked';
 import type { BlogPost, BlogResponse } from '@/types/blog';
 
 export type ApiLang = 'es' | 'en';
+
+const markdownToHtml = (raw: string | null | undefined): string => {
+  const t = (raw ?? '').trim();
+  if (!t) return '';
+  return marked.parse(t, { async: false }) as string;
+};
 
 export type LocalizedBlogPost = Omit<
   BlogPost,
@@ -18,15 +25,16 @@ const resolveSlug = (post: BlogPost): string => {
 };
 
 const localizeBlogPost = (post: BlogPost, lang: ApiLang): LocalizedBlogPost => {
-  const excerpt =
+  const excerptMd =
     lang === 'es' ? (post.excerpt_es?.trim() ?? '') : (post.excerpt_en?.trim() ?? '');
+  const contentMd = lang === 'es' ? post.content_es : post.content_en;
 
   return {
     id: post.id,
     slug: resolveSlug(post),
     title: lang === 'es' ? post.title_es : post.title_en,
-    content: lang === 'es' ? post.content_es : post.content_en,
-    excerpt,
+    content: markdownToHtml(contentMd),
+    excerpt: markdownToHtml(excerptMd),
     keywords: post.keywords ?? [],
     image_url: post.image_url,
     category_id: post.category_id ?? 0,

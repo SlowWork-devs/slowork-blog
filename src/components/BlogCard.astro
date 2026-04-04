@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { LocalizedBlogPost, ApiLang } from '@/lib/api-service';
+import { formatBlogCreationDate } from '@/lib/blog-display';
 import { BLOG_IMAGE_CLOUDFRONT_HOST, SITE_TITLE } from '@/consts';
 
 interface Props {
@@ -23,6 +24,8 @@ const cloudFrontImage =
         }
       })()
     : null;
+
+const formattedDate = formatBlogCreationDate(post.creation_date, lang);
 ---
 
 <a
@@ -52,21 +55,23 @@ const cloudFrontImage =
   </div>
 
   <div class="p-5 sm:p-6 flex flex-col grow">
-    <p class="text-xs text-primary/70 uppercase tracking-wider mb-2">
-      {post.creation_date}
+    <p class="text-sm text-primary/70 mb-2 capitalize">
+      {formattedDate}
     </p>
     <h2 class="font-heading font-bold text-primary text-xl sm:text-2xl leading-snug mb-3 line-clamp-2">
       {post.title}
     </h2>
 
     {post.excerpt ? (
-      <p class="text-primary/80 text-sm sm:text-base leading-relaxed mb-4 grow line-clamp-3">
-        {post.excerpt}
-      </p>
+      <div
+        class="prose prose-sm prose-headings:font-heading prose-p:mb-2 prose-p:last:mb-0 prose-a:no-underline prose-a:font-medium prose-a:text-primary w-full max-w-none text-primary/80 leading-relaxed mb-4 grow line-clamp-3"
+        set:html={post.excerpt}
+      />
     ) : (
-      <div class="prose prose-sm prose-headings:font-heading prose-p:mb-3 prose-a:no-underline prose-a:font-medium prose-a:text-primary w-full max-w-none text-primary/80 leading-relaxed mb-4 grow line-clamp-3">
-        <div set:html={post.content} />
-      </div>
+      <div
+        class="prose prose-sm prose-headings:font-heading prose-p:mb-3 prose-a:no-underline prose-a:font-medium prose-a:text-primary w-full max-w-none text-primary/80 leading-relaxed mb-4 grow line-clamp-3"
+        set:html={post.content}
+      />
     )}
 
     <span class="inline-flex items-center gap-2 font-bold text-primary text-sm sm:text-base group-hover:text-secondary transition-colors">
