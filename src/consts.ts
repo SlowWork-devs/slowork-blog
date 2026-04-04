@@ -7,3 +7,6 @@ export const SITE_TITLE = 'SloWork';
 /** Meta por defecto (RSS, páginas que no sobreescriben descripción). */
 export const SITE_DESCRIPTION =
   'Sitio oficial de SloWork: trabajo remoto, espacios sostenibles, comunidad y blog editorial.';
+
+/** Hostname de imágenes de blog servidas por la API (optimización con `astro:assets` / `<Image />`). */
+export const BLOG_IMAGE_CLOUDFRONT_HOST = 'dkhbyo7gs39kb.cloudfront.net';

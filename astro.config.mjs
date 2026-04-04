@@ -12,6 +12,10 @@ import rehypeWrapTables from './src/plugins/rehype-wrap-tables.mjs';
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
+  /** Imágenes del blog (API) servidas vía CloudFront. */
+  image: {
+    domains: ['dkhbyo7gs39kb.cloudfront.net'],
+  },
   /** Canonicals y sitemap usan barra final; coherente con Vercel + Search Console. */
   trailingSlash: 'always',
   adapter: vercel(),
