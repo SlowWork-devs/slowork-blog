@@ -6,40 +6,98 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const label = lang === 'es' ? 'Únete a la lista' : 'Join the waitlist!';
-const labelShort = lang === 'es' ? 'Lista' : 'Waitlist';
+const label = 'Join';
+const labelShort = 'Join';
 ---
 
 <div
-  class="fixed bottom-6 right-4 z-60 md:bottom-8 md:right-6 lg:bottom-10 lg:right-8"
+  class="waitlist-sticky fixed bottom-6 right-4 z-60 md:bottom-8 md:right-6 lg:bottom-10 lg:right-8"
   aria-hidden="false"
+  data-visible="false"
 >
   <button
     type="button"
     data-open-waitlist
-    class="waitlist-landing-hook btn btn-waitlist-floating flex max-md:h-14 max-md:min-h-14 max-md:items-center max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-0 max-md:text-xs md:gap-2 md:px-5 md:py-3"
+    class="waitlist-landing-hook btn btn-waitlist-floating animate-waitlist-bounce flex max-md:h-14 max-md:min-h-14 max-md:items-center max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-0 max-md:text-xs md:gap-2 md:px-5 md:py-3"
   >
-    <!-- Móvil: icono lista/espera + etiqueta corta; nombre accesible completo -->
-    <span class="flex items-center gap-1.5 md:hidden">
-      <svg
-        class="size-6 shrink-0"
-        aria-hidden="true"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
-      </svg>
+    <!-- Móvil: etiqueta corta; nombre accesible completo -->
+    <span class="flex items-center md:hidden">
       <span class="sr-only">{label}</span>
       <span class="font-bold leading-tight" aria-hidden="true">{labelShort}</span>
     </span>
-    <!-- Tablet/desktop: kaomoji + copy completo -->
-    <span class="hidden items-center gap-2 md:flex">
-      <span class="text-lg leading-none" aria-hidden="true">╰(*°▽°*)╯</span>
-      {label}
-    </span>
+    <!-- Tablet/desktop: copy completo -->
+    <span class="hidden items-center md:flex">{label}</span>
   </button>
 </div>
+
+<script>
+  let stickyWaitlistAbort: AbortController | undefined;
+
+  const setVisible = (el: HTMLElement | null, visible: boolean) => {
+    if (!el) return;
+    el.dataset.visible = visible ? 'true' : 'false';
+  };
+
+  document.addEventListener('astro:page-load', () => {
+    stickyWaitlistAbort?.abort();
+    stickyWaitlistAbort = new AbortController();
+    const { signal } = stickyWaitlistAbort;
+
+    const sticky = document.querySelector<HTMLElement>('.waitlist-sticky');
+    const hero = document.getElementById('hero');
+    const footer = document.querySelector<HTMLElement>('footer');
+
+    // Fail-safe: if structure isn't present, keep it hidden.
+    if (!sticky || !hero || !footer) {
+      setVisible(sticky, false);
+      return;
+    }
+
+    // state derived from observers
+    let hasPassedHero = false;
+    let isInFooter = false;
+
+    const update = () => setVisible(sticky, hasPassedHero && !isInFooter);
+
+    // Hero: show after hero is no longer intersecting (user scrolled past it).
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => {
+        // entry.isIntersecting true => still in hero zone
+        hasPassedHero = !entry.isIntersecting;
+        update();
+      },
+      {
+        root: null,
+        threshold: 0,
+        // Trigger a bit earlier so it doesn't appear too late.
+        rootMargin: '-20% 0px 0px 0px',
+      },
+    );
+
+    // Footer: hide once footer starts entering viewport.
+    const footerObserver = new IntersectionObserver(
+      ([entry]) => {
+        isInFooter = entry.isIntersecting;
+        update();
+      },
+      {
+        root: null,
+        threshold: 0,
+        rootMargin: '0px 0px -10% 0px',
+      },
+    );
+
+    heroObserver.observe(hero);
+    footerObserver.observe(footer);
+
+    signal.addEventListener(
+      'abort',
+      () => {
+        heroObserver.disconnect();
+        footerObserver.disconnect();
+        setVisible(sticky, false);
+      },
+      { once: true },
+    );
+  });
+</script>
