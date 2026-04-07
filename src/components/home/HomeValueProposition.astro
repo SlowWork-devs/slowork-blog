@@ -72,9 +72,10 @@ const copy = homeValueCopy(lang);
                   alt={img.alt[lang]}
                   width={960}
                   height={960}
+                  sizes="(max-width: 1023px) min(100vw, 24rem), 30vw"
                   class="h-full w-full object-cover"
                   loading={idx === 0 ? 'eager' : 'lazy'}
-                  fetchpriority={idx === 0 ? 'high' : 'auto'}
+                  fetchpriority="low"
                   decoding="async"
                 />
               </div>

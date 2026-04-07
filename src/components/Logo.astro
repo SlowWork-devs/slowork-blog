@@ -16,11 +16,13 @@ const homeHref = `/${language}/`;
   class={`flex min-h-11 min-w-11 touch-manipulation items-center ${className}`.trim()}
   aria-label="Slowork - Ir al inicio"
 >
-  <Image 
-    src={logoImg} 
-    alt="Slowork Logo" 
-    width={200} 
+  <Image
+    src={logoImg}
+    alt="Slowork Logo"
+    width={200}
+    sizes="200px"
     class="h-10 w-auto object-contain logo-image transition-all duration-500"
     loading="eager"
+    decoding="async"
   />
 </a>

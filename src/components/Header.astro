@@ -84,11 +84,13 @@ const initialClasses = isHome
   aria-label="Menú móvil"
 >
   <!-- Background Image -->
-  <Image 
-    src={menuBg} 
-    alt="" 
+  <Image
+    src={menuBg}
+    alt=""
     class="absolute inset-0 w-full h-full object-cover -z-20"
-    fetchpriority="high"
+    loading="lazy"
+    fetchpriority="low"
+    decoding="async"
   />
   <!-- Glass Overlay -->
   <div class="absolute inset-0 bg-white/65 backdrop-blur-md -z-8"></div>
