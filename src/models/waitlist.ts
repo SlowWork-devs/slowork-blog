@@ -1,5 +1,14 @@
 import { z } from 'zod';
 
+/** Espacios fuera; útil con inputs de teléfono o pegados desde UI con separadores. */
+export const normalizeWaitlistPhoneInput = (raw: string): string => raw.trim().replace(/\s/g, '');
+
+/**
+ * ITU-T E.164: prefijo `+` y entre 2 y 15 dígitos en total (primer dígito tras + en 1–9).
+ * Compatible con salidas típicas de selectores de país / libphonenumber.
+ */
+export const WAITLIST_PHONE_E164_REGEX = /^\+[1-9]\d{1,14}$/;
+
 const trimmedNullable = z
   .union([z.string(), z.null(), z.undefined()])
   .transform((v) => {
@@ -8,16 +17,34 @@ const trimmedNullable = z
     return t.length > 0 ? t : null;
   });
 
+const waitlistPhoneNullable = z
+  .union([z.string(), z.null(), z.undefined()])
+  .transform((v) => {
+    if (v == null) return null;
+    const t = normalizeWaitlistPhoneInput(String(v));
+    return t.length > 0 ? t : null;
+  });
+
 /** Payload JSON válido para POST /api/waitlist (alineado con columnas de negocio en `waitlists`). */
-export const waitlistCreateBodySchema = z.object({
-  email: z.string().trim().min(1, 'Email requerido'),
-  firstName: trimmedNullable,
-  phone: trimmedNullable,
-  instagram: trimmedNullable,
-  linkedin: trimmedNullable,
-  preferredContact: trimmedNullable,
-  communityInterest: trimmedNullable,
-});
+export const waitlistCreateBodySchema = z
+  .object({
+    email: z.string().trim().min(1, 'Email requerido'),
+    firstName: trimmedNullable,
+    phone: waitlistPhoneNullable,
+    instagram: trimmedNullable,
+    linkedin: trimmedNullable,
+    preferredContact: trimmedNullable,
+    communityInterest: trimmedNullable,
+  })
+  .superRefine((data, ctx) => {
+    if (data.phone !== null && !WAITLIST_PHONE_E164_REGEX.test(data.phone)) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Invalid phone format; expected E.164 (e.g. +34600000000)',
+        path: ['phone'],
+      });
+    }
+  });
 
 export type WaitlistCreateInput = z.infer<typeof waitlistCreateBodySchema>;
 
@@ -30,6 +57,7 @@ export type WaitlistFormValidationMessages = {
   emailInvalid: string;
   firstNameRequired: string;
   phoneRequired: string;
+  phoneInvalid: string;
   instagramInvalid: string;
   linkedinInvalid: string;
   preferredContactRequired: string;
@@ -60,7 +88,18 @@ export const createWaitlistFormSchema = (m: WaitlistFormValidationMessages) =>
   z.object({
     email: z.string().trim().min(1, m.emailRequired).email(m.emailInvalid),
     firstName: z.string().trim().min(1, m.firstNameRequired),
-    phone: z.string().trim().min(1, m.phoneRequired),
+    phone: z
+      .string()
+      .transform((s) => normalizeWaitlistPhoneInput(s))
+      .superRefine((val, ctx) => {
+        if (val.length === 0) {
+          ctx.addIssue({ code: 'custom', message: m.phoneRequired });
+          return;
+        }
+        if (!WAITLIST_PHONE_E164_REGEX.test(val)) {
+          ctx.addIssue({ code: 'custom', message: m.phoneInvalid });
+        }
+      }),
     instagram: z
       .string()
       .transform((s) => s.trim())
