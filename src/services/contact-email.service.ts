@@ -63,7 +63,7 @@ function buildContactNotificationHtml(input: ContactFormPayload): string {
         <tr><td style="padding:8px 0;font-weight:bold;color:#013333;">Message</td></tr>
         <tr><td style="padding:0;border-top:1px solid #e2e8e5;padding-top:12px;">${msg}</td></tr>
       </table>
-      <p style="margin-top:24px;font-size:12px;color:#64748b;">Sent from the SloWork contact form.</p>
+      <p style="margin-top:24px;font-size:12px;color:#64748b;">Sent from the Slowork contact form.</p>
     </div>
   `;
 }

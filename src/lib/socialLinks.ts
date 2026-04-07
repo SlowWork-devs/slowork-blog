@@ -1,5 +1,5 @@
 /**
- * Perfiles oficiales SloWork (paridad histórica con la landing legacy `sloworkLanding`).
+ * Perfiles oficiales Slowork (paridad histórica con la landing legacy `sloworkLanding`).
  */
 export const SLOWORK_SOCIAL_LINKS = [
   {
