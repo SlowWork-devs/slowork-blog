@@ -1,19 +1,19 @@
 import type { ImageMetadata } from 'astro';
 
-import carouselCommunity from '@/assets/images/carousel-community.jpg';
-import carouselHost from '@/assets/images/carousel-host.jpg';
-import carouselJungle from '@/assets/images/carousel-jungle.jpg';
-import globeTextureImg from '@/assets/images/globe-texture.jpg';
-import homeBgVideoPoster from '@/assets/images/home-bg-video-poster.jpg';
+import carouselCommunity from '@/assets/images/carousel-community.webp';
+import carouselHost from '@/assets/images/carousel-host.webp';
+import carouselJungle from '@/assets/images/carousel-jungle.webp';
+import globeTextureImg from '@/assets/images/globe-texture.webp';
+import homeBgVideoPoster from '@/assets/images/home-bg-video-poster.webp';
 import homeBgVideoUrl from '@/assets/images/home-bg-video.mp4?url';
 import sloworkLogo from '@/assets/images/slowork-logo.png';
-import logoCarousel from '@/assets/logo-carousel.png';
-import whoWorker1 from '@/assets/images/who-worker1.jpg';
-import whoWorker2 from '@/assets/images/who-worker2.jpg';
-import whoWorker3 from '@/assets/images/who-worker3.jpg';
-import whoWorker4 from '@/assets/images/who-worker4.jpg';
-import whoWorker5 from '@/assets/images/who-worker5.jpg';
-import whoWorker6 from '@/assets/images/who-worker6.jpg';
+import logoCarousel from '@/assets/logo-carousel.webp';
+import whoWorker1 from '@/assets/images/who-worker1.webp';
+import whoWorker2 from '@/assets/images/who-worker2.webp';
+import whoWorker3 from '@/assets/images/who-worker3.webp';
+import whoWorker4 from '@/assets/images/who-worker4.webp';
+import whoWorker5 from '@/assets/images/who-worker5.webp';
+import whoWorker6 from '@/assets/images/who-worker6.webp';
 
 import type { SupportedLang } from '@/lib/seo';
 
