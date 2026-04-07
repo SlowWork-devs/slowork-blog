@@ -430,13 +430,13 @@ export function homeWhoTitleParts(lang: SupportedLang) {
 
 export function homeFinalCtaCopy(lang: SupportedLang) {
   return {
-    title: lang === 'es' ? 'Ya eres un sloworker' : "You're one of us already",
+    title: lang === 'es' ? 'Ya eres un sloworker' : "You're one of us",
     subtitle: lang === 'es' ? 'Únete a la lista de espera hoy' : 'Get on the Waitlist today',
     waitlist: lang === 'es' ? 'Unirme a la waitlist' : 'Join the waitlist',
   };
 }
 
-/** Sección contacto home: copy + email de primera línea. */
+/** Sección contacto home — copy para plantilla; sin email público en markup. */
 export function homeContactCopy(lang: SupportedLang) {
   if (lang === 'es') {
     return {
@@ -445,8 +445,6 @@ export function homeContactCopy(lang: SupportedLang) {
       subtitle: 'Estamos aquí para ayudarte',
       intro:
         'Escríbenos para colaboraciones, prensa o cualquier duda sobre la comunidad Slowork.',
-      emailLabel: 'Correo',
-      email: 'sloworking.adm@gmail.com',
       formTitle: 'Envíanos un mensaje',
       name: 'Nombre',
       emailField: 'Email',
@@ -464,10 +462,7 @@ export function homeContactCopy(lang: SupportedLang) {
     eyebrow: 'Contact',
     title: "Let's talk",
     subtitle: "We're here to help",
-    intro:
-      'Reach out for partnerships, press, or anything about the Slowork community.',
-    emailLabel: 'Email',
-    email: 'sloworking.adm@gmail.com',
+    intro: '',
     formTitle: 'Send us a message',
     name: 'Name',
     emailField: 'Email',

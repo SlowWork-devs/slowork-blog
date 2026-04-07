@@ -8,7 +8,7 @@ const es: HeaderNavTranslations = {
   join: 'Join the waitlist',
   menu: 'Abrir menú',
   close: 'Cerrar menú',
-  mobileEarlyAccessWaitlist: 'Consigue Acceso Anticipado: Únete a la Waitlist',
+  mobileEarlyAccessWaitlist: 'Únete a la Waitlist',
 };
 
 const en: HeaderNavTranslations = {
@@ -18,7 +18,7 @@ const en: HeaderNavTranslations = {
   join: 'Join the waitlist',
   menu: 'Open menu',
   close: 'Close menu',
-  mobileEarlyAccessWaitlist: 'Get Early Access: Join the Waitlist',
+  mobileEarlyAccessWaitlist: 'Join the Waitlist',
 };
 
 export function getHeaderNav(lang: SupportedLang): HeaderNavTranslations {
