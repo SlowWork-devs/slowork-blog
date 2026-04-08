@@ -12,9 +12,9 @@ const c = homeContactCopy(lang);
 const suffix = `contact-${lang}`;
 
 const floatInput =
-  'peer block w-full rounded-xl border border-bg-landing/30 bg-bg-landing/12 px-3 pb-2.5 pt-5 text-base text-bg-landing shadow-sm transition placeholder:text-transparent focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/45 focus:ring-offset-2 focus:ring-offset-primary/25';
+  'peer block w-full rounded-xl border-2 border-primary/20 bg-white px-3 pb-2.5 pt-5 text-base text-primary shadow-inner shadow-primary/5 transition placeholder:text-transparent focus:border-soft-blue focus:outline-none focus:ring-2 focus:ring-soft-blue/35 focus:ring-offset-2 focus:ring-offset-base-100';
 const floatTextarea =
-  'peer block min-h-[148px] w-full resize-y rounded-xl border border-bg-landing/30 bg-bg-landing/12 px-3 pb-3 pt-6 text-base text-bg-landing shadow-sm transition placeholder:text-transparent focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/45 focus:ring-offset-2 focus:ring-offset-primary/25';
+  'peer block min-h-[148px] w-full resize-y rounded-xl border-2 border-primary/20 bg-white px-3 pb-3 pt-6 text-base text-primary shadow-inner shadow-primary/5 transition placeholder:text-transparent focus:border-soft-blue focus:outline-none focus:ring-2 focus:ring-soft-blue/35 focus:ring-offset-2 focus:ring-offset-base-100';
 ---
 
 <section
@@ -23,26 +23,31 @@ const floatTextarea =
   aria-labelledby={`contact-title-${suffix}`}
 >
   <div
-    class="pointer-events-none absolute inset-0 z-0 bg-linear-to-b from-primary via-soft-blue/35 to-bg-landing mask-[linear-gradient(to_bottom,black_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_92%,transparent_100%)]"
+    class="pointer-events-none absolute inset-0 z-0 bg-linear-to-b from-primary via-[color-mix(in_srgb,var(--color-soft-blue)_26%,var(--color-primary)_74%)] via-50% to-bg-landing mask-[linear-gradient(to_bottom,black_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_92%,transparent_100%)]"
     aria-hidden="true"
   ></div>
 
   <div class="relative z-10 mx-auto max-w-7xl px-4 md:px-8">
     <div class="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-16 lg:items-start">
-      <div class="home-reveal text-bg-landing lg:pt-4" data-home-reveal>
-        <p class="text-xs font-bold uppercase tracking-[0.2em] text-secondary/95">{c.eyebrow}</p>
+      <div
+        class="home-reveal rounded-3xl border border-white/20 bg-primary/78 p-8 shadow-2xl backdrop-blur-md md:p-10 lg:pt-8"
+        data-home-reveal
+      >
+        <p class="text-xs font-bold uppercase tracking-[0.2em] text-secondary [text-shadow:0_1px_2px_rgba(1,51,51,0.45)]">
+          {c.eyebrow}
+        </p>
         <h2
           id={`contact-title-${suffix}`}
           class="mt-3 font-heading text-3xl font-bold text-balance text-bg-landing md:text-4xl lg:text-5xl"
         >
           {c.title}
         </h2>
-        <h3 class="mt-3 font-heading text-xl font-medium text-balance text-bg-landing/88 md:text-2xl">
+        <h3 class="mt-3 font-heading text-xl font-medium text-balance text-bg-landing/92 md:text-2xl">
           {c.subtitle}
         </h3>
         {
           c.intro ? (
-            <p class="mt-6 max-w-md text-base leading-relaxed text-bg-landing/82">{c.intro}</p>
+            <p class="mt-6 max-w-md text-base leading-relaxed text-bg-landing/88">{c.intro}</p>
           ) : null
         }
 
@@ -52,29 +57,20 @@ const floatTextarea =
       </div>
 
       <div
-        class="home-reveal rounded-2xl border border-bg-landing/25 bg-bg-landing/12 p-6 shadow-2xl backdrop-blur-xl sm:p-8"
+        class="home-reveal contact-form-shell rounded-2xl border-2 border-primary/18 bg-base-100/98 p-6 shadow-2xl ring-1 ring-primary/10 sm:p-8"
         data-home-reveal
         data-reveal-delay="120"
       >
         <div
-          class="contact-form-root relative isolate min-h-[320px] w-full"
+          class="contact-form-root relative isolate min-h-[280px] w-full"
           id={`contact-form-root-${suffix}`}
-          data-contact-sending={c.sending}
           data-contact-error-generic={c.errorGeneric}
+          data-contact-success-feedback={c.successFeedback}
         >
-          <div
-            class="relative z-10 transition-opacity duration-300 ease-out data-[state=hidden]:pointer-events-none data-[state=hidden]:invisible data-[state=hidden]:opacity-0"
-            data-contact-form-panel
-            data-state="visible"
-          >
-            <p class="mb-6 font-heading text-lg font-bold text-secondary sm:text-xl">{c.formTitle}</p>
-
-            <div
-              class="mb-4 hidden rounded-xl border border-soft-blue/45 bg-primary/35 px-4 py-3 text-sm text-bg-landing"
-              data-contact-error
-              role="alert"
-              hidden
-            ></div>
+          <div class="relative z-10" data-contact-form-panel>
+            <p class="mb-6 border-b border-primary/10 pb-2 font-heading text-lg font-bold text-primary sm:text-xl">
+              {c.formTitle}
+            </p>
 
             <form class="flex flex-col gap-5" data-contact-form novalidate>
               <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
@@ -147,20 +143,22 @@ const floatTextarea =
               </div>
 
               <div class="pt-2">
-                <button type="submit" class="btn btn-primary w-full min-h-12 sm:w-auto sm:min-w-[200px]">
+                <button
+                  type="submit"
+                  class="btn btn-primary relative w-full min-h-12 sm:w-auto sm:min-w-[200px]"
+                  data-contact-submit-btn
+                >
                   <span data-contact-submit-label>{c.button}</span>
+                  <span
+                    class="loading loading-spinner loading-md hidden"
+                    data-contact-submit-spinner
+                    aria-hidden="true"
+                  />
                 </button>
+                <p class="mt-3 hidden text-sm font-semibold text-success" data-contact-success-inline role="status"></p>
+                <p class="mt-3 hidden text-sm font-semibold text-error" data-contact-error-inline role="alert"></p>
               </div>
             </form>
-          </div>
-
-          <div
-            class="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-xl border border-bg-landing/20 bg-primary/85 p-6 text-center opacity-0 backdrop-blur-md transition-opacity duration-300 ease-out pointer-events-none invisible"
-            data-contact-success-panel
-            aria-live="polite"
-          >
-            <p class="font-heading text-xl font-bold text-secondary md:text-2xl">{c.successTitle}</p>
-            <p class="mt-3 max-w-sm text-sm leading-relaxed text-bg-landing/90">{c.successBody}</p>
           </div>
         </div>
       </div>
@@ -178,37 +176,75 @@ const floatTextarea =
 
       const form = root.querySelector('form[data-contact-form]');
       const panel = root.querySelector('[data-contact-form-panel]');
-      const success = root.querySelector('[data-contact-success-panel]');
-      const errBox = root.querySelector('[data-contact-error]');
+      const submitBtn = root.querySelector('[data-contact-submit-btn]');
+      const spinner = root.querySelector('[data-contact-submit-spinner]');
+      const successInline = root.querySelector('[data-contact-success-inline]');
+      const errorInline = root.querySelector('[data-contact-error-inline]');
       const submitLabel = root.querySelector('[data-contact-submit-label]');
-      const sendingText = root.dataset.contactSending ?? '';
       const errorGeneric = root.dataset.contactErrorGeneric ?? '';
+      const successFeedback = root.dataset.contactSuccessFeedback ?? '';
 
       if (
         !(form instanceof HTMLFormElement) ||
         !(panel instanceof HTMLElement) ||
-        !(success instanceof HTMLElement) ||
-        !(errBox instanceof HTMLElement) ||
+        !(submitBtn instanceof HTMLButtonElement) ||
+        !(spinner instanceof HTMLElement) ||
+        !(successInline instanceof HTMLElement) ||
+        !(errorInline instanceof HTMLElement) ||
         !(submitLabel instanceof HTMLElement)
       ) {
         return;
       }
 
-      const defaultLabel = submitLabel.textContent ?? '';
-
       const showError = (msg) => {
-        errBox.textContent = msg;
-        errBox.hidden = false;
+        successInline.textContent = '';
+        successInline.classList.add('hidden');
+        errorInline.textContent = msg;
+        errorInline.classList.remove('hidden');
       };
 
       const hideError = () => {
-        errBox.textContent = '';
-        errBox.hidden = true;
+        errorInline.textContent = '';
+        errorInline.classList.add('hidden');
+      };
+
+      const showSuccess = (msg) => {
+        hideError();
+        successInline.textContent = msg;
+        successInline.classList.remove('hidden');
+      };
+
+      const hideSuccess = () => {
+        successInline.textContent = '';
+        successInline.classList.add('hidden');
+      };
+
+      const setLoading = (on) => {
+        if (on) {
+          submitLabel.classList.add('hidden');
+          spinner.classList.remove('hidden');
+          submitBtn.disabled = true;
+          submitBtn.setAttribute('aria-busy', 'true');
+        } else {
+          submitLabel.classList.remove('hidden');
+          spinner.classList.add('hidden');
+          submitBtn.disabled = false;
+          submitBtn.removeAttribute('aria-busy');
+        }
+      };
+
+      const setFieldsDisabled = (disabled) => {
+        form.querySelectorAll('input, textarea').forEach((el) => {
+          if (!(el instanceof HTMLElement)) return;
+          if (disabled) el.setAttribute('disabled', '');
+          else el.removeAttribute('disabled');
+        });
       };
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         hideError();
+        hideSuccess();
 
         const formData = new FormData(form);
         const website = String(formData.get('website') ?? '').trim();
@@ -221,10 +257,8 @@ const floatTextarea =
           website,
         };
 
-        submitLabel.textContent = sendingText;
-        form.querySelectorAll('input, textarea, button').forEach((el) => {
-          if (el instanceof HTMLElement) el.setAttribute('disabled', '');
-        });
+        setLoading(true);
+        setFieldsDisabled(true);
 
         try {
           const res = await fetch('/api/contact/', {
@@ -239,27 +273,47 @@ const floatTextarea =
 
           if (!res.ok || !data.success) {
             showError(message);
-            submitLabel.textContent = defaultLabel;
-            form.querySelectorAll('input, textarea, button').forEach((el) => {
-              if (el instanceof HTMLElement) el.removeAttribute('disabled');
-            });
+            setLoading(false);
+            setFieldsDisabled(false);
             return;
           }
 
-          panel.dataset.state = 'hidden';
-          success.classList.remove('pointer-events-none', 'invisible', 'opacity-0');
-          success.classList.add('opacity-100');
           form.reset();
+          setLoading(false);
+          setFieldsDisabled(false);
+          showSuccess(successFeedback);
         } catch {
           showError(errorGeneric);
-          submitLabel.textContent = defaultLabel;
-          form.querySelectorAll('input, textarea, button').forEach((el) => {
-            if (el instanceof HTMLElement) el.removeAttribute('disabled');
-          });
+          setLoading(false);
+          setFieldsDisabled(false);
         }
       });
     });
   };
 
-  document.addEventListener('astro:page-load', initContactForm);
+  let contactDockIo;
+
+  const bindContactDockVisibility = () => {
+    contactDockIo?.disconnect();
+    contactDockIo = undefined;
+    delete document.body.dataset.contactSectionVisible;
+    const section = document.getElementById('contact');
+    if (!section) return;
+    contactDockIo = new IntersectionObserver(
+      (entries) => {
+        const vis = entries.some((e) => e.isIntersecting && e.intersectionRatio >= 0.08);
+        if (vis) document.body.dataset.contactSectionVisible = 'true';
+        else delete document.body.dataset.contactSectionVisible;
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: [0, 0.08, 0.2] },
+    );
+    contactDockIo.observe(section);
+  };
+
+  initContactForm();
+  bindContactDockVisibility();
+  document.addEventListener('astro:page-load', () => {
+    initContactForm();
+    bindContactDockVisibility();
+  });
 </script>

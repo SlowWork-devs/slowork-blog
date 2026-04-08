@@ -452,9 +452,7 @@ export function homeContactCopy(lang: SupportedLang) {
       message: 'Mensaje',
       honeypotLabel: 'No rellenar',
       button: 'Enviar mensaje',
-      sending: 'Enviando…',
-      successTitle: '¡Mensaje enviado!',
-      successBody: 'Te responderemos pronto. Gracias por contactar con Slowork.',
+      successFeedback: 'Mensaje enviado con éxito.',
       errorGeneric: 'No se pudo enviar. Inténtalo de nuevo.',
     };
   }
@@ -470,9 +468,7 @@ export function homeContactCopy(lang: SupportedLang) {
     message: 'Message',
     honeypotLabel: 'Leave blank',
     button: 'Send message',
-    sending: 'Sending…',
-    successTitle: 'Message sent!',
-    successBody: "We'll get back to you soon. Thanks for reaching out.",
+    successFeedback: 'Message sent successfully.',
     errorGeneric: 'Could not send. Please try again.',
   };
 }
