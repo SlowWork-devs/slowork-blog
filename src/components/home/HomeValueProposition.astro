@@ -12,7 +12,7 @@ const copy = homeValueCopy(lang);
 ---
 
 <section
-  class="home-value-bleed relative z-0 -mt-24 max-sm:-mt-16 min-h-screen w-full rounded-t-[35px] border-t border-white/20 pb-20 pt-14"
+  class="home-value-bleed relative z-0 -mt-24 max-sm:-mt-16 min-h-screen w-full rounded-t-[35px] border-t border-primary/12 bg-bg-landing bg-linear-to-b from-light-green to-bg-landing pb-20 pt-14"
 >
   <div class="mx-auto max-w-7xl px-6">
     <h2
@@ -31,7 +31,7 @@ const copy = homeValueCopy(lang);
 
     <div class="my-12 flex flex-col-reverse items-center justify-center gap-10 lg:flex-row lg:gap-16">
       <div
-        class="home-reveal w-full max-w-xl rounded-3xl border border-primary/10 border-t-white/25 bg-white/75 p-6 shadow-lg shadow-primary/15 backdrop-blur-xl transition-transform duration-300 hover:scale-[1.02] sm:p-8 lg:p-10"
+        class="home-reveal w-full max-w-xl rounded-3xl border border-primary/10 border-t-light-green/60 bg-light-green/80 p-6 shadow-lg shadow-primary/15 backdrop-blur-xl transition-transform duration-300 hover:scale-[1.02] sm:p-8 lg:p-10"
         data-home-reveal
         data-reveal-delay="220"
       >
@@ -84,7 +84,7 @@ const copy = homeValueCopy(lang);
           <button
             type="button"
             id="carousel-prev"
-            class="absolute left-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full bg-black/50 p-2 text-white opacity-0 transition-opacity hover:bg-black/70 group-hover:opacity-100 sm:grid sm:place-items-center"
+            class="absolute left-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full bg-primary/55 p-2 text-secondary opacity-0 transition-opacity hover:bg-primary/70 group-hover:opacity-100 sm:grid sm:place-items-center"
             aria-label={lang === 'es' ? 'Anterior' : 'Previous'}
           >
             <span class="text-lg leading-none" aria-hidden="true">‹</span>
@@ -92,7 +92,7 @@ const copy = homeValueCopy(lang);
           <button
             type="button"
             id="carousel-next"
-            class="absolute right-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full bg-black/50 p-2 text-white opacity-0 transition-opacity hover:bg-black/70 group-hover:opacity-100 sm:grid sm:place-items-center"
+            class="absolute right-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full bg-primary/55 p-2 text-secondary opacity-0 transition-opacity hover:bg-primary/70 group-hover:opacity-100 sm:grid sm:place-items-center"
             aria-label={lang === 'es' ? 'Siguiente' : 'Next'}
           >
             <span class="text-lg leading-none" aria-hidden="true">›</span>
@@ -201,15 +201,9 @@ const copy = homeValueCopy(lang);
 </script>
 
 <style>
-  /* Cristal: tramos altos semitransparentes + tinte oklab (verde suave del tema). */
+  /* Cristal sobre degradado vertical landing (sin tintes azulados). */
   .home-value-bleed {
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
-    background-image: linear-gradient(
-      to bottom,
-      color-mix(in oklab, var(--color-light-green) 38%, white 62% / 0.78) 0%,
-      color-mix(in oklab, var(--color-bg-landing) 76%, var(--color-light-green) 24% / 0.92) 48%,
-      var(--color-bg-landing) 100%
-    );
   }
 </style>

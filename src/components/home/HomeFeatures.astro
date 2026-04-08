@@ -16,7 +16,7 @@ const ft = homeFeaturesTitle(lang);
 >
   <div class="w-full px-4">
     <h2
-      class="home-reveal mb-14 text-center font-heading text-3xl font-bold text-white sm:text-4xl md:text-5xl"
+      class="home-reveal mb-14 text-center font-heading text-3xl font-bold text-bg-landing sm:text-4xl md:text-5xl"
       data-home-reveal
     >
       {ft.a}
@@ -30,7 +30,7 @@ const ft = homeFeaturesTitle(lang);
       <button
         type="button"
         id="feature-prev"
-        class="absolute left-0 top-1/2 z-20 grid -translate-y-1/2 place-items-center rounded-full bg-soft-blue p-2.5 text-white shadow-lg transition hover:opacity-90 md:left-2 md:p-4"
+        class="absolute left-0 top-1/2 z-20 grid -translate-y-1/2 place-items-center rounded-full bg-soft-blue p-2.5 text-primary shadow-lg transition hover:opacity-90 md:left-2 md:p-4"
         aria-label={lang === 'es' ? 'Anterior' : 'Previous'}
       >
         <span class="text-xl" aria-hidden="true">‹</span>
@@ -38,7 +38,7 @@ const ft = homeFeaturesTitle(lang);
       <button
         type="button"
         id="feature-next"
-        class="absolute right-0 top-1/2 z-20 grid -translate-y-1/2 place-items-center rounded-full bg-soft-blue p-2.5 text-white shadow-lg transition hover:opacity-90 md:right-2 md:p-4"
+        class="absolute right-0 top-1/2 z-20 grid -translate-y-1/2 place-items-center rounded-full bg-soft-blue p-2.5 text-primary shadow-lg transition hover:opacity-90 md:right-2 md:p-4"
         aria-label={lang === 'es' ? 'Siguiente' : 'Next'}
       >
         <span class="text-xl" aria-hidden="true">›</span>
@@ -53,7 +53,7 @@ const ft = homeFeaturesTitle(lang);
             {
               HOME_FEATURES.map((feature) => (
                 <div class="feature-card w-full shrink-0 md:w-[calc(33.333%-0.67rem)]">
-                  <div class="flex h-[320px] flex-col justify-center rounded-2xl border border-white/15 bg-white p-5 shadow-lg transition hover:shadow-xl max-md:border-primary/20 md:h-[340px] md:border-white/15 md:bg-white/95 md:p-6 md:backdrop-blur-sm">
+                  <div class="flex h-[320px] flex-col justify-center rounded-2xl border border-bg-landing/35 bg-light-green p-5 shadow-lg transition hover:shadow-xl max-md:border-primary/20 md:h-[340px] md:border-bg-landing/40 md:bg-light-green/95 md:p-6 md:backdrop-blur-sm">
                     <div class="mb-4 flex justify-center text-primary md:text-4xl [&_svg]:md:h-12 [&_svg]:md:w-12">
                       <HomeIcon name={feature.icon} class="h-9 w-9 md:h-11 md:w-11" />
                     </div>
@@ -98,7 +98,7 @@ const ft = homeFeaturesTitle(lang);
       Array.from({ length: n }, (_, i) => i).forEach((i) => {
         const b = document.createElement('button');
         b.type = 'button';
-        b.className = `feature-dot h-2.5 w-2.5 rounded-full transition-all md:h-3 md:w-3 ${i === state.idx ? 'scale-110 bg-secondary' : 'bg-white/40 hover:bg-white/60'}`;
+        b.className = `feature-dot h-2.5 w-2.5 rounded-full transition-all md:h-3 md:w-3 ${i === state.idx ? 'scale-110 bg-secondary' : 'bg-bg-landing/45 hover:bg-bg-landing/65'}`;
         b.dataset.idx = String(i);
         b.addEventListener('click', () => {
           state.idx = i;

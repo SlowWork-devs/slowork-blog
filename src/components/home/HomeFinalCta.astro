@@ -13,7 +13,7 @@ const copy = homeFinalCtaCopy(lang);
 
 <section
   id="waitlist-cta"
-  class="home-final-cta-bleed relative z-0 -mt-20 max-sm:-mt-16 rounded-t-[40px] border-t border-white/20 py-14 md:py-20"
+  class="home-final-cta-bleed relative z-0 -mt-20 max-sm:-mt-16 rounded-t-[40px] border-t border-primary/12 bg-bg-landing bg-linear-to-b from-light-green to-bg-landing py-14 md:py-20"
 >
   <div
     class="home-reveal reveal-depth mx-auto flex max-w-4xl flex-col items-center px-4 text-center"
@@ -36,15 +36,8 @@ const copy = homeFinalCtaCopy(lang);
 </section>
 
 <style>
-  /* Cristal + tinte oklab (primary / landing / secondary) alineado con la sección anterior. */
   .home-final-cta-bleed {
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
-    background-image: linear-gradient(
-      to bottom,
-      color-mix(in oklab, var(--color-primary) 14%, white 86% / 0.78) 0%,
-      color-mix(in oklab, var(--color-bg-landing) 62%, var(--color-secondary) 38% / 0.9) 46%,
-      color-mix(in oklab, var(--color-bg-landing) 40%, var(--color-secondary) 60%) 100%
-    );
   }
 </style>

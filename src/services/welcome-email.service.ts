@@ -6,7 +6,7 @@ function buildWelcomeHtml(args: { name: string; lang: 'es' | 'en' }): string {
 
   if (lang === 'es') {
     return `
-      <div style="max-width: 640px; margin: auto; font-family: Arial, sans-serif; color: #1a1a1a; background-color: #fff; padding: 24px; border-radius: 16px;">
+      <div style="max-width: 640px; margin: auto; font-family: Arial, sans-serif; color: #013333; background-color: #ddeee5; padding: 24px; border-radius: 16px;">
         <h2 style="margin-bottom: 8px;">Hola <strong>${name}</strong>,</h2>
         <p style="font-size: 16px; line-height: 1.6; margin-bottom: 16px;">
           ¡Ya eres parte de la comunidad <strong>Slowork</strong>!
@@ -20,7 +20,7 @@ function buildWelcomeHtml(args: { name: string; lang: 'es' | 'en' }): string {
   }
 
   return `
-    <div style="max-width: 640px; margin: auto; font-family: Arial, sans-serif; color: #1a1a1a; background-color: #fff; padding: 24px; border-radius: 16px;">
+    <div style="max-width: 640px; margin: auto; font-family: Arial, sans-serif; color: #013333; background-color: #ddeee5; padding: 24px; border-radius: 16px;">
       <h2 style="margin-bottom: 8px;">Hello <strong>${name}</strong>,</h2>
       <p style="font-size: 16px; line-height: 1.6; margin-bottom: 16px;">
         You are now part of the <strong>Slowork</strong> community!

@@ -12,9 +12,9 @@ const c = homeContactCopy(lang);
 const suffix = `contact-${lang}`;
 
 const floatInput =
-  'peer block w-full rounded-xl border border-white/25 bg-white/10 px-3 pb-2.5 pt-5 text-base text-white shadow-sm transition placeholder:text-transparent focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/45 focus:ring-offset-2 focus:ring-offset-primary/25';
+  'peer block w-full rounded-xl border border-bg-landing/30 bg-bg-landing/12 px-3 pb-2.5 pt-5 text-base text-bg-landing shadow-sm transition placeholder:text-transparent focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/45 focus:ring-offset-2 focus:ring-offset-primary/25';
 const floatTextarea =
-  'peer block min-h-[148px] w-full resize-y rounded-xl border border-white/25 bg-white/10 px-3 pb-3 pt-6 text-base text-white shadow-sm transition placeholder:text-transparent focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/45 focus:ring-offset-2 focus:ring-offset-primary/25';
+  'peer block min-h-[148px] w-full resize-y rounded-xl border border-bg-landing/30 bg-bg-landing/12 px-3 pb-3 pt-6 text-base text-bg-landing shadow-sm transition placeholder:text-transparent focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/45 focus:ring-offset-2 focus:ring-offset-primary/25';
 ---
 
 <section
@@ -23,26 +23,26 @@ const floatTextarea =
   aria-labelledby={`contact-title-${suffix}`}
 >
   <div
-    class="pointer-events-none absolute inset-0 z-0 bg-linear-to-b from-primary via-[color-mix(in_oklab,var(--color-primary)_55%,var(--color-soft-blue)_45%)] to-[color-mix(in_oklab,var(--color-bg-landing)_42%,var(--color-primary)_58%)] mask-[linear-gradient(to_bottom,black_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_92%,transparent_100%)]"
+    class="pointer-events-none absolute inset-0 z-0 bg-linear-to-b from-primary via-soft-blue/35 to-bg-landing mask-[linear-gradient(to_bottom,black_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_92%,transparent_100%)]"
     aria-hidden="true"
   ></div>
 
   <div class="relative z-10 mx-auto max-w-7xl px-4 md:px-8">
     <div class="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-16 lg:items-start">
-      <div class="home-reveal text-white lg:pt-4" data-home-reveal>
+      <div class="home-reveal text-bg-landing lg:pt-4" data-home-reveal>
         <p class="text-xs font-bold uppercase tracking-[0.2em] text-secondary/95">{c.eyebrow}</p>
         <h2
           id={`contact-title-${suffix}`}
-          class="mt-3 font-heading text-3xl font-bold text-balance text-white md:text-4xl lg:text-5xl"
+          class="mt-3 font-heading text-3xl font-bold text-balance text-bg-landing md:text-4xl lg:text-5xl"
         >
           {c.title}
         </h2>
-        <h3 class="mt-3 font-heading text-xl font-medium text-balance text-white/85 md:text-2xl">
+        <h3 class="mt-3 font-heading text-xl font-medium text-balance text-bg-landing/88 md:text-2xl">
           {c.subtitle}
         </h3>
         {
           c.intro ? (
-            <p class="mt-6 max-w-md text-base leading-relaxed text-white/80">{c.intro}</p>
+            <p class="mt-6 max-w-md text-base leading-relaxed text-bg-landing/82">{c.intro}</p>
           ) : null
         }
 
@@ -52,7 +52,7 @@ const floatTextarea =
       </div>
 
       <div
-        class="home-reveal rounded-2xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-xl sm:p-8"
+        class="home-reveal rounded-2xl border border-bg-landing/25 bg-bg-landing/12 p-6 shadow-2xl backdrop-blur-xl sm:p-8"
         data-home-reveal
         data-reveal-delay="120"
       >
@@ -70,7 +70,7 @@ const floatTextarea =
             <p class="mb-6 font-heading text-lg font-bold text-secondary sm:text-xl">{c.formTitle}</p>
 
             <div
-              class="mb-4 hidden rounded-xl border border-red-300/40 bg-red-950/30 px-4 py-3 text-sm text-red-100"
+              class="mb-4 hidden rounded-xl border border-soft-blue/45 bg-primary/35 px-4 py-3 text-sm text-bg-landing"
               data-contact-error
               role="alert"
               hidden
@@ -155,12 +155,12 @@ const floatTextarea =
           </div>
 
           <div
-            class="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-xl border border-white/15 bg-primary/85 p-6 text-center opacity-0 backdrop-blur-md transition-opacity duration-300 ease-out pointer-events-none invisible"
+            class="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-xl border border-bg-landing/20 bg-primary/85 p-6 text-center opacity-0 backdrop-blur-md transition-opacity duration-300 ease-out pointer-events-none invisible"
             data-contact-success-panel
             aria-live="polite"
           >
             <p class="font-heading text-xl font-bold text-secondary md:text-2xl">{c.successTitle}</p>
-            <p class="mt-3 max-w-sm text-sm leading-relaxed text-white/90">{c.successBody}</p>
+            <p class="mt-3 max-w-sm text-sm leading-relaxed text-bg-landing/90">{c.successBody}</p>
           </div>
         </div>
       </div>

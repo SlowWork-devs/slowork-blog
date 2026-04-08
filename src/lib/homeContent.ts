@@ -170,7 +170,7 @@ export const HOME_JOURNEY: JourneyStep[] = [
     kind: 'split',
     side: 'right',
     icon: 'bed',
-    iconWrapClass: 'bg-soft-blue text-white',
+    iconWrapClass: 'bg-soft-blue text-primary',
     title: { en: 'Book your stay & connect', es: 'Reserva tu espacio y conéctate' },
     description: {
       en: 'Reserve your space, get to know your Slowork hosts and meet other nomads before you arrive.',
@@ -199,7 +199,7 @@ export const HOME_JOURNEY: JourneyStep[] = [
     kind: 'split',
     side: 'right',
     icon: 'spa',
-    iconWrapClass: 'bg-gradient-to-br from-primary to-soft-blue text-white',
+    iconWrapClass: 'bg-gradient-to-br from-primary to-soft-blue text-secondary',
     title: { en: 'Join local experiences & wellness', es: 'Participa en experiencias locales y bienestar' },
     description: {
       en: 'Participate in events, retreats, workshops and moments of presence with local communities.',
@@ -211,7 +211,7 @@ export const HOME_JOURNEY: JourneyStep[] = [
     id: 'step5',
     kind: 'center',
     icon: 'logo',
-    iconWrapClass: 'bg-gradient-to-b from-secondary to-soft-blue text-primary',
+    iconWrapClass: 'bg-linear-to-b from-primary to-soft-blue text-secondary',
     title: { en: 'Track your journey & earn credits', es: 'Registra tu viaje y gana créditos' },
     description: {
       en: 'Log your trips and activities, and earn Slowork credits for future stays by sharing content about your experience.',

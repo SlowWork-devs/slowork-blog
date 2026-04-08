@@ -13,7 +13,7 @@ const waitlistCtaHref = `/${language}/#waitlist-cta`;
 // Determinar si estamos en la home para el efecto transparente inicial
 const isHome = Astro.url.pathname === '/es/' || Astro.url.pathname === '/en/' || Astro.url.pathname === '/es' || Astro.url.pathname === '/en' || Astro.url.pathname === '/';
 const initialClasses = isHome 
-  ? "py-4 md:py-6 text-white bg-white/5 backdrop-blur-sm border-b border-white/10" 
+  ? "py-4 md:py-6 text-bg-landing bg-bg-landing/12 backdrop-blur-sm border-b border-bg-landing/25" 
   : "header-scrolled text-primary";
 ---
 
@@ -93,7 +93,7 @@ const initialClasses = isHome
     decoding="async"
   />
   <!-- Glass Overlay -->
-  <div class="absolute inset-0 bg-white/65 backdrop-blur-md -z-8"></div>
+  <div class="absolute inset-0 bg-light-green/75 backdrop-blur-md -z-8"></div>
 
   <!-- Drawer Header -->
   <div class="flex justify-between items-center px-6 py-4 min-h-[80px]">
@@ -241,10 +241,10 @@ const initialClasses = isHome
 
       if (window.scrollY > 50) {
         header.classList.add('header-scrolled', 'text-primary');
-        header.classList.remove('py-4', 'md:py-6', 'text-white', 'bg-white/5', 'backdrop-blur-sm', 'border-white/10');
+        header.classList.remove('py-4', 'md:py-6', 'text-bg-landing', 'bg-bg-landing/12', 'backdrop-blur-sm', 'border-bg-landing/25');
       } else {
         header.classList.remove('header-scrolled', 'text-primary');
-        header.classList.add('py-4', 'md:py-6', 'text-white', 'bg-white/5', 'backdrop-blur-sm', 'border-white/10');
+        header.classList.add('py-4', 'md:py-6', 'text-bg-landing', 'bg-bg-landing/12', 'backdrop-blur-sm', 'border-bg-landing/25');
       }
     };
 

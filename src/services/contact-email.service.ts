@@ -33,7 +33,7 @@ function buildContactNotificationHtml(input: ContactFormPayload): string {
 
   if (lang === 'es') {
     return `
-      <div style="max-width:640px;margin:auto;font-family:Arial,sans-serif;color:#1a1a1a;background:#fff;padding:24px;border-radius:16px;">
+      <div style="max-width:640px;margin:auto;font-family:Arial,sans-serif;color:#013333;background:#ddeee5;padding:24px;border-radius:16px;">
         <h2 style="margin:0 0 16px;color:#013333;">Nuevo mensaje desde la web</h2>
         <table style="width:100%;border-collapse:collapse;font-size:15px;line-height:1.5;">
           <tr><td style="padding:8px 0;font-weight:bold;color:#013333;">Nombre</td></tr>
@@ -45,13 +45,13 @@ function buildContactNotificationHtml(input: ContactFormPayload): string {
           <tr><td style="padding:8px 0;font-weight:bold;color:#013333;">Mensaje</td></tr>
           <tr><td style="padding:0;border-top:1px solid #e2e8e5;padding-top:12px;">${msg}</td></tr>
         </table>
-        <p style="margin-top:24px;font-size:12px;color:#64748b;">Enviado desde el formulario de contacto de Slowork.</p>
+        <p style="margin-top:24px;font-size:12px;color:#779ed3;">Enviado desde el formulario de contacto de Slowork.</p>
       </div>
     `;
   }
 
   return `
-    <div style="max-width:640px;margin:auto;font-family:Arial,sans-serif;color:#1a1a1a;background:#fff;padding:24px;border-radius:16px;">
+    <div style="max-width:640px;margin:auto;font-family:Arial,sans-serif;color:#013333;background:#ddeee5;padding:24px;border-radius:16px;">
       <h2 style="margin:0 0 16px;color:#013333;">New message from the website</h2>
       <table style="width:100%;border-collapse:collapse;font-size:15px;line-height:1.5;">
         <tr><td style="padding:8px 0;font-weight:bold;color:#013333;">Name</td></tr>
@@ -63,7 +63,7 @@ function buildContactNotificationHtml(input: ContactFormPayload): string {
         <tr><td style="padding:8px 0;font-weight:bold;color:#013333;">Message</td></tr>
         <tr><td style="padding:0;border-top:1px solid #e2e8e5;padding-top:12px;">${msg}</td></tr>
       </table>
-      <p style="margin-top:24px;font-size:12px;color:#64748b;">Sent from the Slowork contact form.</p>
+      <p style="margin-top:24px;font-size:12px;color:#779ed3;">Sent from the Slowork contact form.</p>
     </div>
   `;
 }
