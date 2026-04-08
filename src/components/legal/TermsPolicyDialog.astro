@@ -1,0 +1,74 @@
+---
+import TermsPolicyArticle from '@/components/legal/TermsPolicyArticle.astro';
+import type { SupportedLang } from '@/lib/seo';
+import type { TermsAndConditionsContent } from '@/models/legal';
+
+interface Props {
+  terms: TermsAndConditionsContent;
+  lang: SupportedLang;
+  suffix: string;
+  fullPageHref: string;
+  closeLabel: string;
+  fullPageLabel: string;
+}
+
+const { terms, lang, suffix, fullPageHref, closeLabel, fullPageLabel } = Astro.props;
+const dialogId = `waitlist-terms-dialog-${suffix}`;
+---
+
+<dialog
+  id={dialogId}
+  class="terms-policy-dialog m-4 max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-3xl border-0 bg-transparent p-0 shadow-none backdrop:bg-primary/40 backdrop:backdrop-blur-sm open:flex"
+  aria-modal="true"
+  aria-labelledby={`${dialogId}-heading`}
+>
+  <div
+    class="flex max-h-[min(90dvh,52rem)] w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-primary/15 bg-light-green shadow-2xl"
+  >
+    <header
+      class="flex shrink-0 items-center justify-between gap-3 border-b border-primary/10 px-4 py-3 sm:px-5"
+    >
+      <h2
+        id={`${dialogId}-heading`}
+        class="min-w-0 pr-2 font-heading text-base font-bold leading-snug text-primary sm:text-lg"
+      >
+        {terms.title}
+      </h2>
+      <button
+        type="button"
+        class="btn btn-circle btn-ghost btn-sm shrink-0 text-primary"
+        data-close-waitlist-terms-dialog
+        aria-label={closeLabel}
+      >
+        <span aria-hidden="true">✕</span>
+      </button>
+    </header>
+    <div
+      class="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain px-4 py-4 sm:px-6 sm:py-5"
+    >
+      <div class="rounded-xl bg-bg-landing/90 px-3 py-4 sm:px-5 sm:py-6">
+        <p class="mb-6 text-center text-sm text-primary/75">{terms.date}</p>
+        <TermsPolicyArticle terms={terms} lang={lang} showDocumentTitle={false} />
+      </div>
+    </div>
+    <footer
+      class="flex shrink-0 flex-col-reverse gap-2 border-t border-primary/10 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:px-5"
+    >
+      <a
+        href={fullPageHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link text-center text-sm font-semibold text-soft-blue underline decoration-2 underline-offset-2 hover:text-primary sm:text-left"
+      >
+        {fullPageLabel}
+      </a>
+      <button
+        type="button"
+        class="btn btn-primary btn-sm w-full min-h-11 sm:w-auto sm:px-6"
+        data-close-waitlist-terms-dialog
+      >
+        {closeLabel}
+      </button>
+    </footer>
+  </div>
+</dialog>

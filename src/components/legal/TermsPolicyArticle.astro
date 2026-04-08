@@ -6,17 +6,25 @@ import type { TermsAndConditionsContent } from '@/models/legal';
 interface Props {
   terms: TermsAndConditionsContent;
   lang: SupportedLang;
+  /** When `false`, omits the page `<h1>` and date (e.g. dialog already shows the title in chrome). */
+  showDocumentTitle?: boolean;
 }
 
-const { terms, lang } = Astro.props;
+const { terms, lang, showDocumentTitle = true } = Astro.props;
 
 const dataProtectionHtml = termsLinkify(terms.dataProtection, lang);
 const law3Html = termsLinkify(terms.law3, lang);
 ---
 
 <article class="prose legal-doc max-w-none">
-  <h1 class="text-center">{terms.title}</h1>
-  <p class="text-center text-primary/80">{terms.date}</p>
+  {
+    showDocumentTitle ? (
+      <>
+        <h1 class="text-center">{terms.title}</h1>
+        <p class="text-center text-primary/80">{terms.date}</p>
+      </>
+    ) : null
+  }
 
   <h2>{terms.generalInfoTitle}</h2>
   <p class="whitespace-pre-line">{terms.generalInfo}</p>
