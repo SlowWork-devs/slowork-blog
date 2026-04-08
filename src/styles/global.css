@@ -92,6 +92,10 @@
     /* Quiet time */
     100% { transform: translateY(0) scaleX(1) scaleY(1); }
   }
+
+  /* --- Blog (@tailwindcss/typography): medida de columna + util `max-w-prose` --- */
+  --spacing-prose-widest: 80ch;
+  --max-width-prose: var(--spacing-prose-widest);
 }
 
 /**
@@ -216,154 +220,29 @@
     }
   }
 
-  /* --- Configuración de Lectura (Prose) --- */
-  .prose {
-    max-width: 700px !important;
-    margin: 0 auto;
-    @apply text-primary/90;
-  }
-
-  .prose p {
-    @apply leading-relaxed mb-8 text-[1.1rem];
-  }
-
-  .prose h1,
-  .prose h2,
-  .prose h3 {
-    @apply font-heading font-bold text-primary mt-14 mb-6 tracking-tight;
-  }
-
-  .prose h2 {
-    @apply text-3xl border-b border-primary/10 pb-3;
-  }
-
-  .prose h3 {
-    @apply text-xl;
-  }
-
-  /* Enlaces en el cuerpo del artículo: reconocibles sin depender solo del color (WCAG) */
-  .prose a {
-    @apply font-medium text-soft-blue underline decoration-secondary decoration-2 underline-offset-[0.18em] wrap-break-word;
-    text-decoration-skip-ink: auto;
-    transition:
-      color 0.15s ease,
-      text-decoration-color 0.15s ease,
-      text-decoration-thickness 0.15s ease,
-      text-underline-offset 0.15s ease;
-  }
-
-  .prose a:visited {
-    @apply text-primary decoration-secondary/70;
-  }
-
-  .prose a:hover {
-    @apply text-primary decoration-secondary;
-    text-decoration-thickness: 0.14em;
-    text-underline-offset: 0.28em;
-  }
-
-  .prose a:active {
-    @apply text-primary/90 decoration-primary/60;
-  }
-
-  .prose a:focus-visible {
-    @apply rounded-[0.12em] outline-2 outline-offset-[3px] outline-secondary;
-    outline-style: solid;
-  }
-
-  /* Enlace que solo envuelve una imagen: sin subrayado; foco visible en el marco */
-  .prose a:has(> img) {
-    @apply no-underline;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .prose a:has(> img):hover {
-    @apply opacity-[0.94];
-  }
-
-  .prose a:has(> img):focus-visible {
-    @apply opacity-100 outline-2 outline-offset-[3px] outline-secondary rounded-[1.75rem];
-    outline-style: solid;
-  }
-
-  .prose blockquote {
-    @apply border-l-4 border-secondary bg-light-green/50 py-6 px-8 italic rounded-r-2xl my-10 shadow-sm;
-    color: var(--color-primary);
-  }
-
-  /* Imágenes: aspect-ratio y object-fit para evitar deformaciones */
-  .prose img {
-    @apply rounded-4xl shadow-xl my-12 border-4 border-light-green w-full max-w-full h-auto object-cover;
-  }
-
-  /* Tablas: el wrapper .table-wrapper (rehype) tiene overflow-x-auto */
-  .prose .table-wrapper {
-    @apply -mx-4 sm:mx-0;
-  }
-
-  .prose table {
-    @apply w-full min-w-[320px] border-collapse shadow-md rounded-2xl overflow-hidden bg-light-green/35;
-  }
-
-  .prose thead {
-    @apply bg-primary text-secondary;
-  }
-
-  .prose th {
-    @apply py-5 px-4 sm:px-6 text-left font-bold uppercase tracking-widest text-xs text-secondary;
-  }
-
-  .prose tr {
-    @apply border-b border-primary/5 transition-colors;
-  }
-
-  .prose tr:nth-child(even) {
-    @apply bg-light-green/25;
-  }
-
-  .prose tr:hover {
-    @apply bg-secondary/10;
-  }
-
-  .prose td {
-    @apply py-5 px-4 sm:px-6 text-sm md:text-base;
-  }
-
-  /* --- Listas (ul, ol) --- */
-  .prose ul,
-  .prose ol {
-    @apply list-none my-10 bg-light-green/20 rounded-2xl p-6 sm:p-8 border border-primary/5 shadow-sm;
-  }
-
-  .prose li {
-    @apply relative pl-8 mb-3 font-medium leading-[1.8] text-[1.05rem] text-primary/90 transition-colors;
-  }
-
-  .prose li:last-child {
-    @apply mb-0;
-  }
-
-  /* Custom marker (Dot) para ul */
-  .prose ul > li::before {
-    content: "";
-    @apply absolute left-1 top-[0.65em] w-2.5 h-2.5 bg-secondary rounded-full shadow-sm;
-  }
-
-  /* Custom marker (Numbers) para ol */
-  .prose ol {
-    counter-reset: prose-ol-counter;
-  }
-  
-  .prose ol > li::before {
-    counter-increment: prose-ol-counter;
-    content: counter(prose-ol-counter) ".";
-    @apply absolute left-0 top-[-0.1em] text-secondary font-bold text-lg;
-  }
-
-  /* Hover sutil en los items para mayor interactividad editorial */
-  .prose li:hover {
-    @apply text-primary;
+  /**
+   * Blog: variables internas del plugin @tailwindcss/typography (primary / secondary).
+   * Tamaños, márgenes y listas: solo el plugin. Ancho: contenedor `max-w-[var(--spacing-prose-widest)]` + `prose max-w-none`.
+   */
+  .prose:not(.legal-doc) {
+    --tw-prose-body: color-mix(in srgb, var(--color-primary) 90%, transparent);
+    --tw-prose-headings: var(--color-primary);
+    --tw-prose-lead: color-mix(in srgb, var(--color-primary) 65%, transparent);
+    --tw-prose-links: var(--color-soft-blue);
+    --tw-prose-bold: var(--color-primary);
+    --tw-prose-counters: color-mix(in srgb, var(--color-primary) 55%, transparent);
+    --tw-prose-bullets: var(--color-secondary);
+    --tw-prose-hr: color-mix(in srgb, var(--color-primary) 20%, transparent);
+    --tw-prose-quotes: var(--color-primary);
+    --tw-prose-quote-borders: var(--color-secondary);
+    --tw-prose-captions: color-mix(in srgb, var(--color-primary) 55%, transparent);
+    --tw-prose-kbd: var(--color-primary);
+    --tw-prose-kbd-shadows: color-mix(in srgb, var(--color-primary) 14%, transparent);
+    --tw-prose-code: var(--color-primary);
+    --tw-prose-pre-code: var(--color-secondary);
+    --tw-prose-pre-bg: var(--color-primary);
+    --tw-prose-th-borders: color-mix(in srgb, var(--color-primary) 28%, transparent);
+    --tw-prose-td-borders: color-mix(in srgb, var(--color-primary) 14%, transparent);
   }
 
   /**
@@ -371,7 +250,7 @@
    * sin adornos editoriales del blog (listas con fondo, bordes en h2, etc.).
    */
   .prose.legal-doc {
-    max-width: none !important;
+    max-width: none;
     margin: 0;
     @apply text-primary/90;
   }
