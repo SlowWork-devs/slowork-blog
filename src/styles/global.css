@@ -35,7 +35,8 @@
   --color-base-200: #ddeee5;
   --color-base-300: color-mix(in srgb, #013333 14%, #e2e8e5);
   --color-base-content: #013333;
-  --color-error: #e63946;
+  /* Red legible en texto pequeño sobre bg-bg-landing (#e2e8e5): ≥4.5:1 (WCAG AA) */
+  --color-error: #c91826;
   --color-success: #2a9d8f;
 }
 
@@ -51,7 +52,7 @@
   --color-soft-blue: #779ed3;
 
   /* Estados semánticos (DaisyUI: input-error / input-success → --input-color vía --color-error | --color-success) */
-  --color-error: #e63946;
+  --color-error: #c91826;
   --color-success: #2a9d8f;
 
   /* Tokens alineados con convención DaisyUI / utilidades */
