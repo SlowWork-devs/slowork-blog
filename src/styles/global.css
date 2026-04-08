@@ -124,7 +124,15 @@
 /** Contenedor a ancho completo en formularios (la librería usa `inline-block` por defecto). */
 .iti {
   width: 100%;
+  min-width: 0;
   transition: box-shadow 0.2s ease-in-out;
+}
+
+/** Select Daisy en waitlist/modal: evita desbordes cuando el padding del `select-lg` reduce el ancho útil. */
+.waitlist-form-root .select.select-lg {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 /**
