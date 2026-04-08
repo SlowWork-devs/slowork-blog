@@ -293,7 +293,7 @@ const errText =
                       <option value="">{c.selectDefault}</option>
                       <option value="Sloworker">{c.optSloworker}</option>
                       <option value="Host">{c.optHost}</option>
-                      <option value="Bussines">{c.optBusiness}</option>
+                      <option value="Business">{c.optBusiness}</option>
                     </select>
                   </div>
                   <p
@@ -456,12 +456,18 @@ const errText =
 
   const skipPayloadKeys = new Set(['termsAccepted']);
 
-  const payloadFromForm = (form: HTMLFormElement): Record<string, string> =>
-    Object.fromEntries(
+  const payloadFromForm = (form: HTMLFormElement): Record<string, string> => {
+    const entries = Object.fromEntries(
       [...new FormData(form).entries()]
         .filter(([k]) => !skipPayloadKeys.has(k))
         .map(([k, v]) => [k, typeof v === 'string' ? v : '']),
     ) as Record<string, string>;
+    return {
+      ...entries,
+      instagram: entries.instagram ?? '',
+      linkedin: entries.linkedin ?? '',
+    };
+  };
 
   const parseErrorMessage = async (res: Response): Promise<string | null> => {
     const body = (await res.json().catch(() => null)) as { message?: string } | null;
@@ -768,10 +774,16 @@ const errText =
       statusEl.textContent = '';
       setSubmitVisual('sending');
 
+      const apiBody = {
+        ...apiReady.data,
+        instagram: apiReady.data.instagram ?? '',
+        linkedin: apiReady.data.linkedin ?? '',
+      };
+
       const res = await fetch('/api/waitlist/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(apiReady.data),
+        body: JSON.stringify(apiBody),
       }).catch(() => null);
 
       if (res === null) {
