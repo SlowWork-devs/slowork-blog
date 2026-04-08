@@ -47,12 +47,13 @@ const termsBlockMbClass = layout === 'minimal' ? 'mb-4' : 'mb-6';
 
 const labelTextClass =
   'label-text font-bold text-primary/70 uppercase tracking-widest text-xs';
+const waitlistControlShellClass = 'waitlist-control-shell relative w-full min-w-0';
 const inputClass = `input input-bordered input-lg w-full max-w-full bg-white/90 backdrop-blur-sm border-primary/25 text-primary transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 ${ringOffset}`;
 const selectClass = `select select-bordered select-lg w-full max-w-full bg-white/90 backdrop-blur-sm border-primary/25 text-primary transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 ${ringOffset}`;
 const textareaClass = `textarea textarea-bordered textarea-lg w-full max-w-full min-h-28 resize-y bg-white/90 backdrop-blur-sm border-primary/25 text-primary transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 ${ringOffset}`;
 const inputWithIconClass = `${inputClass} pl-10`;
 const errText =
-  'mt-1.5 flex h-[2.75rem] shrink-0 items-start overflow-hidden text-xs font-semibold leading-snug text-soft-blue opacity-0 transition-opacity duration-200 ease-out data-[visible=true]:opacity-100';
+  'mt-1.5 flex h-[2.75rem] shrink-0 items-start overflow-hidden text-xs font-semibold leading-snug text-error opacity-0 transition-opacity duration-200 ease-out data-[visible=true]:opacity-100';
 ---
 
 <div
@@ -115,15 +116,17 @@ const errText =
                       <span class="text-soft-blue">*</span>
                     </span>
                   </label>
-                  <input
-                    id={`wl-fn-${suffix}`}
-                    name="firstName"
-                    type="text"
-                    autocomplete="given-name"
-                    data-waitlist-field="firstName"
-                    class={inputClass}
-                    aria-invalid="false"
-                  />
+                  <div class={waitlistControlShellClass}>
+                    <input
+                      id={`wl-fn-${suffix}`}
+                      name="firstName"
+                      type="text"
+                      autocomplete="given-name"
+                      data-waitlist-field="firstName"
+                      class={inputClass}
+                      aria-invalid="false"
+                    />
+                  </div>
                   <p
                     id={`wl-err-firstName-${suffix}`}
                     role="alert"
@@ -139,15 +142,17 @@ const errText =
                       <span class="text-soft-blue">*</span>
                     </span>
                   </label>
-                  <input
-                    id={`wl-em-${suffix}`}
-                    name="email"
-                    type="email"
-                    autocomplete="email"
-                    data-waitlist-field="email"
-                    class={inputClass}
-                    aria-invalid="false"
-                  />
+                  <div class={waitlistControlShellClass}>
+                    <input
+                      id={`wl-em-${suffix}`}
+                      name="email"
+                      type="email"
+                      autocomplete="email"
+                      data-waitlist-field="email"
+                      class={inputClass}
+                      aria-invalid="false"
+                    />
+                  </div>
                   <p
                     id={`wl-err-email-${suffix}`}
                     role="alert"
@@ -163,7 +168,7 @@ const errText =
                       <span class="text-soft-blue">*</span>
                     </span>
                   </label>
-                  <div class="relative w-full min-w-0">
+                  <div class={waitlistControlShellClass}>
                     <input
                       id={phoneInputId}
                       name="phone"
@@ -194,7 +199,7 @@ const errText =
                   <label class="label cursor-default px-0 pb-1 pt-0" for={`wl-ig-${suffix}`}>
                     <span class={labelTextClass}>{c.instagram}</span>
                   </label>
-                  <div class="group/fi relative w-full min-w-0">
+                  <div class:list={['group/fi', waitlistControlShellClass]}>
                     <span
                       class="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-primary/35 transition-colors group-focus-within/fi:text-primary/55"
                       aria-hidden="true"
@@ -227,7 +232,7 @@ const errText =
                   <label class="label cursor-default px-0 pb-1 pt-0" for={`wl-li-${suffix}`}>
                     <span class={labelTextClass}>{c.linkedin}</span>
                   </label>
-                  <div class="group/fi relative w-full min-w-0">
+                  <div class:list={['group/fi', waitlistControlShellClass]}>
                     <span
                       class="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-primary/35 transition-colors group-focus-within/fi:text-primary/55"
                       aria-hidden="true"
@@ -276,19 +281,21 @@ const errText =
                       <span class="text-soft-blue">*</span>
                     </span>
                   </label>
-                  <select
-                    id={`wl-pref-${suffix}`}
-                    name="preferredContact"
-                    required
-                    data-waitlist-field="preferredContact"
-                    class={selectClass}
-                    aria-invalid="false"
-                  >
-                    <option value="">{c.selectDefault}</option>
-                    <option value="Sloworker">{c.optSloworker}</option>
-                    <option value="Host">{c.optHost}</option>
-                    <option value="Bussines">{c.optBusiness}</option>
-                  </select>
+                  <div class={waitlistControlShellClass}>
+                    <select
+                      id={`wl-pref-${suffix}`}
+                      name="preferredContact"
+                      required
+                      data-waitlist-field="preferredContact"
+                      class={selectClass}
+                      aria-invalid="false"
+                    >
+                      <option value="">{c.selectDefault}</option>
+                      <option value="Sloworker">{c.optSloworker}</option>
+                      <option value="Host">{c.optHost}</option>
+                      <option value="Bussines">{c.optBusiness}</option>
+                    </select>
+                  </div>
                   <p
                     id={`wl-err-preferredContact-${suffix}`}
                     role="alert"
@@ -304,14 +311,16 @@ const errText =
                       <span class="text-soft-blue">*</span>
                     </span>
                   </label>
-                  <textarea
-                    id={`wl-com-${suffix}`}
-                    name="communityInterest"
-                    rows={4}
-                    data-waitlist-field="communityInterest"
-                    class={textareaClass}
-                    aria-invalid="false"
-                  />
+                  <div class={waitlistControlShellClass}>
+                    <textarea
+                      id={`wl-com-${suffix}`}
+                      name="communityInterest"
+                      rows={4}
+                      data-waitlist-field="communityInterest"
+                      class={textareaClass}
+                      aria-invalid="false"
+                    />
+                  </div>
                   <p
                     id={`wl-err-communityInterest-${suffix}`}
                     role="alert"
@@ -582,8 +591,6 @@ const errText =
       applyControlError(control);
       errEl.textContent = message;
       errEl.dataset.visible = 'true';
-      errEl.classList.add('text-error');
-      errEl.classList.remove('text-soft-blue');
       setFieldA11y(control, true, errEl.id || null);
     };
 
@@ -596,8 +603,6 @@ const errText =
       if (errEl) {
         errEl.textContent = '';
         errEl.dataset.visible = 'false';
-        errEl.classList.remove('text-error');
-        errEl.classList.add('text-soft-blue');
       }
       setFieldA11y(control, false, null);
     };
@@ -609,8 +614,6 @@ const errText =
       clearControlVisual(control);
       errEl.textContent = '';
       errEl.dataset.visible = 'false';
-      errEl.classList.remove('text-error');
-      errEl.classList.add('text-soft-blue');
       setFieldA11y(control, false, null);
     };
 
