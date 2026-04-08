@@ -3,6 +3,26 @@ import type { BlogPost, BlogResponse } from '@/types/blog';
 
 export type ApiLang = 'es' | 'en';
 
+/**
+ * Builds the GraphQL HTTP URL from `SLOWORK_API_URL`.
+ * Accepts either the API root (no path) or a URL that already ends with `/graphql`.
+ */
+export const buildGraphqlEndpoint = (rawBase: string): string => {
+  const trimmed = rawBase.trim().replace(/\/+$/, '');
+  if (/\/graphql$/i.test(trimmed)) {
+    return trimmed;
+  }
+  return `${trimmed}/graphql`;
+};
+
+const resolveSloworkGraphqlUrl = (): string => {
+  const baseUrl = import.meta.env.SLOWORK_API_URL as string | undefined;
+  if (!baseUrl?.trim()) {
+    throw new Error('SLOWORK_API_URL is not configured');
+  }
+  return buildGraphqlEndpoint(baseUrl);
+};
+
 const markdownToHtml = (raw: string | null | undefined): string => {
   const t = (raw ?? '').trim();
   if (!t) return '';
@@ -45,27 +65,39 @@ const localizeBlogPost = (post: BlogPost, lang: ApiLang): LocalizedBlogPost => {
 };
 
 const fetchGraphQL = async <T>(query: string, variables = {}): Promise<T> => {
-  const baseUrl = import.meta.env.SLOWORK_API_URL as string | undefined;
-  if (!baseUrl) throw new Error('SLOWORK_API_URL is not configured');
+  const graphqlUrl = resolveSloworkGraphqlUrl();
 
-  const res = await fetch(baseUrl, {
+  const res = await fetch(graphqlUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query, variables }),
   });
 
-  const { data, errors } = (await res.json()) as {
-    data?: T;
-    errors?: Array<{ message?: string }>;
-  };
-
-  if (errors) {
-    console.error('[GraphQL Error]:', errors);
-    throw new Error(errors[0]?.message || 'Error en la consulta GraphQL');
+  const bodyText = await res.text();
+  let payload: { data?: T; errors?: Array<{ message?: string }> };
+  try {
+    payload = JSON.parse(bodyText) as { data?: T; errors?: Array<{ message?: string }> };
+  } catch {
+    throw new Error(
+      `GraphQL response is not valid JSON (url: ${graphqlUrl}, http: ${res.status}, preview: ${bodyText.slice(0, 240)})`,
+    );
   }
 
-  if (!data) {
-    throw new Error('Respuesta GraphQL sin datos');
+  const { data, errors } = payload;
+
+  if (!res.ok) {
+    const detail = errors?.[0]?.message ?? bodyText.slice(0, 500);
+    throw new Error(`GraphQL HTTP ${res.status} at ${graphqlUrl}: ${detail}`);
+  }
+
+  if (errors?.length) {
+    const first = errors[0]?.message ?? 'Unknown GraphQL error';
+    console.error('[GraphQL Error]:', errors, { url: graphqlUrl });
+    throw new Error(`GraphQL error at ${graphqlUrl}: ${first}`);
+  }
+
+  if (data === undefined || data === null) {
+    throw new Error(`GraphQL response missing data (url: ${graphqlUrl})`);
   }
 
   return data;
@@ -126,10 +158,16 @@ const GET_BLOG_BY_SLUG_QUERY = `
 `;
 
 export async function getBlogs(params: { page: number; limit: number; lang?: ApiLang }) {
-  const data = await fetchGraphQL<{ getBlogs: BlogResponse }>(GET_BLOGS_QUERY, {
+  const data = await fetchGraphQL<{ getBlogs: BlogResponse | null | undefined }>(GET_BLOGS_QUERY, {
     currentPage: params.page,
     paginationSize: params.limit,
   });
+
+  if (!data.getBlogs) {
+    throw new Error(
+      `GraphQL getBlogs returned empty (url: ${resolveSloworkGraphqlUrl()})`,
+    );
+  }
 
   const lang = params.lang === 'es' ? 'es' : 'en';
   return {
@@ -139,18 +177,33 @@ export async function getBlogs(params: { page: number; limit: number; lang?: Api
 }
 
 export async function getBlogById(params: { id: number; lang?: ApiLang }) {
-  const data = await fetchGraphQL<{ getBlog: BlogPost }>(GET_BLOG_BY_ID_QUERY, {
+  const data = await fetchGraphQL<{ getBlog: BlogPost | null | undefined }>(GET_BLOG_BY_ID_QUERY, {
     id: params.id,
   });
+
+  if (!data.getBlog) {
+    throw new Error(
+      `GraphQL getBlog returned empty for id=${params.id} (url: ${resolveSloworkGraphqlUrl()})`,
+    );
+  }
 
   const lang = params.lang === 'es' ? 'es' : 'en';
   return localizeBlogPost(data.getBlog, lang);
 }
 
 export async function getBlogBySlug(params: { slug: string; lang?: ApiLang }) {
-  const data = await fetchGraphQL<{ getBlogBySlug: BlogPost }>(GET_BLOG_BY_SLUG_QUERY, {
-    slug: params.slug,
-  });
+  const data = await fetchGraphQL<{ getBlogBySlug: BlogPost | null | undefined }>(
+    GET_BLOG_BY_SLUG_QUERY,
+    {
+      slug: params.slug,
+    },
+  );
+
+  if (!data.getBlogBySlug) {
+    throw new Error(
+      `GraphQL getBlogBySlug returned empty for slug=${params.slug} (url: ${resolveSloworkGraphqlUrl()})`,
+    );
+  }
 
   const lang = params.lang === 'es' ? 'es' : 'en';
   return localizeBlogPost(data.getBlogBySlug, lang);
