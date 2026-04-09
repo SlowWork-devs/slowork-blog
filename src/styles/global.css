@@ -418,9 +418,9 @@
     transform: translate3d(0, 1.5rem, 0);
     will-change: opacity, transform;
     transition:
-      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-      filter 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .home-reveal.is-visible {
     opacity: 1;
@@ -593,18 +593,24 @@
   /* ── Feature cards stagger (parent triggers children via is-visible) ─────── */
   .features-reveal-frame .feature-card > div {
     opacity: 0;
-    transform: translateY(1.25rem) scale(0.97);
+    transform: translate3d(0, 1.25rem, 0) scale(0.97);
     transition:
-      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .features-reveal-frame.is-visible .feature-card > div {
     opacity: 1;
     transform: none;
   }
   .features-reveal-frame.is-visible .feature-card:nth-child(1) > div { transition-delay: 0ms; }
-  .features-reveal-frame.is-visible .feature-card:nth-child(2) > div { transition-delay: 120ms; }
-  .features-reveal-frame.is-visible .feature-card:nth-child(3) > div { transition-delay: 240ms; }
+  .features-reveal-frame.is-visible .feature-card:nth-child(2) > div { transition-delay: 100ms; }
+  .features-reveal-frame.is-visible .feature-card:nth-child(3) > div { transition-delay: 200ms; }
+  .features-reveal-frame.is-visible .feature-card:nth-child(4) > div { transition-delay: 300ms; }
+  .features-reveal-frame.is-visible .feature-card:nth-child(5) > div { transition-delay: 400ms; }
+  .features-reveal-frame.is-visible .feature-card:nth-child(6) > div { transition-delay: 500ms; }
+  .features-reveal-frame.is-visible .feature-card:nth-child(7) > div { transition-delay: 600ms; }
+  .features-reveal-frame.is-visible .feature-card:nth-child(8) > div { transition-delay: 700ms; }
+  .features-reveal-frame.is-visible .feature-card:nth-child(9) > div { transition-delay: 800ms; }
 
   /* ── Globe section: in-view scale + speed change ─────────────────────────── */
   .globe-frame {
@@ -620,10 +626,10 @@
   /* Globe destination cards stagger */
   .globe-dest-item {
     opacity: 0;
-    transform: translateY(0.75rem);
+    transform: translate3d(0, 0.75rem, 0);
     transition:
-      opacity 0.5s ease,
-      transform 0.5s ease;
+      opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .globe-in-view .globe-dest-item {
     opacity: 1;

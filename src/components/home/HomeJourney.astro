@@ -38,10 +38,13 @@ const ctaCopy = homeFinalCtaCopy(lang);
 
       <div class="relative z-10 w-full space-y-12 sm:space-y-10 md:space-y-8">
         {
-          HOME_JOURNEY.map((step) =>
+          HOME_JOURNEY.map((step, stepIdx) =>
             step.kind === 'center' ? (
               <div
-                class:list={['home-reveal journey-from-bottom', step.delayClass ?? '']}
+                class:list={[
+                  'home-reveal journey-from-bottom',
+                  stepIdx === 0 ? '' : `delay-[${stepIdx * 100}ms]`,
+                ]}
                 data-home-reveal
               >
                 <div class="flex max-w-md flex-col items-center text-center sm:max-w-lg mx-auto">
@@ -71,7 +74,7 @@ const ctaCopy = homeFinalCtaCopy(lang);
                 class:list={[
                   'home-reveal flex flex-col items-center gap-4 md:flex-row md:gap-0',
                   step.side === 'left' ? 'journey-from-left' : 'journey-from-right',
-                  step.delayClass ?? '',
+                  stepIdx === 0 ? '' : `delay-[${stepIdx * 100}ms]`,
                 ]}
                 data-home-reveal
               >
@@ -123,7 +126,7 @@ const ctaCopy = homeFinalCtaCopy(lang);
       <div
         class="home-reveal journey-from-bottom relative z-10 mt-14 flex flex-col items-center gap-4"
         data-home-reveal
-        data-reveal-delay="200"
+        data-reveal-delay="550"
       >
        
         

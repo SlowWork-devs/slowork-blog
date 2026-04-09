@@ -49,7 +49,10 @@ const ft = homeFeaturesTitle(lang);
           id="features-track-wrap"
           class="cursor-grab overflow-hidden active:cursor-grabbing"
         >
-          <div id="features-track" class="flex gap-4 transition-transform duration-500 ease-out will-change-transform">
+          <div
+            id="features-track"
+            class="flex gap-4 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
+          >
             {
               HOME_FEATURES.map((feature) => (
                 <div class="feature-card w-full shrink-0 md:w-[calc(33.333%-0.67rem)]">

@@ -177,7 +177,6 @@ export const HOME_JOURNEY: JourneyStep[] = [
       en: 'Reserve your space, get to know your Slowork hosts and meet other nomads before you arrive.',
       es: 'Elige tu estancia, conoce a tus anfitriones Slowork y empieza a conectar con otros nómadas antes de llegar.',
     },
-    delayClass: 'delay-[200ms]',
   },
   {
     id: 'step3',
@@ -193,7 +192,6 @@ export const HOME_JOURNEY: JourneyStep[] = [
       en: 'Join a like-minded community. Find clients, propose projects, and grow through real collaboration.',
       es: 'Únete a una comunidad con tus mismos valores. Encuentra clientes, ofrece proyectos y crece a través de colaboraciones reales.',
     },
-    delayClass: 'delay-[300ms]',
   },
   {
     id: 'step4',
@@ -206,7 +204,6 @@ export const HOME_JOURNEY: JourneyStep[] = [
       en: 'Participate in events, retreats, workshops and moments of presence with local communities.',
       es: 'Únete a eventos, retiros, talleres y momentos de conexión con las comunidades locales.',
     },
-    delayClass: 'delay-[300ms]',
   },
   {
     id: 'step5',
@@ -218,7 +215,6 @@ export const HOME_JOURNEY: JourneyStep[] = [
       en: 'Log your trips and activities, and earn Slowork credits for future stays by sharing content about your experience.',
       es: 'Guarda tus rutas y actividades, y obtén créditos Slowork para futuras estancias compartiendo contenido sobre tu experiencia.',
     },
-    delayClass: 'delay-[300ms]',
   },
 ];
 
