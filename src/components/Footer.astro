@@ -1,32 +1,15 @@
 ---
 // src/components/Footer.astro
+import { homeFooterCopy } from '@/lib/homeContent';
+import { isSupportedLang, type SupportedLang } from '@/lib/seo';
+
 const { language = 'es' } = Astro.props;
 const currentYear = new Date().getFullYear();
 
-// Diccionario de traducciones para el Footer
-const translations = {
-	es: {
-		rights: 'Todos los derechos reservados.',
-		privacy: 'Política de Privacidad',
-		contact: 'Contacto',
-		cookies: 'Política de Cookies',
-		legal: 'Aviso Legal',
-		terms: 'Términos y Condiciones',
-	},
-	en: {
-		rights: 'All rights reserved.',
-		privacy: 'Privacy Policy',
-		contact: 'Contact',
-		cookies: 'Cookies Policy',
-		legal: 'Legal Notice',
-		terms: 'Terms & Conditions',
-	}
-};
+const lang: SupportedLang = isSupportedLang(language) ? language : 'es';
+const t = homeFooterCopy(lang);
 
-const t = translations[language as 'es' | 'en'] || translations.es;
-
-// Helper para generar links con idioma (evitamos duplicar lógica)
-const langPath = (path: string) => `/${language}${path}`;
+const langPath = (path: string) => `/${lang}${path}`;
 const contactHref = `${langPath('/')}#contact`;
 ---
 
@@ -39,8 +22,8 @@ const contactHref = `${langPath('/')}#contact`;
 				
 				<span class="mx-2 text-secondary/90 hidden sm:inline">|</span>
 				
-				<div class="flex flex-wrap justify-center gap-1 sm:inline-block">
-					<a href={langPath('/privacy-policy/')} class="inline-flex items-center justify-center min-h-11 min-w-11 py-2 px-1 hover:text-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm touch-manipulation">{t.privacy}</a>
+				<div class="flex flex-wrap justify-center gap-1 sm:inline-block" aria-label={t.legalLinksAriaLabel}>
+					<a href={langPath(t.routes.privacy)} class="inline-flex items-center justify-center min-h-11 min-w-11 py-2 px-1 hover:text-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm touch-manipulation">{t.privacy}</a>
 					<span class="mx-1 hidden sm:inline">|</span>
 					
 					<a
@@ -51,11 +34,11 @@ const contactHref = `${langPath('/')}#contact`;
 					</a>
 					
 					<span class="mx-1 hidden sm:inline">|</span>
-					<a href={langPath('/cookies-policy/')} class="inline-flex items-center justify-center min-h-11 min-w-11 py-2 px-1 hover:text-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm touch-manipulation">{t.cookies}</a>
+					<a href={langPath(t.routes.cookies)} class="inline-flex items-center justify-center min-h-11 min-w-11 py-2 px-1 hover:text-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm touch-manipulation">{t.cookies}</a>
 					<span class="mx-1 hidden sm:inline">|</span>
-					<a href={langPath('/legal-notice/')} class="inline-flex items-center justify-center min-h-11 min-w-11 py-2 px-1 hover:text-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm touch-manipulation">{t.legal}</a>
+					<a href={langPath(t.routes.legalNotice)} class="inline-flex items-center justify-center min-h-11 min-w-11 py-2 px-1 hover:text-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm touch-manipulation">{t.legal}</a>
 					<span class="mx-1 hidden sm:inline">|</span>
-					<a href={langPath('/terms-and-conditions/')} class="inline-flex items-center justify-center min-h-11 min-w-11 py-2 px-1 hover:text-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm touch-manipulation">{t.terms}</a>
+					<a href={langPath(t.routes.terms)} class="inline-flex items-center justify-center min-h-11 min-w-11 py-2 px-1 hover:text-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm touch-manipulation">{t.terms}</a>
 				</div>
 			</div>
 
