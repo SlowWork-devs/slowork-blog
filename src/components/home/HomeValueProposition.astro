@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import type { SupportedLang } from '@/lib/seo';
 import { HOME_CAROUSEL, homeValueCopy } from '@/lib/homeContent';
 
@@ -58,29 +57,18 @@ const copy = homeValueCopy(lang);
           id="image-carousel"
           class="relative aspect-square cursor-grab select-none overflow-hidden rounded-[11rem] border border-primary/10 shadow-xl shadow-primary/25 active:cursor-grabbing"
         >
-          {
-            HOME_CAROUSEL.map((img, idx) => (
-              <div
-                class:list={[
-                  'carousel-slide absolute inset-0 transition-opacity duration-700 ease-in-out',
-                  idx === 0 ? 'opacity-100 z-[1]' : 'opacity-0 z-0',
-                ]}
-                data-carousel-idx={idx}
-              >
-                <Image
-                  src={img.src}
-                  alt={img.alt[lang]}
-                  width={960}
-                  height={960}
-                  sizes="(max-width: 1023px) min(100vw, 24rem), 30vw"
-                  class="h-full w-full object-cover"
-                  loading={idx === 0 ? 'eager' : 'lazy'}
-                  fetchpriority="low"
-                  decoding="async"
-                />
-              </div>
-            ))
-          }
+          <img
+            data-carousel-img
+            src={HOME_CAROUSEL[0].src.src}
+            alt={HOME_CAROUSEL[0].alt[lang]}
+            width={HOME_CAROUSEL[0].src.width}
+            height={HOME_CAROUSEL[0].src.height}
+            sizes="(max-width: 1023px) min(100vw, 24rem), 30vw"
+            class="h-full w-full object-cover opacity-100 scale-100 transition-[opacity,transform] duration-700 ease-in-out will-change-[opacity,transform]"
+            loading="eager"
+            fetchpriority="low"
+            decoding="async"
+          />
           <button
             type="button"
             id="carousel-prev"
@@ -116,29 +104,43 @@ const copy = homeValueCopy(lang);
   </div>
 </section>
 
-<script>
+<script define:vars={{ HOME_CAROUSEL, lang }}>
   (() => {
     const track = document.getElementById('image-carousel');
     if (!track) return;
 
-    const slides = () => Array.from(track.querySelectorAll('[data-carousel-idx]'));
+    HOME_CAROUSEL.forEach((slide) => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = slide.src.src;
+      document.head.appendChild(link);
+    });
+
+    const carouselImg = track.querySelector('[data-carousel-img]');
     const dots = () => Array.from(document.querySelectorAll('.carousel-dot'));
 
     const state = { idx: 0, dragging: false, startX: 0 };
-    const timers: { auto: number | undefined } = { auto: undefined };
+    const timers = { auto: undefined };
+    let applyGeneration = 0;
+    let fadeOutController = null;
+    let fadeSwapTimeoutId = undefined;
+
+    const imagePath = (u) => {
+      try {
+        return new URL(u, window.location.href).pathname;
+      } catch {
+        return u;
+      }
+    };
 
     const apply = () => {
-      const s = slides();
-      if (!s.length) return;
-      const n = s.length;
+      const n = HOME_CAROUSEL.length;
+      if (!n) return;
       state.idx = ((state.idx % n) + n) % n;
-      s.forEach((el, i) => {
-        const on = i === state.idx;
-        el.classList.toggle('opacity-100', on);
-        el.classList.toggle('z-[1]', on);
-        el.classList.toggle('opacity-0', !on);
-        el.classList.toggle('z-0', !on);
-      });
+      const slide = HOME_CAROUSEL[state.idx];
+      const myGen = (applyGeneration += 1);
+
       dots().forEach((d, i) => {
         const on = i === state.idx;
         d.classList.toggle('bg-primary', on);
@@ -146,6 +148,90 @@ const copy = homeValueCopy(lang);
         d.classList.toggle('bg-primary/35', !on);
         d.classList.toggle('hover:bg-primary/55', !on);
       });
+
+      if (!(carouselImg instanceof HTMLImageElement) || !slide) return;
+
+      const nextSrc = slide.src.src;
+      const nextAlt = slide.alt[lang];
+      const curPath = imagePath(carouselImg.currentSrc || carouselImg.src);
+      if (curPath === imagePath(nextSrc)) {
+        carouselImg.classList.remove('opacity-0', 'scale-105');
+        carouselImg.classList.add('opacity-100', 'scale-100');
+        return;
+      }
+
+      fadeOutController?.abort();
+      fadeOutController = null;
+      if (fadeSwapTimeoutId !== undefined) {
+        window.clearTimeout(fadeSwapTimeoutId);
+        fadeSwapTimeoutId = undefined;
+      }
+      carouselImg.onload = null;
+      carouselImg.onerror = null;
+
+      const showImage = () => {
+        if (myGen !== applyGeneration) return;
+        carouselImg.classList.add('scale-105');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            if (myGen !== applyGeneration) return;
+            carouselImg.classList.remove('opacity-0', 'scale-105');
+            carouselImg.classList.add('opacity-100', 'scale-100');
+          });
+        });
+      };
+
+      const finishSwap = () => {
+        if (myGen !== applyGeneration) return;
+        carouselImg.onload = null;
+        carouselImg.onerror = null;
+        carouselImg.src = nextSrc;
+        carouselImg.alt = nextAlt;
+
+        const afterReady = () => {
+          if (typeof carouselImg.decode === 'function') {
+            carouselImg
+              .decode()
+              .then(showImage)
+              .catch(showImage);
+            return;
+          }
+          showImage();
+        };
+
+        if (carouselImg.complete) afterReady();
+        else {
+          carouselImg.onload = afterReady;
+          carouselImg.onerror = afterReady;
+        }
+      };
+
+      carouselImg.classList.remove('opacity-100', 'scale-105');
+      carouselImg.classList.add('opacity-0', 'scale-100');
+
+      let fadeOutDone = false;
+      const runSwapAfterFadeOut = () => {
+        if (fadeOutDone || myGen !== applyGeneration) return;
+        fadeOutDone = true;
+        if (fadeSwapTimeoutId !== undefined) {
+          window.clearTimeout(fadeSwapTimeoutId);
+          fadeSwapTimeoutId = undefined;
+        }
+        fadeOutController?.abort();
+        fadeOutController = null;
+        finishSwap();
+      };
+
+      const onFadeOut = (e) => {
+        if (e.propertyName !== 'opacity') return;
+        runSwapAfterFadeOut();
+      };
+
+      fadeOutController = new AbortController();
+      carouselImg.addEventListener('transitionend', onFadeOut, {
+        signal: fadeOutController.signal,
+      });
+      fadeSwapTimeoutId = window.setTimeout(runSwapAfterFadeOut, 780);
     };
 
     const startAuto = () => {
@@ -170,7 +256,7 @@ const copy = homeValueCopy(lang);
     });
     dots().forEach((d) =>
       d.addEventListener('click', () => {
-        state.idx = Number((d as HTMLElement).dataset.idx ?? d.getAttribute('data-idx') ?? 0);
+        state.idx = Number(d.getAttribute('data-idx') ?? '0');
         apply();
       }),
     );
