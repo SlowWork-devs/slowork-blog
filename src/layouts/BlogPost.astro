@@ -17,6 +17,7 @@ const {
   localImage,
   language = "es",
   translationSlug,
+  keywords,
 } = Astro.props;
 
 const esBlogPath =
@@ -38,9 +39,12 @@ const xDefaultBlogHref =
 
 const blogLang: SupportedLang = language === "en" ? "en" : "es";
 
-const optimizedHeroImage = localImage 
-  ? await getImage({ src: localImage, width: 1020, height: 510, format: 'webp' }) 
+const optimizedHeroImage = localImage
+  ? await getImage({ src: localImage, width: 1020, height: 510, format: 'webp' })
   : null;
+
+// Primera keyword como etiqueta de categoría en la ceja tipográfica
+const firstKeyword = keywords?.split(',')[0]?.trim() ?? null;
 ---
 
 <MainLayout
@@ -86,21 +90,32 @@ const optimizedHeroImage = localImage
           />
         ) : null}
       </div>
-      <div class="prose-container max-w-4xl mx-auto w-full">
-        <div class="mb-12 flex justify-start">
+      <div class="prose-container max-w-3xl mx-auto w-full">
+        <div class="mb-10 flex justify-start">
           <BlogArticleBackButton lang={blogLang} />
         </div>
-        <header class="mb-8 md:mb-12">
-          <div class="text-sm text-primary/60 mb-2 capitalize">
-            {date && <FormattedDate date={date} />}
-          </div>
-          <h1 class="font-heading font-bold text-primary text-[clamp(1.5rem,4vw+1rem,2.5rem)] leading-tight tracking-tight">
+        <header class="mb-10 md:mb-14">
+          <!-- Ceja tipográfica: keyword/categoría -->
+          {firstKeyword && (
+            <div class="mb-4">
+              <span class="rounded-full bg-secondary/15 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-secondary">
+                {firstKeyword}
+              </span>
+            </div>
+          )}
+          <h1 class="font-heading font-bold text-primary text-4xl md:text-5xl leading-[1.1] tracking-tight mb-5">
             {title}
           </h1>
-          <hr class="border-primary/20 my-6" />
+          <!-- Fecha sutil -->
+          {date && (
+            <div class="text-sm font-light text-primary/50 capitalize">
+              <FormattedDate date={date} />
+            </div>
+          )}
+          <div class="mt-6 h-px w-full bg-linear-to-r from-secondary/40 via-primary/10 to-transparent" />
         </header>
         <div
-          class="prose prose-neutral lg:prose-xl max-w-none w-full text-primary/90 selection:bg-secondary/30 prose-headings:font-heading prose-headings:text-primary prose-a:text-soft-blue prose-a:font-bold prose-a:no-underline prose-a:transition-colors hover:prose-a:text-primary prose-img:rounded-3xl prose-img:border-4 prose-img:border-light-green/50 prose-img:shadow-2xl prose-blockquote:border-l-[6px] prose-blockquote:border-l-secondary prose-blockquote:bg-light-green/20 prose-blockquote:px-8 prose-blockquote:py-4 prose-blockquote:rounded-r-2xl prose-blockquote:italic prose-blockquote:text-primary/80 prose-li:marker:font-bold prose-li:marker:text-secondary prose-hr:my-12 prose-hr:border-primary/10"
+          class="prose prose-lg max-w-none w-full text-primary/90 selection:bg-secondary/30 prose-headings:font-heading prose-headings:text-primary prose-h2:mt-16 prose-h2:border-l-4 prose-h2:border-secondary prose-h2:pl-4 prose-h2:text-2xl prose-h2:font-bold prose-h2:leading-tight prose-h3:mt-10 prose-h3:text-xl prose-h3:font-semibold prose-p:leading-relaxed prose-a:text-soft-blue prose-a:font-bold prose-a:no-underline prose-a:transition-colors hover:prose-a:text-primary prose-img:rounded-3xl prose-img:border-4 prose-img:border-light-green/50 prose-img:shadow-2xl prose-blockquote:border-l-[6px] prose-blockquote:border-l-secondary prose-blockquote:bg-light-green/20 prose-blockquote:px-8 prose-blockquote:py-4 prose-blockquote:rounded-r-2xl prose-blockquote:italic prose-blockquote:text-primary/80 prose-li:marker:font-bold prose-li:marker:text-secondary prose-hr:my-12 prose-hr:border-primary/10"
         >
           <slot />
         </div>
