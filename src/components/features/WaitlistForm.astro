@@ -421,6 +421,7 @@ const errText =
           data-waitlist-success-panel
           data-state="hidden"
           aria-hidden="true"
+          inert
         >
           <div
             class="w-full max-w-md rounded-2xl border border-primary/15 bg-light-green px-6 py-8 shadow-xl"
@@ -739,11 +740,14 @@ const errText =
       const safeName = firstName.trim() || (lang === 'es' ? 'sloworker' : 'friend');
       successHeadline.textContent = `${successInsideBefore} ${safeName}${successInsideAfter}`;
       formPanel.dataset.state = 'hidden';
+      formPanel.setAttribute('inert', '');
       successPanel.dataset.state = 'visible';
+      successPanel.removeAttribute('inert');
       successPanel.setAttribute('aria-hidden', 'false');
       statusEl.dataset.status = 'success';
       statusEl.textContent = '';
       setSubmitVisual('idle');
+      successClose.focus();
     };
 
     const resetToFormView = () => {
@@ -751,7 +755,9 @@ const errText =
       phoneController.clear();
       clearAllFieldErrors();
       formPanel.dataset.state = 'visible';
+      formPanel.removeAttribute('inert');
       successPanel.dataset.state = 'hidden';
+      successPanel.setAttribute('inert', '');
       successPanel.setAttribute('aria-hidden', 'true');
       statusEl.dataset.status = 'idle';
       statusEl.textContent = '';
