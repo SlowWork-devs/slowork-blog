@@ -12,8 +12,9 @@ const labelShort = 'Join';
 
 <div
   class="waitlist-sticky fixed bottom-6 right-4 z-60 md:bottom-8 md:right-6 lg:bottom-10 lg:right-8"
-  aria-hidden="false"
   data-visible="false"
+  aria-hidden="true"
+  inert
 >
   <button
     type="button"
@@ -36,6 +37,13 @@ const labelShort = 'Join';
   const setVisible = (el: HTMLElement | null, visible: boolean) => {
     if (!el) return;
     el.dataset.visible = visible ? 'true' : 'false';
+    if (visible) {
+      el.removeAttribute('inert');
+      el.removeAttribute('aria-hidden');
+    } else {
+      el.setAttribute('inert', '');
+      el.setAttribute('aria-hidden', 'true');
+    }
   };
 
   document.addEventListener('astro:page-load', () => {
