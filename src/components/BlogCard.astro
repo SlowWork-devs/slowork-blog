@@ -14,7 +14,8 @@ interface Props {
 const { post, lang, imageLcpPriority = false } = Astro.props;
 const postUrl = `/${lang}/blog/${post.slug}/`;
 const cta = lang === 'es' ? 'Leer más' : 'Read more';
-const aria = lang === 'es' ? `Abrir post: ${post.title}` : `Open post: ${post.title}`;
+const titleTrimmed = post.title?.trim() ?? '';
+const cardTitle = titleTrimmed !== '' ? titleTrimmed : SITE_TITLE;
 
 const cloudFrontImage =
   post.image_url && /^https?:\/\//i.test(post.image_url)
@@ -32,13 +33,13 @@ const formattedDate = formatBlogCreationDate(displayDate, lang);
 
 const coverAlt =
   lang === 'es'
-    ? `Imagen destacada del artículo del blog Slowork: ${post.title || SITE_TITLE}`
-    : `Featured image for this Slowork blog article: ${post.title || SITE_TITLE}`;
+    ? `Imagen destacada del artículo del blog Slowork: ${cardTitle}`
+    : `Featured image for this Slowork blog article: ${cardTitle}`;
 ---
 
 <a
   href={postUrl}
-  aria-label={aria}
+  aria-label={cardTitle}
   class="group flex h-full min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-light-green text-left no-underline shadow-sm border border-primary/10 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-landing touch-manipulation"
 >
   {/*
@@ -76,7 +77,7 @@ const coverAlt =
       {formattedDate}
     </p>
     <h2 class="mb-3 font-heading text-xl font-bold leading-snug text-primary line-clamp-2 sm:text-2xl">
-      {post.title}
+      {cardTitle}
     </h2>
 
     {/*
