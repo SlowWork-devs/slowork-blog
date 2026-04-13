@@ -1,15 +1,17 @@
 ---
 import { Image } from 'astro:assets';
 import type { LocalizedBlogPost, ApiLang } from '@/lib/api-service';
-import { formatBlogCreationDate } from '@/lib/blog-display';
+import { formatBlogCreationDate, stripH1TagsFromHtml } from '@/lib/blog-display';
 import { BLOG_IMAGE_CLOUDFRONT_HOST, SITE_TITLE } from '@/consts';
 
 interface Props {
   post: LocalizedBlogPost;
   lang: ApiLang;
+  /** Solo el primer ítem del listado (p. ej. `/blog/`): prioriza LCP. */
+  imageLcpPriority?: boolean;
 }
 
-const { post, lang } = Astro.props;
+const { post, lang, imageLcpPriority = false } = Astro.props;
 const postUrl = `/${lang}/blog/${post.slug}/`;
 const cta = lang === 'es' ? 'Leer más' : 'Read more';
 const aria = lang === 'es' ? `Abrir post: ${post.title}` : `Open post: ${post.title}`;
@@ -27,6 +29,11 @@ const cloudFrontImage =
 
 const displayDate = post.date_published || post.creation_date;
 const formattedDate = formatBlogCreationDate(displayDate, lang);
+
+const coverAlt =
+  lang === 'es'
+    ? `Imagen destacada del artículo del blog Slowork: ${post.title || SITE_TITLE}`
+    : `Featured image for this Slowork blog article: ${post.title || SITE_TITLE}`;
 ---
 
 <a
@@ -41,16 +48,21 @@ const formattedDate = formatBlogCreationDate(displayDate, lang);
     {cloudFrontImage ? (
       <Image
         src={cloudFrontImage}
-        alt={post.title || SITE_TITLE}
-        inferSize
-        loading="lazy"
+        alt={coverAlt}
+        width={1280}
+        height={720}
+        format="webp"
+        loading={imageLcpPriority ? 'eager' : 'lazy'}
+        fetchpriority={imageLcpPriority ? 'high' : 'auto'}
+        decoding="async"
         class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
     ) : post.image_url ? (
       <img
         src={post.image_url}
-        alt={post.title || SITE_TITLE}
-        loading="lazy"
+        alt={coverAlt}
+        loading={imageLcpPriority ? 'eager' : 'lazy'}
+        fetchpriority={imageLcpPriority ? 'high' : 'auto'}
         decoding="async"
         class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
@@ -73,12 +85,12 @@ const formattedDate = formatBlogCreationDate(displayDate, lang);
     {post.excerpt ? (
       <div
         class="mb-4 min-h-0 max-h-21 w-full min-w-0 overflow-hidden text-sm leading-relaxed text-primary/80 [&_a]:font-medium [&_a]:text-primary [&_a]:no-underline [&_blockquote]:my-0 [&_div]:my-0 [&_h1]:my-0 [&_h2]:my-0 [&_h3]:my-0 [&_h4]:my-0 [&_hr]:hidden [&_img]:hidden [&_li]:my-0 [&_ol]:my-0 [&_p]:my-0 [&_pre]:my-0 [&_ul]:my-0"
-        set:html={post.excerpt}
+        set:html={stripH1TagsFromHtml(post.excerpt)}
       />
     ) : (
       <div
         class="mb-4 min-h-0 max-h-21 w-full min-w-0 overflow-hidden text-sm leading-relaxed text-primary/80 [&_a]:font-medium [&_a]:text-primary [&_a]:no-underline [&_blockquote]:my-0 [&_div]:my-0 [&_h1]:my-0 [&_h2]:my-0 [&_h3]:my-0 [&_h4]:my-0 [&_hr]:hidden [&_img]:hidden [&_li]:my-0 [&_ol]:my-0 [&_p]:my-0 [&_pre]:my-0 [&_ul]:my-0"
-        set:html={post.content}
+        set:html={stripH1TagsFromHtml(post.content)}
       />
     )}
 

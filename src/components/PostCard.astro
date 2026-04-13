@@ -2,8 +2,14 @@
 import { Image } from 'astro:assets';
 import FormattedDate from '@/components/FormattedDate.astro';
 
-const { post, eager = false } = Astro.props;
+const { post, eager = false, imageLcpPriority = false } = Astro.props;
 const { title, date, image, localImage, excerpt, language } = post.data;
+
+const eagerImage = eager || imageLcpPriority;
+const coverAlt =
+  language === 'es'
+    ? `Imagen destacada del artículo del blog Slowork: ${title}`
+    : `Featured image for this Slowork blog article: ${title}`;
 
 const slug = post.id.split('/').pop()?.replace(/\.(md|mdx)$/, '');
 const postUrl = `/${language}/blog/${slug}/`;
@@ -19,20 +25,20 @@ const postUrl = `/${language}/blog/${slug}/`;
         width={1280} 
         height={720} 
         src={localImage} 
-        alt={title}
-        loading={eager ? "eager" : "lazy"}
-        fetchpriority={eager ? "high" : "auto"}
+        alt={coverAlt}
+        loading={eagerImage ? "eager" : "lazy"}
+        fetchpriority={eagerImage ? "high" : "auto"}
         format="webp"
         class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
     ) : (
       <img 
         src={image} 
-        alt={title}
+        alt={coverAlt}
         width={1280}
         height={720}
-        loading={eager ? "eager" : "lazy"}
-        fetchpriority={eager ? "high" : "auto"}
+        loading={eagerImage ? "eager" : "lazy"}
+        fetchpriority={eagerImage ? "high" : "auto"}
         decoding="async"
         class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
