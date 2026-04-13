@@ -31,7 +31,8 @@ export class PhoneController {
     const iti = intlTelInput(input, {
       i18n: lang === 'es' ? i18nEs : i18nEn,
       countrySearch: true,
-      strictMode: true,
+      /** `true` intercepta `paste` con `preventDefault()` (fallo en Lighthouse Best Practices). */
+      strictMode: false,
       initialCountry: lang === 'es' ? 'es' : 'us',
       formatAsYouType: true,
     });

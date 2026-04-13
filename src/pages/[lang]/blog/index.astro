@@ -5,9 +5,11 @@ export async function getStaticPaths() {
   return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
 }
 
+import { getImage } from 'astro:assets';
+
 import MainLayout from '@/layouts/MainLayout.astro';
 import BlogCard from '@/components/BlogCard.astro';
-import { SITE_TITLE } from '@/consts';
+import { BLOG_IMAGE_CLOUDFRONT_HOST, SITE_TITLE } from '@/consts';
 import { getBlogs } from '@/lib/api-service';
 
 const lang = Astro.params.lang;
@@ -18,6 +20,30 @@ if (lang !== 'es' && lang !== 'en') {
 const page = Number(Astro.url.searchParams.get('page') ?? '1') || 1;
 const limit = Number(Astro.url.searchParams.get('limit') ?? '12') || 12;
 const { items: posts } = await getBlogs({ page, limit, lang });
+
+const firstPost = posts[0];
+let blogIndexLcpImageHref: string | null = null;
+if (firstPost?.image_url && /^https?:\/\//i.test(firstPost.image_url)) {
+  try {
+    const imgUrl = new URL(firstPost.image_url);
+    if (imgUrl.hostname === BLOG_IMAGE_CLOUDFRONT_HOST) {
+      const optimized = await getImage({
+        src: firstPost.image_url,
+        width: 1280,
+        height: 720,
+        format: 'webp',
+      });
+      const src = optimized.src;
+      blogIndexLcpImageHref = src.startsWith('http')
+        ? src
+        : new URL(src, Astro.site ?? Astro.url.origin).href;
+    } else {
+      blogIndexLcpImageHref = firstPost.image_url;
+    }
+  } catch {
+    blogIndexLcpImageHref = firstPost.image_url;
+  }
+}
 
 const esBlogIndex = new URL('/es/blog/', Astro.url.origin).href;
 const enBlogIndex = new URL('/en/blog/', Astro.url.origin).href;
@@ -38,6 +64,10 @@ const blogMetaDescription =
     { hreflang: 'x-default', href: esBlogIndex },
   ]}
 >
+  {blogIndexLcpImageHref ? (
+    <link slot="head" rel="preload" as="image" href={blogIndexLcpImageHref} fetchpriority="high" />
+  ) : null}
+
   <main class="w-full max-w-7xl mx-auto px-6 pt-32 pb-10 sm:pt-32 sm:pb-14 md:py-24">
     <header class="text-center mb-12 sm:mb-16 md:mb-20 animate-fade-in-down">
       <h1 class="font-heading font-bold text-primary mb-6 text-[clamp(1.75rem,5vw+1rem,3.75rem)] leading-tight tracking-tight">
@@ -53,9 +83,9 @@ const blogMetaDescription =
 
     <section class="w-full min-w-0">
       <ul class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 xl:gap-10 list-none p-0">
-        {posts.map((post) => (
+        {posts.map((post, index) => (
           <li class="flex h-full min-h-0 min-w-0 w-full flex-col">
-            <BlogCard post={post} lang={lang} />
+            <BlogCard post={post} lang={lang} imageLcpPriority={index === 0} />
           </li>
         ))}
       </ul>
