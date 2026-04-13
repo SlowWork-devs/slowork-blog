@@ -9,6 +9,7 @@ import { getImage } from 'astro:assets';
 
 import MainLayout from '@/layouts/MainLayout.astro';
 import BlogCard from '@/components/BlogCard.astro';
+import FeaturedPost from '@/components/FeaturedPost.astro';
 import { BLOG_IMAGE_CLOUDFRONT_HOST, SITE_TITLE } from '@/consts';
 import { getBlogs } from '@/lib/api-service';
 
@@ -22,6 +23,8 @@ const limit = Number(Astro.url.searchParams.get('limit') ?? '12') || 12;
 const { items: posts } = await getBlogs({ page, limit, lang });
 
 const firstPost = posts[0];
+const remainingPosts = posts.slice(1);
+
 let blogIndexLcpImageHref: string | null = null;
 if (firstPost?.image_url && /^https?:\/\//i.test(firstPost.image_url)) {
   try {
@@ -52,6 +55,12 @@ const blogMetaDescription =
   lang === 'es'
     ? `${SITE_TITLE} — Sitio oficial. Blog: guías y reflexiones para confirmar que otro estilo de vida es posible.`
     : `${SITE_TITLE} — Official site. Blog: guides and reflections on another way of life.`;
+
+const heroTitle = lang === 'es' ? 'Blog' : 'Blog';
+const heroSubtitle =
+  lang === 'es'
+    ? 'Rediseña tu mundo. Guías y reflexiones para confirmar que otro estilo de vida es posible.'
+    : 'Redesign your world. Guides and reflections to confirm another way of life is possible.';
 ---
 
 <MainLayout
@@ -68,27 +77,48 @@ const blogMetaDescription =
     <link slot="head" rel="preload" as="image" href={blogIndexLcpImageHref} fetchpriority="high" />
   ) : null}
 
+  <!-- Fondo sutil con degradado radial verde muy tenue -->
+  <div
+    class="pointer-events-none fixed inset-0 -z-10"
+    aria-hidden="true"
+    style="background: radial-gradient(ellipse 80% 60% at 50% -10%, color-mix(in srgb, var(--color-secondary, #6c9a6c) 8%, transparent) 0%, transparent 70%);"
+  />
+
   <main class="w-full max-w-7xl mx-auto px-6 pt-32 pb-10 sm:pt-32 sm:pb-14 md:py-24">
-    <header class="text-center mb-12 sm:mb-16 md:mb-20 animate-fade-in-down">
-      <h1 class="font-heading font-bold text-primary mb-6 text-[clamp(1.75rem,5vw+1rem,3.75rem)] leading-tight tracking-tight">
-        Blog
+
+    <!-- Header editorial -->
+    <header class="text-center mb-14 sm:mb-18 md:mb-22 animate-fade-in-down">
+      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-secondary/80">
+        {lang === 'es' ? 'Reflexiones & Guías' : 'Reflections & Guides'}
+      </p>
+      <h1 class="font-heading font-bold text-primary mb-5 text-[clamp(2.25rem,6vw+1rem,4.5rem)] leading-[1.1] tracking-tight">
+        {heroTitle}
       </h1>
-      <div class="w-24 h-1.5 bg-secondary mx-auto rounded-full mb-6 md:mb-8"></div>
-      <p class="text-primary/80 max-w-2xl mx-auto leading-relaxed text-base sm:text-lg md:text-xl">
-        {lang === 'es'
-          ? 'Rediseña tu mundo. Guías y reflexiones para confirmar que otro estilo de vida es posible.'
-          : 'Redesign your world. Guides and reflections to confirm another way of life is possible.'}
+      <div class="w-20 h-1 bg-secondary mx-auto rounded-full mb-6 md:mb-8" />
+      <p class="text-primary/70 max-w-xl mx-auto leading-relaxed text-base sm:text-lg md:text-xl font-light italic">
+        {heroSubtitle}
       </p>
     </header>
 
-    <section class="w-full min-w-0">
-      <ul class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 xl:gap-10 list-none p-0">
-        {posts.map((post, index) => (
-          <li class="flex h-full min-h-0 min-w-0 w-full flex-col">
-            <BlogCard post={post} lang={lang} imageLcpPriority={index === 0} />
-          </li>
-        ))}
-      </ul>
-    </section>
+    <!-- Hero post (primer artículo) -->
+    {firstPost && (
+      <section class="mb-10 sm:mb-14 md:mb-16 animate-fade-in-down" aria-label={lang === 'es' ? 'Artículo destacado' : 'Featured article'}>
+        <FeaturedPost post={firstPost} lang={lang} />
+      </section>
+    )}
+
+    <!-- Grid de posts restantes (2 columnas) -->
+    {remainingPosts.length > 0 && (
+      <section aria-label={lang === 'es' ? 'Más artículos' : 'More articles'}>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 list-none p-0">
+          {remainingPosts.map((post) => (
+            <li class="flex h-full min-h-0 min-w-0 w-full flex-col">
+              <BlogCard post={post} lang={lang} imageLcpPriority={false} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
   </main>
 </MainLayout>

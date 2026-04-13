@@ -24,3 +24,10 @@ export function htmlToPlainText(html: string): string {
 export function stripH1TagsFromHtml(html: string): string {
   return html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/gi, '');
 }
+
+/** Estima el tiempo de lectura en minutos (200 palabras/min, mínimo 1). */
+export function estimateReadingTime(html: string): number {
+  const plainText = htmlToPlainText(html);
+  const wordCount = plainText.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(wordCount / 200));
+}

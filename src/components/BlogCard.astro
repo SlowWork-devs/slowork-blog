@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { LocalizedBlogPost, ApiLang } from '@/lib/api-service';
-import { formatBlogCreationDate, stripH1TagsFromHtml } from '@/lib/blog-display';
+import { formatBlogCreationDate, stripH1TagsFromHtml, estimateReadingTime } from '@/lib/blog-display';
 import { BLOG_IMAGE_CLOUDFRONT_HOST, SITE_TITLE } from '@/consts';
 
 interface Props {
@@ -30,6 +30,9 @@ const cloudFrontImage =
 
 const displayDate = post.date_published || post.creation_date;
 const formattedDate = formatBlogCreationDate(displayDate, lang);
+const readingMinutes = estimateReadingTime(post.content);
+const readingLabel =
+  lang === 'es' ? `${readingMinutes} min de lectura` : `${readingMinutes} min read`;
 
 const coverAlt =
   lang === 'es'
@@ -40,7 +43,7 @@ const coverAlt =
 <a
   href={postUrl}
   aria-label={cardTitle}
-  class="group flex h-full min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-light-green text-left no-underline shadow-sm border border-primary/10 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-landing touch-manipulation"
+  class="group flex h-full min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden rounded-3xl bg-light-green text-left no-underline shadow-md border border-primary/10 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-landing touch-manipulation"
 >
   {/*
     Caja de ratio fija + imagen en absolute: el tamaño intrínseco del remoto no puede reventar la altura de la tarjeta.
@@ -73,9 +76,13 @@ const coverAlt =
   </div>
 
   <div class="flex min-h-0 min-w-0 flex-1 flex-col p-5 sm:p-6">
-    <p class="mb-2 text-sm capitalize text-primary/70">
-      {formattedDate}
-    </p>
+    <!-- Meta: fecha + tiempo de lectura -->
+    <div class="mb-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-primary/60">
+      <time datetime={displayDate} class="capitalize">{formattedDate}</time>
+      <span aria-hidden="true" class="text-primary/30">·</span>
+      <span>{readingLabel}</span>
+    </div>
+
     <h2 class="mb-3 font-heading text-xl font-bold leading-snug text-primary line-clamp-2 sm:text-2xl">
       {cardTitle}
     </h2>
@@ -95,23 +102,28 @@ const coverAlt =
       />
     )}
 
-    <span class="mt-auto inline-flex items-center gap-2 pt-1 text-sm font-bold text-primary transition-colors group-hover:text-secondary sm:text-base">
+    <span class="mt-auto inline-flex items-center gap-2 pt-1 text-sm font-bold text-primary transition-colors duration-300 group-hover:text-secondary sm:text-base">
       {cta}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+      <!-- Flecha con animación de desplazamiento horizontal al hover -->
+      <span
+        class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1.5"
         aria-hidden="true"
       >
-        <line x1="5" y1="12" x2="19" y2="12" />
-        <polyline points="12 5 19 12 12 19" />
-      </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </span>
     </span>
   </div>
 </a>

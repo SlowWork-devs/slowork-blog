@@ -1,0 +1,126 @@
+---
+import { Image } from 'astro:assets';
+import type { LocalizedBlogPost, ApiLang } from '@/lib/api-service';
+import { formatBlogCreationDate, estimateReadingTime } from '@/lib/blog-display';
+import { BLOG_IMAGE_CLOUDFRONT_HOST, SITE_TITLE } from '@/consts';
+
+interface Props {
+  post: LocalizedBlogPost;
+  lang: ApiLang;
+}
+
+const { post, lang } = Astro.props;
+const postUrl = `/${lang}/blog/${post.slug}/`;
+const cta = lang === 'es' ? 'Leer artículo completo' : 'Read full article';
+const titleTrimmed = post.title?.trim() ?? '';
+const cardTitle = titleTrimmed !== '' ? titleTrimmed : SITE_TITLE;
+
+const cloudFrontImage =
+  post.image_url && /^https?:\/\//i.test(post.image_url)
+    ? (() => {
+        try {
+          return new URL(post.image_url).hostname === BLOG_IMAGE_CLOUDFRONT_HOST ? post.image_url : null;
+        } catch {
+          return null;
+        }
+      })()
+    : null;
+
+const displayDate = post.date_published || post.creation_date;
+const formattedDate = formatBlogCreationDate(displayDate, lang);
+const readingMinutes = estimateReadingTime(post.content);
+const readingLabel =
+  lang === 'es' ? `${readingMinutes} min de lectura` : `${readingMinutes} min read`;
+
+const coverAlt =
+  lang === 'es'
+    ? `Imagen destacada del artículo: ${cardTitle}`
+    : `Featured image for article: ${cardTitle}`;
+
+const categoryLabel = lang === 'es' ? post.category?.name_es : post.category?.name_en;
+---
+
+<a
+  href={postUrl}
+  aria-label={cardTitle}
+  class="group relative flex flex-col lg:flex-row w-full overflow-hidden rounded-3xl bg-light-green border border-primary/10 shadow-md hover:shadow-2xl transition-all duration-500 ease-out no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-landing"
+>
+  <!-- Imagen: aspect panorámico en mobile, altura fija en desktop -->
+  <div class="relative aspect-video w-full shrink-0 overflow-hidden bg-primary/5 lg:aspect-auto lg:h-auto lg:w-3/5">
+    {cloudFrontImage ? (
+      <Image
+        src={cloudFrontImage}
+        alt={coverAlt}
+        width={1280}
+        height={720}
+        format="webp"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      />
+    ) : post.image_url ? (
+      <img
+        src={post.image_url}
+        alt={coverAlt}
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      />
+    ) : (
+      <div class="absolute inset-0 bg-primary/5" aria-hidden="true" />
+    )}
+    <!-- Gradiente lateral en desktop para fusión suave con el contenido -->
+    <div
+      class="absolute inset-y-0 right-0 hidden w-24 bg-linear-to-l from-light-green to-transparent lg:block"
+      aria-hidden="true"
+    />
+  </div>
+
+  <!-- Contenido editorial -->
+  <div class="flex flex-1 flex-col justify-center gap-5 px-7 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-14">
+    <!-- Categoría badge -->
+    {categoryLabel && (
+      <span class="self-start rounded-full bg-secondary/15 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-secondary">
+        {categoryLabel}
+      </span>
+    )}
+
+    <!-- Título principal -->
+    <h2 class="font-heading text-2xl font-bold leading-tight text-primary sm:text-3xl lg:text-4xl xl:text-[2.6rem] line-clamp-3 group-hover:text-secondary transition-colors duration-300">
+      {cardTitle}
+    </h2>
+
+    <!-- Meta: fecha + tiempo de lectura -->
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-primary/60">
+      <time datetime={displayDate}>{formattedDate}</time>
+      <span aria-hidden="true" class="text-primary/30">·</span>
+      <span>{readingLabel}</span>
+    </div>
+
+    <!-- CTA principal -->
+    <span class="mt-2 inline-flex items-center gap-2 self-start text-base font-bold text-primary transition-colors duration-300 group-hover:text-secondary">
+      {cta}
+      <span
+        class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1.5"
+        aria-hidden="true"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </span>
+    </span>
+  </div>
+</a>
