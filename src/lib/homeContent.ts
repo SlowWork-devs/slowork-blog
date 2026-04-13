@@ -18,6 +18,13 @@ import whoWorker6 from '@/assets/images/who-worker6.webp';
 import type { HeaderNavTranslations } from '@/models/headerNav';
 import type { SupportedLang } from '@/lib/seo';
 
+/** Variante del poster del hero para LCP (misma en `index.astro` preload y `HomeHero.astro`). */
+export const HERO_POSTER_GET_IMAGE = {
+  width: 1920,
+  format: 'avif' as const,
+  quality: 78,
+};
+
 /** Vídeo local + poster y texturas de marca (sin CDN en runtime). */
 export const HOME_MEDIA = {
   /** Metadatos para `<Image />` o `poster` vía `.src` */

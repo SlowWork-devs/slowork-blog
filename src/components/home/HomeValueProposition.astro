@@ -1,4 +1,6 @@
 ---
+import { getImage } from 'astro:assets';
+
 import type { SupportedLang } from '@/lib/seo';
 import { HOME_CAROUSEL, homeValueCopy } from '@/lib/homeContent';
 
@@ -8,6 +10,25 @@ interface Props {
 
 const { lang } = Astro.props;
 const copy = homeValueCopy(lang);
+
+const carouselSlides = await Promise.all(
+  HOME_CAROUSEL.map(async (slide) => {
+    const img = await getImage({
+      src: slide.src,
+      width: slide.src.width,
+      height: slide.src.height,
+      format: 'avif',
+      quality: 78,
+    });
+    return { slide, img };
+  }),
+);
+
+const firstSlide = carouselSlides[0];
+const carouselSlidesForClient = carouselSlides.map(({ slide, img }) => ({
+  src: img.src,
+  alt: slide.alt[lang],
+}));
 ---
 
 <section
@@ -59,14 +80,14 @@ const copy = homeValueCopy(lang);
         >
           <img
             data-carousel-img
-            src={HOME_CAROUSEL[0].src.src}
-            alt={HOME_CAROUSEL[0].alt[lang]}
-            width={HOME_CAROUSEL[0].src.width}
-            height={HOME_CAROUSEL[0].src.height}
+            src={firstSlide.img.src}
+            alt={firstSlide.slide.alt[lang]}
+            width={firstSlide.slide.src.width}
+            height={firstSlide.slide.src.height}
             sizes="(max-width: 1023px) min(100vw, 24rem), 30vw"
             class="h-full w-full object-cover opacity-100 scale-100 transition-[opacity,transform] duration-700 ease-in-out will-change-[opacity,transform]"
             loading="eager"
-            fetchpriority="low"
+            fetchpriority="high"
             decoding="async"
           />
           <button
@@ -88,7 +109,7 @@ const copy = homeValueCopy(lang);
         </div>
         <div id="carousel-dots" class="mt-4 flex justify-center gap-2">
           {
-            HOME_CAROUSEL.map((_, idx) => (
+            carouselSlides.map((_, idx) => (
               <button
                 type="button"
                 class:list={['carousel-dot h-2.5 w-2.5 rounded-full transition-all', idx === 0 ? 'bg-primary scale-110' : 'bg-primary/35 hover:bg-primary/55']}
@@ -104,18 +125,26 @@ const copy = homeValueCopy(lang);
   </div>
 </section>
 
-<script define:vars={{ HOME_CAROUSEL, lang }}>
+<script define:vars={{ carouselSlidesForClient }}>
   (() => {
     const track = document.getElementById('image-carousel');
     if (!track) return;
 
-    HOME_CAROUSEL.forEach((slide) => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
-      link.href = slide.src.src;
-      document.head.appendChild(link);
-    });
+    const scheduleSecondaryPreloads = () => {
+      carouselSlidesForClient.slice(1).forEach((slide) => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = slide.src;
+        link.setAttribute('fetchpriority', 'low');
+        document.head.appendChild(link);
+      });
+    };
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => scheduleSecondaryPreloads(), { timeout: 2500 });
+    } else {
+      window.addEventListener('load', scheduleSecondaryPreloads, { once: true });
+    }
 
     const carouselImg = track.querySelector('[data-carousel-img]');
     const dots = () => Array.from(document.querySelectorAll('.carousel-dot'));
@@ -135,10 +164,10 @@ const copy = homeValueCopy(lang);
     };
 
     const apply = () => {
-      const n = HOME_CAROUSEL.length;
+      const n = carouselSlidesForClient.length;
       if (!n) return;
       state.idx = ((state.idx % n) + n) % n;
-      const slide = HOME_CAROUSEL[state.idx];
+      const slide = carouselSlidesForClient[state.idx];
       const myGen = (applyGeneration += 1);
 
       dots().forEach((d, i) => {
@@ -151,8 +180,8 @@ const copy = homeValueCopy(lang);
 
       if (!(carouselImg instanceof HTMLImageElement) || !slide) return;
 
-      const nextSrc = slide.src.src;
-      const nextAlt = slide.alt[lang];
+      const nextSrc = slide.src;
+      const nextAlt = slide.alt;
       const curPath = imagePath(carouselImg.currentSrc || carouselImg.src);
       if (curPath === imagePath(nextSrc)) {
         carouselImg.classList.remove('opacity-0', 'scale-105');

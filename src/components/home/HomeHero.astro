@@ -3,7 +3,7 @@ import { getImage } from 'astro:assets';
 
 import Button from '@/components/ui/Button.astro';
 import type { SupportedLang } from '@/lib/seo';
-import { HOME_MEDIA, homeHeroCopy } from '@/lib/homeContent';
+import { HERO_POSTER_GET_IMAGE, HOME_MEDIA, homeHeroCopy } from '@/lib/homeContent';
 
 interface Props {
   lang: SupportedLang;
@@ -15,9 +15,7 @@ const blogHref = `/${lang}/blog/`;
 
 const heroPoster = await getImage({
   src: HOME_MEDIA.videoPoster,
-  width: 1920,
-  format: 'webp',
-  quality: 82,
+  ...HERO_POSTER_GET_IMAGE,
 });
 ---
 
@@ -34,6 +32,7 @@ const heroPoster = await getImage({
       playsinline
       preload="metadata"
       poster={heroPoster.src}
+      fetchpriority="high"
     >
       <source src={HOME_MEDIA.videoSrc} type="video/mp4" />
     </video>

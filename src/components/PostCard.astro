@@ -16,8 +16,8 @@ const postUrl = `/${language}/blog/${slug}/`;
   <div class="aspect-video w-full overflow-hidden bg-primary/5">
     {localImage ? (
       <Image 
-        width={720} 
-        height={400} 
+        width={1280} 
+        height={720} 
         src={localImage} 
         alt={title}
         loading={eager ? "eager" : "lazy"}
@@ -28,9 +28,12 @@ const postUrl = `/${language}/blog/${slug}/`;
     ) : (
       <img 
         src={image} 
-        alt={title} 
+        alt={title}
+        width={1280}
+        height={720}
         loading={eager ? "eager" : "lazy"}
         fetchpriority={eager ? "high" : "auto"}
+        decoding="async"
         class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
     )}

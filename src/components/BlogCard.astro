@@ -51,6 +51,7 @@ const formattedDate = formatBlogCreationDate(displayDate, lang);
         src={post.image_url}
         alt={post.title || SITE_TITLE}
         loading="lazy"
+        decoding="async"
         class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
     ) : (
